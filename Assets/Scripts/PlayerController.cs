@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
  using System.Collections;
  
- public class CharacterController : MonoBehaviour {
+ public class PlayerController : MonoBehaviour {
      
      public float maxSpeed = 10f;
      bool facingRight = true;
      
-     //Animator anim;
+     Animator anim;
      Rigidbody2D rigidbody2D;
      
      //sets up the grounded stuff
@@ -28,7 +28,7 @@
      // Use this for initialization
      void Start () {
          rigidbody2D = GetComponent<Rigidbody2D>();
-         //anim = GetComponent<Animator>();
+         anim = GetComponent<Animator>();
      }
      
      // Update is called once per frame
@@ -56,7 +56,7 @@
          
          float move = Input.GetAxis ("Horizontal");
          
-         //anim.SetFloat("Speed", Mathf.Abs (move));
+         anim.SetFloat("Speed", Mathf.Abs (move));
          
          rigidbody2D.velocity = new Vector2(move * maxSpeed, rigidbody2D.velocity.y);
          
@@ -71,11 +71,11 @@
          }
      }
      void Update()
-     {
-         
+     {   
          // If the jump button is pressed and the player is grounded then the player should jump.
          if((grounded || (!doubleJump && doubleJumpAllowed)) && Input.GetButtonDown("Jump"))
          {
+         	Debug.Log("jumping");
              //anim.SetBool("Ground", false);
              rigidbody2D.AddForce(new Vector2(0, jumpForce));
              
