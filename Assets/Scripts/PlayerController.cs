@@ -72,20 +72,23 @@ public class PlayerController : MonoBehaviour {
 
 		// Wall sliding
 		if(!grounded && touchingWall && 
-		   rigidbody2D.velocity.y < 0 && (/* falling */
+		   rigidbody2D.velocity.y <= 0 && (/* falling */
 		   (facingRight && Input.GetAxis ("Horizontal") > 0f) || /* holding against right wall */
 		   (!facingRight && Input.GetAxis ("Horizontal") < 0f))) /* holding against left wall */
 		{
 			rigidbody2D.gravityScale = 0.15f;
+			anim.SetBool("WallSliding", true);
 		}
 		// Fall faster while holding down
 		else if(!grounded && Input.GetAxis("Vertical") < 0f)
 		{
 			rigidbody2D.gravityScale = 2f;
+			anim.SetBool("WallSliding", false);
 		}
 		else
 		{
 			rigidbody2D.gravityScale = 1f;
+			anim.SetBool("WallSliding", false);
 		}
 
 		// If the jump button is pressed and the player is grounded then the player should jump.
@@ -128,5 +131,13 @@ public class PlayerController : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if(collision.gameObject.tag == "lethal")
+		{
+			GetComponent<SpriteRenderer>().color = Color.red;
+		}
 	}
 }
