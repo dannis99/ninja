@@ -10,15 +10,15 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody2D rigidbody2D;
 	
 	//sets up the grounded stuff
-	bool grounded = false;
-	bool touchingWall = false; 
+	public bool grounded = false;
+	public bool touchingWall = false; 
 	public Transform groundCheck;
 	public Transform wallCheck;
 	float groundRadius = 0.02f;
-	float wallTouchRadius = 0.02f;
+	float wallTouchRadius = 0.3f;
 	public LayerMask whatIsGround;
 	public LayerMask whatIsWall;
-	public float airDragMultiplier = .3f;
+	public float airDragMultiplier = .8f;
 	public float jumpForce = 700f;
 	public float jumpPushForce = 100f;
 	
@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour {
  
 		if (touchingWall) 
 		{
-			grounded = false; 
 			doubleJump = false; 
 		}
 		
@@ -101,11 +100,12 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
  
-		if (touchingWall && Input.GetButtonDown ("Jump")) 
+		if (!grounded && touchingWall && Input.GetButtonDown ("Jump")) 
 		{
 			WallJump ();
 		}
 	}
+
 	void Update()
 	{   
 		
