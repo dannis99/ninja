@@ -9,13 +9,15 @@ public class PlayerController : MonoBehaviour {
 	Animator anim;
 	Rigidbody2D rigidbody2D;
 	
-	//sets up the grounded stuff
 	public bool grounded = false;
-	public bool touchingWall = false; 
+	public bool touchingWall = false;
+	public bool wallJumping = false;
 	public Transform groundCheck;
 	public Transform wallCheck;
 	float groundRadius = 0.02f;
 	float wallTouchRadius = 0.3f;
+	float timeSinceWallJump = 0f;
+	public float wallJumpDuration = 1f;
 	public LayerMask whatIsGround;
 	public LayerMask whatIsWall;
 	public float airDragMultiplier = .8f;
@@ -26,18 +28,19 @@ public class PlayerController : MonoBehaviour {
 	bool doubleJumpAllowed = false;
 	bool doubleJump = false;
 	
-	// Use this for initialization
 	void Start () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
-		
+
 		// The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
 		grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
 		touchingWall = Physics2D.OverlapCircle(wallCheck.position, wallTouchRadius, whatIsWall);
+		float move = Input.GetAxis ("Horizontal");
+		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
+		anim.SetFloat("Speed", Mathf.Abs (move));
 		//anim.SetBool("Ground", grounded);
 		
 		if (grounded) 
@@ -49,16 +52,21 @@ public class PlayerController : MonoBehaviour {
 		{
 			doubleJump = false; 
 		}
-		
-		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
-		
-		
-		
-		float move = Input.GetAxis ("Horizontal");
-		
-		anim.SetFloat("Speed", Mathf.Abs (move));
-		
-		rigidbody2D.velocity = new Vector2(grounded ? (move * maxSpeed):(move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
+
+		//checking wall jump duration
+		if (wallJumping) 
+		{
+			timeSinceWallJump += Time.deltaTime;
+			if(timeSinceWallJump >= wallJumpDuration)
+			{
+				wallJumping = false;
+			}
+		}
+
+		if (!wallJumping)//don't want to allow an immediate force back to the wall when wall jumping
+		{
+			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
+		}
 		
 		// If the input is moving the player right and the player is facing left...
 		if(move > 0 &&!facingRight){
@@ -67,8 +75,6 @@ public class PlayerController : MonoBehaviour {
 		else if(move < 0 && facingRight){
 			Flip ();
 		}
-
-
 
 		// Wall sliding
 		if(!grounded && touchingWall && 
@@ -119,6 +125,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		rigidbody2D.velocity = Vector2.zero;
 		rigidbody2D.AddForce (new Vector2 (facingRight? -jumpPushForce : jumpPushForce, jumpForce));
+		timeSinceWallJump = 0f;
+		wallJumping = true;
 	}
 	
 	
