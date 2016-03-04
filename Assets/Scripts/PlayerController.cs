@@ -25,20 +25,25 @@ public class PlayerController : MonoBehaviour {
 	
 	Animator anim;
 	Rigidbody2D rigidbody2D;
-	
+
+	//ground
 	public bool grounded = false;
+	public Transform groundCheck;
+	float groundRadius = 0.02f;
+	public LayerMask whatIsGround;
+
+	//walls
 	public bool touchingWall = false;
 	public bool wallSliding = false;
 	public bool wallJumping = false;
-	public Transform groundCheck;
 	public Transform wallCheckLeft;
 	public Transform wallCheckRight;
-	float groundRadius = 0.02f;
 	public float wallTouchWidth = 1f;
 	float timeSinceWallJump = 0f;
 	public float wallJumpDuration = 1f;
-	public LayerMask whatIsGround;
 	public LayerMask whatIsWall;
+
+	//jumping/air
 	public float airDragMultiplier = .8f;
 	public float jumpForce = 700f;
 	public float jumpPushForce = 100f;
@@ -157,6 +162,7 @@ public class PlayerController : MonoBehaviour {
 		rigidbody2D.AddForce (new Vector2 (facingRight? -jumpPushForce : jumpPushForce, jumpForce));
 		timeSinceWallJump = 0f;
 		wallJumping = true;
+		Flip();
 	}
 	
 	
