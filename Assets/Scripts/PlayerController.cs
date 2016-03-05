@@ -28,8 +28,8 @@ public class PlayerController : MonoBehaviour {
 
 	//targeting
 	public GameObject directionalTarget;
-	float xTargetDistance = 2f;
-	float yTargetDistance = 2.5f;
+	float xTargetDistance = 2.5f;
+	float yTargetDistance = 3f;
 
 	//ground
 	public bool grounded = false;
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour {
 
 		/* checking inputs */
 
-		if(Input.GetButton("Weapon") || Input.GetButton("Grenade"))
+		if(Input.GetAxis("Weapon") > 0.2 || Input.GetAxis("Grenade") > 0.2)
 		{
 			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
 			{
@@ -155,6 +155,10 @@ public class PlayerController : MonoBehaviour {
 		{
 			directionalTarget.SetActive(false);
 			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
+		}
+		else
+		{
+			directionalTarget.SetActive(false);
 		}
 
 		if(Input.GetButtonDown("Jump"))
@@ -178,6 +182,9 @@ public class PlayerController : MonoBehaviour {
 
 	void setDirectionalTarget(Vector2 direction)
 	{
+		float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
+		Debug.Log(angle);
+		directionalTarget.transform.eulerAngles = new Vector3(directionalTarget.transform.eulerAngles.x, directionalTarget.transform.eulerAngles.y, angle);
 		directionalTarget.SetActive(true);
 		directionalTarget.transform.localPosition = new Vector2((facingRight ? xTargetDistance : -xTargetDistance) * direction.x, yTargetDistance * direction.y);
 	}
