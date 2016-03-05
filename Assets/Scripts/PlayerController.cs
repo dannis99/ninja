@@ -34,19 +34,24 @@ public class PlayerController : MonoBehaviour {
 
 	//walls
 	public bool touchingWall = false;
+	public bool touchingRightWall = false;
+	public bool touchingLeftWall = false;
 	public bool wallSliding = false;
 	public bool wallJumping = false;
 	public Transform wallCheckLeft;
 	public Transform wallCheckRight;
-	public float wallTouchWidth = 1f;
-	float timeSinceWallJump = 0f;
-	public float wallJumpDuration = 1f;
+	public float wallTouchWidth;
+	float timeSinceWallJump;
+	public float wallJumpDuration;
 	public LayerMask whatIsWall;
 
 	//jumping/air
-	public float airDragMultiplier = .8f;
-	public float jumpForce = 700f;
-	public float jumpPushForce = 100f;
+	public bool ableToWallJump = false;//tracking var for ghost jumping
+	public float timeSinceUnableToWallJump;
+	public float ghostJumpInterval;
+	public float airDragMultiplier;
+	public float jumpForce;
+	public float jumpPushForce;
 	
 	//double jump
 	bool doubleJumpAllowed = false;
@@ -66,21 +71,32 @@ public class PlayerController : MonoBehaviour {
 
 		// The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
 		grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
-		touchingWall = Physics2D.OverlapArea(wallCheckLeft.position, new Vector2(wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall) || 
-					   Physics2D.OverlapArea(wallCheckRight.position, new Vector2(wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
+		touchingLeftWall = Physics2D.OverlapArea(wallCheckLeft.position, new Vector2(wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall);
+		touchingRightWall = Physics2D.OverlapArea(wallCheckRight.position, new Vector2(wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
+		touchingWall = touchingLeftWall || touchingRightWall;
 		float move = Input.GetAxis ("Horizontal");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
 		anim.SetFloat("Speed", Mathf.Abs (move));
 		//anim.SetBool("Ground", grounded);
 		
-		if (grounded) 
+		if (grounded || touchingWall) 
 		{
 			doubleJump = false;
 		}
- 
-		if (touchingWall) 
+
+		if(!grounded && touchingWall)
 		{
-			doubleJump = false; 
+			ableToWallJump = true;
+		}
+		else if(ableToWallJump)
+		{
+			timeSinceUnableToWallJump = 0f;
+			ableToWallJump = false;
+		}
+
+		if(timeSinceUnableToWallJump <= ghostJumpInterval)
+		{
+			timeSinceUnableToWallJump += Time.deltaTime;
 		}
 
 		//checking wall jump duration
@@ -117,7 +133,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("WallSliding", false);
 		}
 
-		if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0)//don't want to allow an immediate force back to the wall when wall jumping
+		if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
 			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
 		}
@@ -127,15 +143,16 @@ public class PlayerController : MonoBehaviour {
 			Flip ();
 		}
 
-		// If the jump button is pressed and the player is grounded then the player should jump.
-		if((grounded || (!doubleJump && doubleJumpAllowed)) && Input.GetButtonDown("Jump"))
+		if(Input.GetButtonDown("Jump"))
 		{
-			Jump ();
-		}
- 
-		if (!grounded && touchingWall && Input.GetButtonDown ("Jump")) 
-		{
-			WallJump ();
+			if((grounded || (!doubleJump && doubleJumpAllowed)))
+			{
+				Jump ();
+			}
+			else if(ableToWallJump || timeSinceUnableToWallJump <= ghostJumpInterval) 
+			{
+				WallJump ();
+			}
 		}
 	}
 
@@ -159,7 +176,9 @@ public class PlayerController : MonoBehaviour {
 	void WallJump () 
 	{
 		rigidbody2D.velocity = Vector2.zero;
-		rigidbody2D.AddForce (new Vector2 (facingRight? -jumpPushForce : jumpPushForce, jumpForce));
+		Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
+		Debug.Log("force: "+ force);
+		rigidbody2D.AddForce (force);
 		timeSinceWallJump = 0f;
 		wallJumping = true;
 		Flip();
