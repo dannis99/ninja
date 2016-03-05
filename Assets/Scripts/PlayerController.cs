@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour {
 	Animator anim;
 	Rigidbody2D rigidbody2D;
 
+	//targeting
+	public GameObject directionalTarget;
+	float xTargetDistance = 2f;
+	float yTargetDistance = 2.5f;
+
 	//ground
 	public bool grounded = false;
 	public Transform groundCheck;
@@ -63,11 +68,6 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-
-		if(Input.anyKeyDown)
-		{
-			print(Input.inputString);
-		}
 
 		// The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
 		grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, whatIsGround);
@@ -133,14 +133,28 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("WallSliding", false);
 		}
 
-		if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
-		{
-			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
-		}
-		
 		// If the input is moving the player right and the player is facing left...
 		if((move > 0 && !facingRight) || (move < 0 && facingRight)){
 			Flip ();
+		}
+
+		/* checking inputs */
+
+		if(Input.GetButton("Weapon") || Input.GetButton("Grenade"))
+		{
+			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
+			{
+				setDirectionalTarget(new Vector2(move, Input.GetAxis("Vertical")));
+			}
+			else
+			{
+				directionalTarget.SetActive(false);
+			}
+		}
+		else if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
+		{
+			directionalTarget.SetActive(false);
+			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
 		}
 
 		if(Input.GetButtonDown("Jump"))
@@ -162,6 +176,12 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 
+	void setDirectionalTarget(Vector2 direction)
+	{
+		directionalTarget.SetActive(true);
+		directionalTarget.transform.localPosition = new Vector2((facingRight ? xTargetDistance : -xTargetDistance) * direction.x, yTargetDistance * direction.y);
+	}
+
 	void Jump()
 	{
 		//anim.SetBool("Ground", false);
@@ -177,7 +197,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		rigidbody2D.velocity = Vector2.zero;
 		Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
-		Debug.Log("force: "+ force);
 		rigidbody2D.AddForce (force);
 		timeSinceWallJump = 0f;
 		wallJumping = true;
