@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour {
 	Animator anim;
 	Rigidbody2D rigidbody2D;
 
+	public GameObject grenadePrefab;
+	public GameObject throwingStarPrefab;
+
 	//targeting
 	public GameObject directionalTarget;
 	float xTargetDistance = 2.5f;
@@ -76,7 +79,6 @@ public class PlayerController : MonoBehaviour {
 		touchingWall = touchingLeftWall || touchingRightWall;
 		float move = Input.GetAxis ("Horizontal");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
-		anim.SetFloat("Speed", Mathf.Abs (move));
 		//anim.SetBool("Ground", grounded);
 		
 		if (grounded || touchingWall) 
@@ -140,11 +142,23 @@ public class PlayerController : MonoBehaviour {
 
 		/* checking inputs */
 
-		if(Input.GetAxis("Weapon") > 0.2 || Input.GetAxis("Grenade") > 0.2)
+		if(Input.GetAxis("Shuriken") > 0.2 || Input.GetAxis("Grenade") > 0.2)
 		{
 			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
 			{
-				setDirectionalTarget(new Vector2(move, Input.GetAxis("Vertical")));
+				Vector2 direction = new Vector2(move, Input.GetAxis("Vertical"));
+				setDirectionalTarget(direction);
+				if(Input.GetButtonDown("Weapon"))
+				{
+					if(Input.GetAxis("Shuriken") > 0.2)
+					{
+						throwShuriken(direction);
+					}
+					else if(Input.GetAxis("Grenade") > 0.2)
+					{
+						throwGrenade(direction);
+					}
+				}
 			}
 			else
 			{
@@ -155,11 +169,15 @@ public class PlayerController : MonoBehaviour {
 		{
 			directionalTarget.SetActive(false);
 			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
+			anim.SetFloat("Speed", Mathf.Abs (move));
 		}
 		else
 		{
 			directionalTarget.SetActive(false);
 		}
+
+		if(move <= 0.1)
+			anim.SetFloat("Speed", move);
 
 		if(Input.GetButtonDown("Jump"))
 		{
@@ -175,8 +193,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update()
-	{   
-		
+	{	
 		
 	}
 
@@ -220,6 +237,20 @@ public class PlayerController : MonoBehaviour {
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+
+	void throwGrenade(Vector2 force)
+	{
+		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
+		grenade.transform.position = transform.position;
+		grenade.GetComponent<Rigidbody2D>().AddForce(force);
+	}
+
+	void throwShuriken(Vector2 force)
+	{
+		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
+		grenade.transform.position = transform.position;
+		grenade.GetComponent<Rigidbody2D>().AddForce(force);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)
