@@ -24,15 +24,16 @@ public class PlayerController : MonoBehaviour {
 	bool facingRight = true;
 	
 	Animator anim;
-	Rigidbody2D rigidbody2D;
+	new Rigidbody2D rigidbody2D;
 
 	public GameObject grenadePrefab;
 	public GameObject throwingStarPrefab;
+	Vector2 grenadeDistance = new Vector2(.4f, .7f);
+	public float throwingForce;
 
 	//targeting
 	public GameObject directionalTarget;
-	float xTargetDistance = 2.5f;
-	float yTargetDistance = 3f;
+	Vector2 targetDistance = new Vector2(2.5f, 3f);
 
 	//ground
 	public bool grounded = false;
@@ -165,6 +166,13 @@ public class PlayerController : MonoBehaviour {
 				directionalTarget.SetActive(false);
 			}
 		}
+		else if(Input.GetButtonDown("Weapon"))
+		{
+			if(grounded)
+				anim.SetBool("Attack",true);
+			else
+				anim.SetBool("AirAttack",true);
+		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
 			directionalTarget.SetActive(false);
@@ -176,7 +184,7 @@ public class PlayerController : MonoBehaviour {
 			directionalTarget.SetActive(false);
 		}
 
-		if(move <= 0.1)
+		if(Mathf.Abs(move) <= 0.1)
 			anim.SetFloat("Speed", move);
 
 		if(Input.GetButtonDown("Jump"))
@@ -195,15 +203,6 @@ public class PlayerController : MonoBehaviour {
 	void Update()
 	{	
 		
-	}
-
-	void setDirectionalTarget(Vector2 direction)
-	{
-		float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
-		Debug.Log(angle);
-		directionalTarget.transform.eulerAngles = new Vector3(directionalTarget.transform.eulerAngles.x, directionalTarget.transform.eulerAngles.y, angle);
-		directionalTarget.SetActive(true);
-		directionalTarget.transform.localPosition = new Vector2((facingRight ? xTargetDistance : -xTargetDistance) * direction.x, yTargetDistance * direction.y);
 	}
 
 	void Jump()
@@ -239,18 +238,26 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = theScale;
 	}
 
-	void throwGrenade(Vector2 force)
+	void setDirectionalTarget(Vector2 direction)
 	{
-		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
-		grenade.transform.position = transform.position;
-		grenade.GetComponent<Rigidbody2D>().AddForce(force);
+		float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
+		directionalTarget.transform.eulerAngles = new Vector3(directionalTarget.transform.eulerAngles.x, directionalTarget.transform.eulerAngles.y, angle);
+		directionalTarget.SetActive(true);
+		directionalTarget.transform.localPosition = new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y);
 	}
 
-	void throwShuriken(Vector2 force)
+	void throwGrenade(Vector3 direction)
 	{
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
-		grenade.transform.position = transform.position;
-		grenade.GetComponent<Rigidbody2D>().AddForce(force);
+		grenade.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + (grenadeDistance.y * direction.y));
+		grenade.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
+	}
+
+	void throwShuriken(Vector3 direction)
+	{
+		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
+		shuriken.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + (grenadeDistance.y * direction.y));
+		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)
