@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour {
 			ableToWallJump = false;
 		}
 
-		if(timeSinceUnableToWallJump <= ghostJumpInterval)
+		if(timeSinceUnableToWallJump < ghostJumpInterval)
 		{
 			timeSinceUnableToWallJump += Time.deltaTime;
 		}
@@ -152,8 +152,15 @@ public class PlayerController : MonoBehaviour {
 
 		/* checking inputs */
 
+		if(Input.GetAxis("WeaponTargeting") < 0.2)
+		{
+			anim.SetBool("PreparingThrow", false);
+		}
+
 		if(Input.GetAxis("WeaponTargeting") > 0.2)
 		{
+			anim.SetBool("PreparingThrow", true);
+
 			if(grounded)//stop sliding when targeting
 			{
 				rigidbody2D.velocity = Vector2.zero;
@@ -204,7 +211,7 @@ public class PlayerController : MonoBehaviour {
 			{
 				Jump ();
 			}
-			else if(ableToWallJump || timeSinceUnableToWallJump <= ghostJumpInterval) 
+			else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
 			{
 				WallJump ();
 			}
@@ -228,6 +235,7 @@ public class PlayerController : MonoBehaviour {
 		Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
 		rigidbody2D.AddForce (force);
 		timeSinceWallJump = 0f;
+		timeSinceUnableToWallJump = ghostJumpInterval;//setting ghost jump so you can't regular jump and then ghost jump
 		wallJumping = true;
 		Flip();
 	}
