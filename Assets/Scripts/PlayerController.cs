@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetAxis("WeaponTargeting") < 0.2)
 		{
 			anim.SetBool("PreparingThrow", false);
+			directionalTarget.SetActive(false);
 		}
 
 		if(Input.GetAxis("WeaponTargeting") > 0.2)
@@ -194,17 +195,16 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
-			directionalTarget.SetActive(false);
-			if(grounded)
+			if(grounded || 
+			  (!grounded && (move < 0 && rigidbody2D.velocity.x > 0 || move > 0 && rigidbody2D.velocity.x < 0)))//Changing velocity when moving along the ground or when in the air and changing direction
+			{
 				rigidbody2D.velocity = new Vector2 (move * maxSpeed, rigidbody2D.velocity.y);
-			else
+			}
+			else //adding force when in the air and moving in the same direction
+			{
 				rigidbody2D.AddForce(new Vector2 (move * airMoveForce, rigidbody2D.velocity.y));
-
+			}
 			anim.SetFloat("Speed", Mathf.Abs (move));
-		}
-		else
-		{
-			directionalTarget.SetActive(false);
 		}
 
 		if(Mathf.Abs(move) <= 0.1)
