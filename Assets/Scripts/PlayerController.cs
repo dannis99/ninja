@@ -20,7 +20,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	
-	public float maxSpeed = 10f;
+	public float maxSpeed;
+	public float airMoveForce;
 	bool facingRight = true;
 	
 	Animator anim;
@@ -194,7 +195,11 @@ public class PlayerController : MonoBehaviour {
 		else if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
 			directionalTarget.SetActive(false);
-			rigidbody2D.velocity = new Vector2 (grounded ? (move * maxSpeed) : (move * maxSpeed * airDragMultiplier), rigidbody2D.velocity.y);
+			if(grounded)
+				rigidbody2D.velocity = new Vector2 (move * maxSpeed, rigidbody2D.velocity.y);
+			else
+				rigidbody2D.AddForce(new Vector2 (move * airMoveForce, rigidbody2D.velocity.y));
+
 			anim.SetFloat("Speed", Mathf.Abs (move));
 		}
 		else
