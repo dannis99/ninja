@@ -78,10 +78,19 @@ public class PlayerController : MonoBehaviour {
 		touchingLeftWall = Physics2D.OverlapArea(wallCheckLeft.position, new Vector2(wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall);
 		touchingRightWall = Physics2D.OverlapArea(wallCheckRight.position, new Vector2(wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
 		touchingWall = touchingLeftWall || touchingRightWall;
+	}
+
+	void Update()
+	{	
 		float move = Input.GetAxis ("Horizontal");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
 		//anim.SetBool("Ground", grounded);
-		
+
+		if(anim.GetBool("Attack"))
+			anim.SetBool("Attack", false);
+		if(anim.GetBool("AirAttack"))
+			anim.SetBool("AirAttack", false);
+
 		if (grounded || touchingWall) 
 		{
 			doubleJump = false;
@@ -143,22 +152,19 @@ public class PlayerController : MonoBehaviour {
 
 		/* checking inputs */
 
-		if(Input.GetAxis("Shuriken") > 0.2 || Input.GetAxis("Grenade") > 0.2)
+		if(Input.GetAxis("WeaponTargeting") > 0.2)
 		{
 			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
 			{
 				Vector2 direction = new Vector2(move, Input.GetAxis("Vertical"));
 				setDirectionalTarget(direction);
-				if(Input.GetButtonDown("Weapon"))
+				if(Input.GetButtonDown("Shuriken"))
 				{
-					if(Input.GetAxis("Shuriken") > 0.2)
-					{
-						throwShuriken(direction);
-					}
-					else if(Input.GetAxis("Grenade") > 0.2)
-					{
-						throwGrenade(direction);
-					}
+					throwShuriken(direction);
+				}
+				else if(Input.GetButtonDown("Grenade"))
+				{
+					throwGrenade(direction);
 				}
 			}
 			else
@@ -166,7 +172,7 @@ public class PlayerController : MonoBehaviour {
 				directionalTarget.SetActive(false);
 			}
 		}
-		else if(Input.GetButtonDown("Weapon"))
+		else if(Input.GetButtonDown("Sword"))
 		{
 			if(grounded)
 				anim.SetBool("Attack",true);
@@ -198,11 +204,6 @@ public class PlayerController : MonoBehaviour {
 				WallJump ();
 			}
 		}
-	}
-
-	void Update()
-	{	
-		
 	}
 
 	void Jump()
