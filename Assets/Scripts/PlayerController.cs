@@ -154,6 +154,11 @@ public class PlayerController : MonoBehaviour {
 
 		if(Input.GetAxis("WeaponTargeting") > 0.2)
 		{
+			if(grounded)//stop sliding when targeting
+			{
+				rigidbody2D.velocity = Vector2.zero;
+			}
+
 			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
 			{
 				Vector2 direction = new Vector2(move, Input.GetAxis("Vertical"));
