@@ -43,6 +43,8 @@ public class PlayerController : MonoBehaviour {
 	public LayerMask whatIsGround;
 
 	//walls
+	public bool canGrabLedge = false;
+	public bool grabbingLedge = false;
 	public bool touchingWall = false;
 	public bool touchingRightWall = false;
 	public bool touchingLeftWall = false;
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour {
 	public bool wallJumping = false;
 	public Transform wallCheckLeft;
 	public Transform wallCheckRight;
+	public Transform ledgeCheck;
 	public float wallTouchWidth;
 	float timeSinceWallJump;
 	public float wallJumpDuration;
@@ -79,11 +82,14 @@ public class PlayerController : MonoBehaviour {
 		touchingLeftWall = Physics2D.OverlapArea(wallCheckLeft.position, new Vector2(wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall);
 		touchingRightWall = Physics2D.OverlapArea(wallCheckRight.position, new Vector2(wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
 		touchingWall = touchingLeftWall || touchingRightWall;
+
+		canGrabLedge = touchingRightWall && !Physics2D.OverlapArea(ledgeCheck.position, new Vector2(ledgeCheck.position.x + wallTouchWidth, ledgeCheck.position.y + .01f), whatIsWall);
 	}
 
 	void Update()
 	{	
-		float move = Input.GetAxis ("Horizontal");
+		float hAxis = Input.GetAxis("Horizontal");
+		float vAxis = Input.GetAxis("Vertical");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
 		//anim.SetBool("Ground", grounded);
 
@@ -125,15 +131,15 @@ public class PlayerController : MonoBehaviour {
 		// Wall sliding
 		if(!grounded && touchingWall && 
 		   rigidbody2D.velocity.y <= 0 && (/* falling */
-		   (facingRight && Input.GetAxis ("Horizontal") > 0f) || /* holding against right wall */
-		   (!facingRight && Input.GetAxis ("Horizontal") < 0f))) /* holding against left wall */
+		   (facingRight && hAxis > 0f) || /* holding against right wall */
+		   (!facingRight && hAxis < 0f))) /* holding against left wall */
 		{
 			rigidbody2D.gravityScale = 0.15f;
 			wallSliding = true;
 			anim.SetBool("WallSliding", true);
 		}
 		// Fall faster while holding down
-		else if(!grounded && Input.GetAxis("Vertical") < 0f)
+		else if(!grounded && vAxis < 0f)
 		{
 			rigidbody2D.gravityScale = 2f;
 			wallSliding = false;
@@ -147,11 +153,22 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		// If the input is moving the player right and the player is facing left...
-		if((move > 0 && !facingRight) || (move < 0 && facingRight)){
+		if((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight)){
 			Flip ();
 		}
 
 		/* checking inputs */
+		if(canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1)))
+		{
+			grabbingLedge = true;
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.gravityScale = 0f;
+		}
+		else if(grabbingLedge)
+		{
+			grabbingLedge = false;
+			rigidbody2D.gravityScale = 1f;
+		}
 
 		if(Input.GetAxis("WeaponTargeting") < 0.2)
 		{
@@ -168,9 +185,9 @@ public class PlayerController : MonoBehaviour {
 				rigidbody2D.velocity = Vector2.zero;
 			}
 
-			if(Mathf.Abs(move) > 0.3 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.3)
+			if(Mathf.Abs(hAxis) > 0.3 || Mathf.Abs(vAxis) > 0.3)
 			{
-				Vector2 direction = new Vector2(move, Input.GetAxis("Vertical"));
+				Vector2 direction = new Vector2(hAxis, vAxis);
 				setDirectionalTarget(direction);
 				if(Input.GetButtonDown("Shuriken"))
 				{
@@ -193,22 +210,22 @@ public class PlayerController : MonoBehaviour {
 			else
 				anim.SetBool("AirAttack",true);
 		}
-		else if (!wallJumping && !wallSliding && Mathf.Abs(move) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
+		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
 			if(grounded || 
-			  (!grounded && (move < 0 && rigidbody2D.velocity.x > 0 || move > 0 && rigidbody2D.velocity.x < 0)))//Changing velocity when moving along the ground or when in the air and changing direction
+			  (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0)))//Changing velocity when moving along the ground or when in the air and changing direction
 			{
-				rigidbody2D.velocity = new Vector2 (move * maxSpeed, rigidbody2D.velocity.y);
+				rigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, rigidbody2D.velocity.y);
 			}
 			else //adding force when in the air and moving in the same direction
 			{
-				rigidbody2D.AddForce(new Vector2 (move * airMoveForce, rigidbody2D.velocity.y));
+				rigidbody2D.AddForce(new Vector2 (hAxis * airMoveForce, rigidbody2D.velocity.y));
 			}
-			anim.SetFloat("Speed", Mathf.Abs (move));
+			anim.SetFloat("Speed", Mathf.Abs (hAxis));
 		}
 
-		if(Mathf.Abs(move) <= 0.1)
-			anim.SetFloat("Speed", move);
+		if(Mathf.Abs(hAxis) <= 0.1)
+			anim.SetFloat("Speed", hAxis);
 
 		if(Input.GetButtonDown("Jump"))
 		{
