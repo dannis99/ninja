@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour {
 		   (!facingRight && hAxis < 0f))) /* holding against left wall */
 		{
 			rigidbody2D.gravityScale = 0.15f;
+			rigidbody2D.velocity = new Vector2(0f, -.6f);
 			wallSliding = true;
 			anim.SetBool("WallSliding", true);
 		}
