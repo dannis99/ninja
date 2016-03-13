@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Rewired;
 
 /* Mac Key Bindings for xbox controller */
 //D-pad up: joystick button 5
@@ -19,7 +20,10 @@ using System.Collections;
 //Y: joystick button 19
 
 public class PlayerController : MonoBehaviour {
-	
+
+	Player playerInput;
+	public int playerId = 0;
+
 	public float maxSpeed;
 	public float airMoveForce;
 	bool facingRight = true;
@@ -69,7 +73,12 @@ public class PlayerController : MonoBehaviour {
 	//double jump
 	bool doubleJumpAllowed = false;
 	bool doubleJump = false;
-	
+
+	void Awake()
+	{
+		playerInput = ReInput.players.GetPlayer(playerId);
+	}
+
 	void Start () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
@@ -88,8 +97,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{	
-		float hAxis = Input.GetAxis("Horizontal");
-		float vAxis = Input.GetAxis("Vertical");
+		float hAxis = playerInput.GetAxis ("Move Horizontal");// Input.GetAxis("Horizontal");
+		float vAxis = playerInput.GetAxis ("Move Vertical");// Input.GetAxis("Vertical");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
 		//anim.SetBool("Ground", grounded);
 
@@ -171,13 +180,14 @@ public class PlayerController : MonoBehaviour {
 			rigidbody2D.gravityScale = 1f;
 		}
 
-		if(Input.GetAxis("WeaponTargeting") < 0.2)
+		if(!playerInput.GetButton ("Shuriken") && !playerInput.GetButton ("Grenade"))
 		{
 			anim.SetBool("PreparingThrow", false);
 			directionalTarget.SetActive(false);
 		}
 
-		if(Input.GetAxis("WeaponTargeting") > 0.2)
+		Vector2 direction = new Vector2(facingRight ? 1 : -1, 0);
+		if(playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade"))
 		{
 			anim.SetBool("PreparingThrow", true);
 
@@ -188,23 +198,11 @@ public class PlayerController : MonoBehaviour {
 
 			if(Mathf.Abs(hAxis) > 0.3 || Mathf.Abs(vAxis) > 0.3)
 			{
-				Vector2 direction = new Vector2(hAxis, vAxis);
-				setDirectionalTarget(direction);
-				if(Input.GetButtonDown("Shuriken"))
-				{
-					throwShuriken(direction);
-				}
-				else if(Input.GetButtonDown("Grenade"))
-				{
-					throwGrenade(direction);
-				}
+				direction = new Vector2(hAxis, vAxis);
 			}
-			else
-			{
-				directionalTarget.SetActive(false);
-			}
+			setDirectionalTarget(direction);
 		}
-		else if(Input.GetButtonDown("Sword"))
+		else if(playerInput.GetButtonDown("Sword"))
 		{
 			if(grounded)
 				anim.SetBool("Attack",true);
@@ -225,10 +223,19 @@ public class PlayerController : MonoBehaviour {
 			anim.SetFloat("Speed", Mathf.Abs (hAxis));
 		}
 
+		if(playerInput.GetButtonUp ("Shuriken"))// Input.GetButtonDown("Shuriken"))
+		{
+			throwShuriken(direction);
+		}
+		else if(playerInput.GetButtonUp ("Grenade"))// if(Input.GetButtonDown("Grenade"))
+		{
+			throwGrenade(direction);
+		}
+		
 		if(Mathf.Abs(hAxis) <= 0.1)
 			anim.SetFloat("Speed", hAxis);
 
-		if(Input.GetButtonDown("Jump"))
+		if(playerInput.GetButtonDown("Jump"))
 		{
 			if((grounded || (!doubleJump && doubleJumpAllowed)))
 			{
