@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour {
 	//targeting
 	public GameObject directionalTarget;
 	Vector2 targetDistance = new Vector2(2.5f, 3f);
+	Vector2 targetDirection = Vector2.zero;
 
 	//ground
 	public bool grounded = false;
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour {
 		   (!facingRight && hAxis < 0f))) /* holding against left wall */
 		{
 			rigidbody2D.gravityScale = 0.15f;
-			rigidbody2D.velocity = new Vector2(0f, -.6f);
+			rigidbody2D.velocity = new Vector2(0f, -1f);
 			wallSliding = true;
 			anim.SetBool("WallSliding", true);
 		}
@@ -186,7 +187,9 @@ public class PlayerController : MonoBehaviour {
 			directionalTarget.SetActive(false);
 		}
 
-		Vector2 direction = new Vector2(facingRight ? 1 : -1, 0);
+		if(targetDirection == Vector2.zero)
+			targetDirection = new Vector2(facingRight ? 1 : -1, 0);
+
 		if(playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade"))
 		{
 			anim.SetBool("PreparingThrow", true);
@@ -196,11 +199,12 @@ public class PlayerController : MonoBehaviour {
 				rigidbody2D.velocity = Vector2.zero;
 			}
 
-			if(Mathf.Abs(hAxis) > 0.3 || Mathf.Abs(vAxis) > 0.3)
+			Debug.Log (Mathf.Abs (hAxis) + ", " + Mathf.Abs (vAxis));
+			if(Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 1.0f)
 			{
-				direction = new Vector2(hAxis, vAxis);
+				targetDirection = new Vector2(hAxis, vAxis);
 			}
-			setDirectionalTarget(direction);
+			setDirectionalTarget(targetDirection);
 		}
 		else if(playerInput.GetButtonDown("Sword"))
 		{
@@ -225,11 +229,13 @@ public class PlayerController : MonoBehaviour {
 
 		if(playerInput.GetButtonUp ("Shuriken"))// Input.GetButtonDown("Shuriken"))
 		{
-			throwShuriken(direction);
+			throwShuriken(targetDirection);
+			targetDirection = Vector2.zero;
 		}
 		else if(playerInput.GetButtonUp ("Grenade"))// if(Input.GetButtonDown("Grenade"))
 		{
-			throwGrenade(direction);
+			throwGrenade(targetDirection);
+			targetDirection = Vector2.zero;
 		}
 		
 		if(Mathf.Abs(hAxis) <= 0.1)
