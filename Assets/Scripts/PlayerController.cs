@@ -199,7 +199,6 @@ public class PlayerController : MonoBehaviour {
 				rigidbody2D.velocity = Vector2.zero;
 			}
 
-			Debug.Log (Mathf.Abs (hAxis) + ", " + Mathf.Abs (vAxis));
 			if(Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 1.0f)
 			{
 				targetDirection = new Vector2(hAxis, vAxis);
@@ -310,11 +309,16 @@ public class PlayerController : MonoBehaviour {
 		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
 	}
 
-	void OnCollisionEnter2D(Collision2D collision)
+	public void die()
 	{
-		if(collision.gameObject.tag == "lethal")
-		{
-			GetComponent<SpriteRenderer>().color = Color.red;
-		}
+		GetComponent<SpriteRenderer>().color = Color.red;
 	}
+//
+//	void OnCollisionEnter2D(Collision2D collision)
+//	{
+//		if(collision.gameObject.tag == "lethal")
+//		{
+//			GetComponent<SpriteRenderer>().color = Color.red;
+//		}
+//	}
 }
