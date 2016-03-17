@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("WallSliding", true);
 		}
 		// Fall faster while holding down
-		else if(!grounded && vAxis < 0f)
+		else if(!grounded && vAxis < -0.5f)
 		{
 			rigidbody2D.gravityScale = 2f;
 			wallSliding = false;
