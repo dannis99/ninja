@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour {
 	public int playerId = 0;
 
 	public float maxSpeed;
+	public float thrustSpeed;
 	public float airMoveForce;
 	bool facingRight = true;
 	
@@ -208,9 +209,14 @@ public class PlayerController : MonoBehaviour {
 		else if(playerInput.GetButtonDown("Sword"))
 		{
 			if(grounded)
+			{
 				anim.SetBool("Attack",true);
+			}
 			else
+			{
 				anim.SetBool("AirAttack",true);
+			}
+			rigidbody2D.AddForce(new Vector2(facingRight ? thrustSpeed : -thrustSpeed, 0), ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
@@ -309,7 +315,7 @@ public class PlayerController : MonoBehaviour {
 		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
 	}
 
-	public void die()
+	public void takeDamage()
 	{
 		GetComponent<SpriteRenderer>().color = Color.red;
 	}

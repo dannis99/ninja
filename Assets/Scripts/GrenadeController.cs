@@ -33,7 +33,7 @@ public class GrenadeController : MonoBehaviour {
 	            }
 
             	playersAlreadyHit.Add(player);
-            	player.die();
+            	player.takeDamage();
             }
         }
 		//grenadeCollider.radius = explosionRadius;
