@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float maxSpeed;
 	public float thrustSpeed;
+	public float dashSpeed;
 	public float airMoveForce;
 	bool facingRight = true;
 	
@@ -217,6 +218,10 @@ public class PlayerController : MonoBehaviour {
 				anim.SetBool("AirAttack",true);
 			}
 			rigidbody2D.AddForce(new Vector2(facingRight ? thrustSpeed : -thrustSpeed, 0), ForceMode2D.Impulse);
+		}
+		else if(playerInput.GetButtonDown("Dash"))
+		{
+			rigidbody2D.AddForce(new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+2), ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
