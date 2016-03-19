@@ -244,6 +244,7 @@ public class PlayerController : MonoBehaviour {
 		else if(playerInput.GetButtonDown("Dash") && ableToDash)
 		{
 			dashing = true;
+			ableToDash = false;
 			timeSinceDash = 0f;
 			preDashVelocity = rigidbody2D.velocity;
 			rigidbody2D.AddForce(new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+(dashSpeed/2f)), ForceMode2D.Impulse);
