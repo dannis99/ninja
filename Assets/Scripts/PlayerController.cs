@@ -25,8 +25,14 @@ public class PlayerController : MonoBehaviour {
 	public int playerId = 0;
 
 	public float maxSpeed;
-	public float thrustSpeed;
+	public float attackThrustSpeed;
+	bool dashing;
+	bool ableToDash = true;
 	public float dashSpeed;
+	public float timeBetweenDashes;
+	public float dashDuration;
+	float timeSinceDash = 0f;
+	Vector2 preDashVelocity;
 	public float airMoveForce;
 	bool facingRight = true;
 	
@@ -130,6 +136,22 @@ public class PlayerController : MonoBehaviour {
 			timeSinceUnableToWallJump += Time.deltaTime;
 		}
 
+		if(timeSinceDash <= (dashDuration + timeBetweenDashes))
+		{
+			timeSinceDash += Time.deltaTime;
+		}
+
+		if(dashing && timeSinceDash >= dashDuration)
+		{
+			dashing = false;
+			rigidbody2D.velocity = preDashVelocity;
+		}
+
+		if(!ableToDash && timeSinceDash >= (dashDuration+timeBetweenDashes))
+		{
+			ableToDash = true;
+		}
+
 		//checking wall jump duration
 		if (wallJumping) 
 		{
@@ -217,11 +239,14 @@ public class PlayerController : MonoBehaviour {
 			{
 				anim.SetBool("AirAttack",true);
 			}
-			rigidbody2D.AddForce(new Vector2(facingRight ? thrustSpeed : -thrustSpeed, 0), ForceMode2D.Impulse);
+			rigidbody2D.AddForce(new Vector2(facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 		}
-		else if(playerInput.GetButtonDown("Dash"))
+		else if(playerInput.GetButtonDown("Dash") && ableToDash)
 		{
-			rigidbody2D.AddForce(new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+2), ForceMode2D.Impulse);
+			dashing = true;
+			timeSinceDash = 0f;
+			preDashVelocity = rigidbody2D.velocity;
+			rigidbody2D.AddForce(new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+(dashSpeed/2f)), ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
