@@ -2,23 +2,6 @@
 using System.Collections;
 using Rewired;
 
-/* Mac Key Bindings for xbox controller */
-//D-pad up: joystick button 5
-//D-pad down: joystick button 6
-//D-pad left: joystick button 7
-//D-pad right: joystick button 8
-//start: joystick button 9
-//back: joystick button 10
-//left stick(click): joystick button 11
-//right stick(click): joystick button 12
-//left bumper: joystick button 13
-//right bumper: joystick button 14
-//center("x") button: joystick button 15
-//A: joystick button 16
-//B: joystick button 17
-//X: joystick button 18
-//Y: joystick button 19
-
 public class PlayerController : MonoBehaviour {
 
 	Player playerInput;
@@ -106,51 +89,25 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{	
-		float hAxis = playerInput.GetAxis ("Move Horizontal");// Input.GetAxis("Horizontal");
-		float vAxis = playerInput.GetAxis ("Move Vertical");// Input.GetAxis("Vertical");
+		float hAxis = playerInput.GetAxis ("Move Horizontal");
+		float vAxis = playerInput.GetAxis ("Move Vertical");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
+		if(Mathf.Abs(hAxis) <= 0.1)
+			anim.SetFloat("Speed", hAxis);
 		//anim.SetBool("Ground", grounded);
+		// If the input is moving the player right and the player is facing left...
+		if((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight)){
+			Flip ();
+		}
 
 		if(anim.GetBool("Attack"))
 			anim.SetBool("Attack", false);
 		if(anim.GetBool("AirAttack"))
 			anim.SetBool("AirAttack", false);
 
-		if (grounded || touchingWall) 
-		{
-			doubleJump = false;
-		}
+		CheckAbilityToJump();
 
-		if(!grounded && touchingWall)
-		{
-			ableToWallJump = true;
-		}
-		else if(ableToWallJump)
-		{
-			timeSinceUnableToWallJump = 0f;
-			ableToWallJump = false;
-		}
-
-		if(timeSinceUnableToWallJump < ghostJumpInterval)
-		{
-			timeSinceUnableToWallJump += Time.deltaTime;
-		}
-
-		if(timeSinceDash <= (dashDuration + timeBetweenDashes))
-		{
-			timeSinceDash += Time.deltaTime;
-		}
-
-		if(dashing && timeSinceDash >= dashDuration)
-		{
-			dashing = false;
-			rigidbody2D.velocity = preDashVelocity;
-		}
-
-		if(!ableToDash && timeSinceDash >= (dashDuration+timeBetweenDashes))
-		{
-			ableToDash = true;
-		}
+		CheckDash();
 
 		//checking wall jump duration
 		if (wallJumping) 
@@ -162,48 +119,20 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		// Wall sliding
-		if(!grounded && touchingWall && 
-		   rigidbody2D.velocity.y <= 0 && (/* falling */
-		   (facingRight && hAxis > 0f) || /* holding against right wall */
-		   (!facingRight && hAxis < 0f))) /* holding against left wall */
-		{
-			rigidbody2D.gravityScale = 0.15f;
-			rigidbody2D.velocity = new Vector2(0f, -1f);
-			wallSliding = true;
-			anim.SetBool("WallSliding", true);
-		}
+		CheckWallSlide(hAxis);
+
 		// Fall faster while holding down
-		else if(!grounded && vAxis < -0.5f)
+		if(!grounded && !wallSliding && vAxis < -0.5f)
 		{
 			rigidbody2D.gravityScale = 2f;
-			wallSliding = false;
-			anim.SetBool("WallSliding", false);
 		}
 		else
 		{
 			rigidbody2D.gravityScale = 1f;
-			wallSliding = false;
-			anim.SetBool("WallSliding", false);
-		}
-
-		// If the input is moving the player right and the player is facing left...
-		if((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight)){
-			Flip ();
 		}
 
 		/* checking inputs */
-		if(canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1)))
-		{
-			grabbingLedge = true;
-			rigidbody2D.velocity = Vector2.zero;
-			rigidbody2D.gravityScale = 0f;
-		}
-		else if(grabbingLedge)
-		{
-			grabbingLedge = false;
-			rigidbody2D.gravityScale = 1f;
-		}
+		CheckLedgeGrab (hAxis);
 
 		if(!playerInput.GetButton ("Shuriken") && !playerInput.GetButton ("Grenade"))
 		{
@@ -247,7 +176,9 @@ public class PlayerController : MonoBehaviour {
 			ableToDash = false;
 			timeSinceDash = 0f;
 			preDashVelocity = rigidbody2D.velocity;
-			rigidbody2D.AddForce(new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+(dashSpeed/2f)), ForceMode2D.Impulse);
+			Vector2 dashForce = new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+(vAxis > 0f ? (dashSpeed/2f):0f));
+			Debug.Log("dashForce: "+dashForce);
+			rigidbody2D.AddForce(dashForce, ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
 		{
@@ -273,45 +204,98 @@ public class PlayerController : MonoBehaviour {
 			throwGrenade(targetDirection);
 			targetDirection = Vector2.zero;
 		}
-		
-		if(Mathf.Abs(hAxis) <= 0.1)
-			anim.SetFloat("Speed", hAxis);
 
 		if(playerInput.GetButtonDown("Jump"))
 		{
-			if((grounded || (!doubleJump && doubleJumpAllowed)))
-			{
-				Jump ();
-			}
-			else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
-			{
-				WallJump ();
-			}
+			tryToJump();
 		}
 	}
 
-	void Jump()
+	void CheckAbilityToJump ()
 	{
-		//anim.SetBool("Ground", false);
-		rigidbody2D.AddForce(new Vector2(0, jumpForce));
+		if (grounded || touchingWall) {
+			doubleJump = false;
+		}
 
-		if(!doubleJump && !grounded)
+		if (!grounded && touchingWall) {
+			ableToWallJump = true;
+		}
+		else if (ableToWallJump) {
+			timeSinceUnableToWallJump = 0f;
+			ableToWallJump = false;
+		}
+
+		if(timeSinceUnableToWallJump < ghostJumpInterval)
 		{
-			doubleJump = true;
+			timeSinceUnableToWallJump += Time.deltaTime;
 		}
 	}
- 
-	void WallJump () 
+
+	void CheckDash ()
 	{
-		rigidbody2D.velocity = Vector2.zero;
-		Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
-		rigidbody2D.AddForce (force);
-		timeSinceWallJump = 0f;
-		timeSinceUnableToWallJump = ghostJumpInterval;//setting ghost jump so you can't regular jump and then ghost jump
-		wallJumping = true;
-		Flip();
+		if (timeSinceDash <= (dashDuration + timeBetweenDashes)) {
+			timeSinceDash += Time.deltaTime;
+		}
+		if (dashing && timeSinceDash >= dashDuration) {
+			dashing = false;
+			rigidbody2D.velocity = preDashVelocity;
+		}
+		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
+			ableToDash = true;
+		}
 	}
-	
+
+	void CheckLedgeGrab (float hAxis)
+	{
+		if (canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1))) {
+			grabbingLedge = true;
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.gravityScale = 0f;
+		}
+		else
+			if (grabbingLedge) {
+				grabbingLedge = false;
+				rigidbody2D.gravityScale = 1f;
+			}
+	}
+
+	void CheckWallSlide (float hAxis)
+	{
+		if (!grounded && touchingRightWall && rigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
+			rigidbody2D.gravityScale = 0.15f;
+			rigidbody2D.velocity = new Vector2 (0f, -1f);
+			wallSliding = true;
+			anim.SetBool ("WallSliding", true);
+		}
+		else {
+			wallSliding = false;
+			anim.SetBool ("WallSliding", false);
+		}
+	}
+
+	void tryToJump()
+	{
+		if((grounded || (!doubleJump && doubleJumpAllowed)))
+		{
+			//anim.SetBool("Ground", false);
+			rigidbody2D.AddForce(new Vector2(0, jumpForce));
+
+			if(!doubleJump && !grounded)
+			{
+				doubleJump = true;
+			}
+		}
+		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
+		{
+			rigidbody2D.velocity = Vector2.zero;
+			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
+			rigidbody2D.AddForce (force);
+			timeSinceWallJump = 0f;
+			timeSinceUnableToWallJump = ghostJumpInterval;//setting ghost jump so you can't regular jump and then ghost jump
+			wallJumping = true;
+			Flip();
+		}
+	}
 	
 	void Flip()
 	{
