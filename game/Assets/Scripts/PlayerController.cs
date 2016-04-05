@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour {
 		else if(playerInput.GetButtonDown("Dash") && ableToDash)
 		{
 			dashing = true;
+			anim.SetBool("Dashing", true);
 			ableToDash = false;
 			timeSinceDash = 0f;
 			preDashVelocity = rigidbody2D.velocity;
@@ -237,6 +238,7 @@ public class PlayerController : MonoBehaviour {
 			timeSinceDash += Time.deltaTime;
 		}
 		if (dashing && timeSinceDash >= dashDuration) {
+			anim.SetBool("Dashing", false);
 			dashing = false;
 			rigidbody2D.velocity = preDashVelocity;
 		}
