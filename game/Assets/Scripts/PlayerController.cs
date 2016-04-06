@@ -174,12 +174,20 @@ public class PlayerController : MonoBehaviour {
 		{
 			dashing = true;
 			anim.SetBool("Dashing", true);
-			Debug.Log("Dashing");
 			ableToDash = false;
 			timeSinceDash = 0f;
 			preDashVelocity = rigidbody2D.velocity;
-			Vector2 dashForce = new Vector2((facingRight ? dashSpeed : -dashSpeed)*((hAxis > .1f)?hAxis:(vAxis < .1f)?1:0), vAxis*dashSpeed+(vAxis > 0f ? (dashSpeed/2f):0f));
-			Debug.Log("dashForce: "+dashForce);
+			float xDashForce = dashSpeed;
+			if (!facingRight)
+				xDashForce = -dashSpeed;
+			if (Mathf.Abs(vAxis) > .1f && Mathf.Abs (hAxis) < .1f)
+				xDashForce = 0;
+
+			float yDashForce = 0;
+			if (Mathf.Abs (vAxis) > .1f)
+				yDashForce = (vAxis > .1f)?dashSpeed:-dashSpeed;
+			
+			Vector2 dashForce = new Vector2(xDashForce, yDashForce);
 			rigidbody2D.AddForce(dashForce, ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
@@ -240,9 +248,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (dashing && timeSinceDash >= dashDuration) {
 			anim.SetBool("Dashing", false);
-			Debug.Log("Stop Dashing");
 			dashing = false;
-			rigidbody2D.velocity = preDashVelocity;
+			rigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
