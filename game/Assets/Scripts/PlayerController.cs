@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			else
 			{
-				anim.SetBool("AirAttack",true);
+				anim.SetBool("Attack",true);
 			}
 			rigidbody2D.AddForce(new Vector2(facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 		}
@@ -174,6 +174,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			dashing = true;
 			anim.SetBool("Dashing", true);
+			Debug.Log("Dashing");
 			ableToDash = false;
 			timeSinceDash = 0f;
 			preDashVelocity = rigidbody2D.velocity;
@@ -239,6 +240,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (dashing && timeSinceDash >= dashDuration) {
 			anim.SetBool("Dashing", false);
+			Debug.Log("Stop Dashing");
 			dashing = false;
 			rigidbody2D.velocity = preDashVelocity;
 		}
