@@ -66,6 +66,12 @@ public class PlayerController : MonoBehaviour {
 	bool doubleJumpAllowed = false;
 	bool doubleJump = false;
 
+	//weapons
+	public SpriteRenderer[] grenadeSprites;
+	public SpriteRenderer[] shurikenSprites;
+	int grenadeCount = 3;
+	int shurikenCount = 3;
+
 	void Awake()
 	{
 		playerInput = ReInput.players.GetPlayer(playerId);
@@ -206,13 +212,23 @@ public class PlayerController : MonoBehaviour {
 
 		if(playerInput.GetButtonUp ("Shuriken"))// Input.GetButtonDown("Shuriken"))
 		{
-			throwShuriken(targetDirection);
-			targetDirection = Vector2.zero;
+			if(shurikenCount > 0)
+			{
+				shurikenSprites[shurikenCount-1].enabled = false;
+				shurikenCount--;
+				throwShuriken(targetDirection);
+				targetDirection = Vector2.zero;
+			}
 		}
 		else if(playerInput.GetButtonUp ("Grenade"))// if(Input.GetButtonDown("Grenade"))
 		{
-			throwGrenade(targetDirection);
-			targetDirection = Vector2.zero;
+			if(grenadeCount > 0)
+			{
+				grenadeSprites[grenadeCount-1].enabled = false;
+				grenadeCount--;
+				throwGrenade(targetDirection);
+				targetDirection = Vector2.zero;
+			}
 		}
 
 		if(playerInput.GetButtonDown("Jump"))
