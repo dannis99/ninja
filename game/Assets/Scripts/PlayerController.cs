@@ -342,7 +342,6 @@ public class PlayerController : MonoBehaviour {
 		directionalTarget.transform.eulerAngles = new Vector3(directionalTarget.transform.eulerAngles.x, directionalTarget.transform.eulerAngles.y, angle);
 		directionalTarget.SetActive(true);
 		directionalTarget.transform.localPosition = new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y);
-		Debug.Log("directionalTarget position: "+new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y));
 	}
 
 	void throwGrenade(Vector3 direction)
