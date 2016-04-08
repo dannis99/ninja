@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
 	Vector2 preDashVelocity;
 	public float airMoveForce;
 	bool facingRight = true;
+	float hAxis;
+	float vAxis;
 	
 	Animator anim;
 	new Rigidbody2D rigidbody2D;
@@ -29,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 
 	//targeting
 	public GameObject directionalTarget;
-	Vector2 targetDistance = new Vector2(2.5f, 3f);
+	Vector2 targetDistance = new Vector2(.5f, 1.25f);
 	Vector2 targetDirection = Vector2.zero;
 
 	//ground
@@ -95,8 +97,8 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{	
-		float hAxis = playerInput.GetAxis ("Move Horizontal");
-		float vAxis = playerInput.GetAxis ("Move Vertical");
+		hAxis = playerInput.GetAxis ("Move Horizontal");
+		vAxis = playerInput.GetAxis ("Move Vertical");
 		anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
 		if(Mathf.Abs(hAxis) <= 0.1)
 			anim.SetFloat("Speed", hAxis);
@@ -147,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if(targetDirection == Vector2.zero)
-			targetDirection = new Vector2(facingRight ? 1 : -1, 0);
+			targetDirection = new Vector2(facingRight ? 1 : -1, .5f);
 
 		if(playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade"))
 		{
@@ -160,9 +162,9 @@ public class PlayerController : MonoBehaviour {
 
 			if(Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 1.0f)
 			{
-				targetDirection = new Vector2(hAxis, vAxis);
+				targetDirection = new Vector2(hAxis, .5f + (vAxis/2f));//setting y to a 0 to 1 range instead of -1 to 1
 			}
-			setDirectionalTarget(targetDirection);
+			setDirectionalTarget(targetDirection, Mathf.Atan2(vAxis, Mathf.Abs(hAxis)) * Mathf.Rad2Deg);
 		}
 		else if(playerInput.GetButtonDown("Sword"))
 		{
@@ -335,31 +337,38 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = theScale;
 	}
 
-	void setDirectionalTarget(Vector2 direction)
+	void setDirectionalTarget(Vector2 direction, float angle)
 	{
-		float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
 		directionalTarget.transform.eulerAngles = new Vector3(directionalTarget.transform.eulerAngles.x, directionalTarget.transform.eulerAngles.y, angle);
 		directionalTarget.SetActive(true);
 		directionalTarget.transform.localPosition = new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y);
+		Debug.Log("directionalTarget position: "+new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y));
 	}
 
 	void throwGrenade(Vector3 direction)
 	{
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
-		grenade.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + (grenadeDistance.y * direction.y));
-		grenade.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
+		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
+		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
+		grenade.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + .5f + (grenadeDistance.y * direction.y));
+		grenade.GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yForce));
 	}
 
 	void throwShuriken(Vector3 direction)
 	{
 		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
-		shuriken.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + (grenadeDistance.y * direction.y));
-		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction.x * throwingForce, direction.y * throwingForce));
+		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
+		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
+		shuriken.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + .5f + (grenadeDistance.y * direction.y));
+		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yForce));
 	}
 
 	public void takeDamage()
 	{
-		GetComponent<SpriteRenderer>().color = Color.red;
+		foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+		{
+			renderer.color = Color.red;
+		}
 	}
 //
 //	void OnCollisionEnter2D(Collision2D collision)
