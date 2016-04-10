@@ -139,6 +139,26 @@ public class PlayerController : MonoBehaviour {
 			rigidbody2D.gravityScale = 1f;
 		}
 
+		//duck
+		if (grounded && vAxis < -0.5f && Mathf.Abs(hAxis) < .1f) 
+		{
+			anim.SetBool ("Ducking", true);
+		} 
+		else 
+		{
+			anim.SetBool ("Ducking", false);
+		}
+
+		//looking up
+		if (grounded && vAxis > 0.5f && Mathf.Abs(hAxis) < .1f) 
+		{
+			anim.SetBool ("LookingUp", true);
+		} 
+		else 
+		{
+			anim.SetBool ("LookingUp", false);
+		}
+
 		/* checking inputs */
 		CheckLedgeGrab (hAxis);
 
