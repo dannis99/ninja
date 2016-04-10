@@ -127,8 +127,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		CheckWallSlide(hAxis);
-
 		// Fall faster while holding down
 		if(!grounded && !wallSliding && vAxis < -0.5f)
 		{
@@ -138,6 +136,10 @@ public class PlayerController : MonoBehaviour {
 		{
 			rigidbody2D.gravityScale = 1f;
 		}
+
+		CheckLedgeGrab (hAxis);
+		if(!grabbingLedge)
+			CheckWallSlide(hAxis);
 
 		//duck
 		if (grounded && vAxis < -0.5f && Mathf.Abs(hAxis) < .1f) 
@@ -160,7 +162,6 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		/* checking inputs */
-		CheckLedgeGrab (hAxis);
 
 		if(!playerInput.GetButton ("Shuriken") && !playerInput.GetButton ("Grenade"))
 		{
@@ -302,12 +303,14 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1))) {
 			grabbingLedge = true;
+			anim.SetBool ("LedgeGrab", true);
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.gravityScale = 0f;
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
+				anim.SetBool ("LedgeGrab", false);
 				rigidbody2D.gravityScale = 1f;
 			}
 	}
