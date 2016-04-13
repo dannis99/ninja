@@ -218,8 +218,16 @@ public class PlayerController : MonoBehaviour {
 			float yDashForce = 0;
 			if (Mathf.Abs (vAxis) > .1f)
 				yDashForce = (vAxis > .1f)?dashSpeed:-dashSpeed;
-			
+
+			//gotta set the combination of the forces to to the total dash force
+			if(xDashForce > 0)
+				xDashForce = xDashForce/(Mathf.Abs(xDashForce) + Mathf.Abs(yDashForce)) * dashSpeed;
+
+			if(yDashForce > 0)
+				yDashForce = yDashForce/(Mathf.Abs(xDashForce) + Mathf.Abs(yDashForce)) * dashSpeed;
+
 			Vector2 dashForce = new Vector2(xDashForce, yDashForce);
+			Debug.Log("dashForce: "+dashForce);
 			rigidbody2D.AddForce(dashForce, ForceMode2D.Impulse);
 		}
 		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
