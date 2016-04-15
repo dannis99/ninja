@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour {
 			CheckWallSlide(hAxis);
 
 		//duck
-		if (grounded && vAxis < -0.5f && Mathf.Abs(hAxis) < .1f) 
+		if (grounded && vAxis < -0.5f && Mathf.Abs(hAxis) < .3f) 
 		{
 			anim.SetBool ("Ducking", true);
 		} 
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//looking up
-		if (grounded && vAxis > 0.5f && Mathf.Abs(hAxis) < .1f) 
+		if (grounded && vAxis > 0.5f && Mathf.Abs(hAxis) < .3f) 
 		{
 			anim.SetBool ("LookingUp", true);
 		} 
@@ -230,7 +230,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log("dashForce: "+dashForce);
 			rigidbody2D.AddForce(dashForce, ForceMode2D.Impulse);
 		}
-		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.1)//don't want to allow an immediate force back to the wall when wall jumping
+		else if (!wallJumping && !wallSliding && Mathf.Abs(hAxis) > 0.3)//don't want to allow an immediate force back to the wall when wall jumping
 		{
 			if(grounded || 
 			  (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0)))//Changing velocity when moving along the ground or when in the air and changing direction
