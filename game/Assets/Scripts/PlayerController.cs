@@ -131,10 +131,15 @@ public class PlayerController : MonoBehaviour {
 		if(!grounded && !wallSliding && vAxis < -0.5f)
 		{
 			rigidbody2D.gravityScale = 2f;
+			if(playerInput.GetButton("Sword"))
+			{
+				anim.SetBool("DownAttack",true);
+			}
 		}
 		else
 		{
 			rigidbody2D.gravityScale = 1f;
+			anim.SetBool("DownAttack",false);
 		}
 
 		CheckLedgeGrab (hAxis);
