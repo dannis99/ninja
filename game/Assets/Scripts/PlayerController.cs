@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	public float timeBetweenDashes;
 	public float dashDuration;
 	float timeSinceDash = 0f;
-	Vector2 preDashVelocity;
+	//Vector2 preDashVelocity;
 	public float airMoveForce;
 	bool facingRight = true;
 	float hAxis;
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			else
 			{
-				anim.SetBool("Attack",true);
+				anim.SetBool("AirAttack",true);
 			}
 			rigidbody2D.AddForce(new Vector2(facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 		}
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
 				anim.SetBool("Dashing", true);
 			ableToDash = false;
 			timeSinceDash = 0f;
-			preDashVelocity = rigidbody2D.velocity;
+			//preDashVelocity = rigidbody2D.velocity;
 			float xDashForce = dashSpeed;
 			if (!facingRight)
 				xDashForce = -dashSpeed;
