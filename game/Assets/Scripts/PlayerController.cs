@@ -6,6 +6,17 @@ public class PlayerController : MonoBehaviour {
 
 	Player playerInput;
 	public int playerId = 0;
+	public string playerColor;
+	public SpriteRenderer headRenderer;
+	public SpriteRenderer bodyRenderer;
+	public Sprite redHead;
+	public Sprite redBody;
+	public Sprite blueHead;
+	public Sprite blueBody;
+	public Sprite greenHead;
+	public Sprite greenBody;
+	public Sprite yellowHead;
+	public Sprite yellowBody;
 
 	bool dead;
 
@@ -84,6 +95,27 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
+
+		if(playerColor == "red")
+		{
+			bodyRenderer.sprite = redBody;
+			headRenderer.sprite = redHead;
+		}
+		else if(playerColor == "blue")
+		{
+			bodyRenderer.sprite = blueBody;
+			headRenderer.sprite = blueHead;
+		}
+		else if(playerColor == "green")
+		{
+			bodyRenderer.sprite = greenBody;
+			headRenderer.sprite = greenHead;
+		}
+		else if(playerColor == "yellow")
+		{
+			bodyRenderer.sprite = yellowBody;
+			headRenderer.sprite = yellowHead;
+		}
 	}
 	
 	void FixedUpdate () {

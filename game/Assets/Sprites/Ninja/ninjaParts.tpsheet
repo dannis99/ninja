@@ -4,16 +4,22 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: ninjaParts.png (128 x 128)
-# $TexturePacker:SmartUpdate:ba027e914c9ab8850a81407438954e11:7f410c66fdf43b913dd3f2057f002876:afe316a49f29c924237c45204946b105$
+# Sprite sheet: ninjaParts.png (256 x 256)
+# $TexturePacker:SmartUpdate:2a39fd097f41d64d123b3e9903934e9b:287fde3499a682da51ba427c2e33ae77:afe316a49f29c924237c45204946b105$
 #
 
-ninjaBody_red;18;10;48;58;0.5;0.5
-ninjaEyes;68;49;31;19;0.5;0.5
-ninjaEyesClosed;2;3;29;3;0.5;0.5
-ninjaEyesSquinty;68;20;29;7;0.5;0.5
-ninjaEyesSurprised;68;29;29;18;0.5;0.5
-ninjaFoot;102;106;20;20;0.5;0.5
-ninjaHand;102;85;20;19;0.5;0.5
-ninjaHead_red;33;70;67;56;0.5;0.5
-ninjaSword;2;8;14;118;0.5;0.5
+ninjaBody_blue;2;76;48;58;0.5;0.5
+ninjaBody_green;2;16;48;58;0.5;0.5
+ninjaBody_red;18;196;48;58;0.5;0.5
+ninjaBody_yellow;18;136;48;58;0.5;0.5
+ninjaEyes;137;235;31;19;0.5;0.5
+ninjaEyesClosed;2;2;29;3;0.5;0.5
+ninjaEyesSquinty;2;7;29;7;0.5;0.5
+ninjaEyesSurprised;170;236;29;18;0.5;0.5
+ninjaFoot;201;234;20;20;0.5;0.5
+ninjaHand;170;215;20;19;0.5;0.5
+ninjaHead_blue;52;78;67;56;0.5;0.5
+ninjaHead_green;52;20;67;56;0.5;0.5
+ninjaHead_red;68;198;67;56;0.5;0.5
+ninjaHead_yellow;68;140;67;56;0.5;0.5
+ninjaSword;2;136;14;118;0.5;0.5

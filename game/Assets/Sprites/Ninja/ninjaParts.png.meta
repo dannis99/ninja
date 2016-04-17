@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c1db805034065401582a6c6639f7420c
-timeCreated: 1459739683
+timeCreated: 1460918010
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,12 @@ TextureImporter:
     21300012: ninjaHead_red
     21300014: ninjaSword
     21300016: ninjaEyesSquinty
+    21300018: ninjaBody_blue
+    21300020: ninjaBody_green
+    21300022: ninjaBody_yellow
+    21300024: ninjaHead_blue
+    21300026: ninjaHead_green
+    21300028: ninjaHead_yellow
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -59,11 +65,65 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: ninjaBody_blue
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 76
+        width: 48
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 29}
+        - {x: -24, y: 23}
+        - {x: -24, y: -29}
+        - {x: 17, y: -29}
+        - {x: 24, y: -26}
+        - {x: 24, y: 23}
+        - {x: 23, y: 29}
+    - name: ninjaBody_green
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 16
+        width: 48
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 29}
+        - {x: -24, y: 23}
+        - {x: -24, y: -29}
+        - {x: 17, y: -29}
+        - {x: 24, y: -26}
+        - {x: 24, y: 23}
+        - {x: 23, y: 29}
     - name: ninjaBody_red
       rect:
         serializedVersion: 2
         x: 18
-        y: 10
+        y: 196
+        width: 48
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 29}
+        - {x: -24, y: 23}
+        - {x: -24, y: -29}
+        - {x: 17, y: -29}
+        - {x: 24, y: -26}
+        - {x: 24, y: 23}
+        - {x: 23, y: 29}
+    - name: ninjaBody_yellow
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 136
         width: 48
         height: 58
       alignment: 0
@@ -80,8 +140,8 @@ TextureImporter:
     - name: ninjaEyes
       rect:
         serializedVersion: 2
-        x: 68
-        y: 49
+        x: 137
+        y: 235
         width: 31
         height: 19
       alignment: 0
@@ -92,7 +152,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 3
+        y: 2
         width: 29
         height: 3
       alignment: 0
@@ -102,8 +162,8 @@ TextureImporter:
     - name: ninjaEyesSquinty
       rect:
         serializedVersion: 2
-        x: 68
-        y: 20
+        x: 2
+        y: 7
         width: 29
         height: 7
       alignment: 0
@@ -113,8 +173,8 @@ TextureImporter:
     - name: ninjaEyesSurprised
       rect:
         serializedVersion: 2
-        x: 68
-        y: 29
+        x: 170
+        y: 236
         width: 29
         height: 18
       alignment: 0
@@ -124,8 +184,8 @@ TextureImporter:
     - name: ninjaFoot
       rect:
         serializedVersion: 2
-        x: 102
-        y: 106
+        x: 201
+        y: 234
         width: 20
         height: 20
       alignment: 0
@@ -135,19 +195,70 @@ TextureImporter:
     - name: ninjaHand
       rect:
         serializedVersion: 2
-        x: 102
-        y: 85
+        x: 170
+        y: 215
         width: 20
         height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+    - name: ninjaHead_blue
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 78
+        width: 67
+        height: 56
+      alignment: 9
+      pivot: {x: 0.6363997, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34.63878, y: 28}
+        - {x: -42.63878, y: 12}
+        - {x: -42.63878, y: -28}
+        - {x: 24.361221, y: -28}
+        - {x: 24.361221, y: 24}
+        - {x: 16.361221, y: 28}
+    - name: ninjaHead_green
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 20
+        width: 67
+        height: 56
+      alignment: 9
+      pivot: {x: 0.6363997, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34.63878, y: 28}
+        - {x: -42.63878, y: 12}
+        - {x: -42.63878, y: -28}
+        - {x: 24.361221, y: -28}
+        - {x: 24.361221, y: 24}
+        - {x: 16.361221, y: 28}
     - name: ninjaHead_red
       rect:
         serializedVersion: 2
-        x: 33
-        y: 70
+        x: 68
+        y: 198
+        width: 67
+        height: 56
+      alignment: 9
+      pivot: {x: 0.6363997, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34.63878, y: 28}
+        - {x: -42.63878, y: 12}
+        - {x: -42.63878, y: -28}
+        - {x: 24.361221, y: -28}
+        - {x: 24.361221, y: 24}
+        - {x: 16.361221, y: 28}
+    - name: ninjaHead_yellow
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 140
         width: 67
         height: 56
       alignment: 9
@@ -164,7 +275,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 8
+        y: 136
         width: 14
         height: 118
       alignment: 9
