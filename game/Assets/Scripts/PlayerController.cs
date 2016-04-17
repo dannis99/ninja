@@ -386,6 +386,7 @@ public class PlayerController : MonoBehaviour {
 
 	void throwGrenade(Vector3 direction)
 	{
+		anim.SetTrigger ("Throwing");
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
 		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
 		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
@@ -395,6 +396,7 @@ public class PlayerController : MonoBehaviour {
 
 	void throwShuriken(Vector3 direction)
 	{
+		anim.SetTrigger ("Throwing");
 		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
 		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
 		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
