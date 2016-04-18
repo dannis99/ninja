@@ -20,10 +20,11 @@ public class SwordController : MonoBehaviour {
 		Debug.Log("sword collision: "+collider.gameObject.tag);
 		if (collider.gameObject.tag == "player" && !currentPlayer.Equals(collider.gameObject))
 		{
-			foreach (SpriteRenderer renderer in collider.gameObject.GetComponentsInChildren<SpriteRenderer>())
-			{
-				renderer.color = Color.red;
-			}
+			collider.gameObject.GetComponent<PlayerController> ().takeDamage ();
+//			foreach (SpriteRenderer renderer in collider.gameObject.GetComponentsInChildren<SpriteRenderer>())
+//			{
+//				renderer.color = Color.red;
+//			}
 		}
 	}
 }
