@@ -248,8 +248,8 @@ public class PlayerController : MonoBehaviour {
 
 				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
 				rigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
-			} else if (!wallJumping && !wallSliding && Mathf.Abs (hAxis) > 0.3) {//don't want to allow an immediate force back to the wall when wall jumping
-				if (grounded ||
+			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
+				if (grounded || //walking or running
 				   (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
 					rigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, rigidbody2D.velocity.y);
 				} else { //adding force when in the air and moving in the same direction
@@ -412,20 +412,5 @@ public class PlayerController : MonoBehaviour {
 	{
 		dead = true;
 		anim.SetTrigger ("Death");
-//		foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
-//		{
-//			renderer.color = Color.red;
-//		}
-	}
-
-	void OnCollisionEnter2D(Collision2D collision)
-	{
-		Debug.Log("collision: "+collision.gameObject.tag);
-		if (collision.gameObject.tag == "lethal")
-		{
-			foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>()) {
-				renderer.color = Color.red;
-			}
-		}
 	}
 }
