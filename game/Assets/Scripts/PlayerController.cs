@@ -247,7 +247,6 @@ public class PlayerController : MonoBehaviour {
 					yDashForce = yDashForce / (Mathf.Abs (xDashForce) + Mathf.Abs (yDashForce)) * dashSpeed;
 
 				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
-				Debug.Log ("dashForce: " + dashForce);
 				rigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
 			} else if (!wallJumping && !wallSliding && Mathf.Abs (hAxis) > 0.3) {//don't want to allow an immediate force back to the wall when wall jumping
 				if (grounded ||
@@ -418,12 +417,13 @@ public class PlayerController : MonoBehaviour {
 //			renderer.color = Color.red;
 //		}
 	}
-//
-//	void OnCollisionEnter2D(Collision2D collision)
-//	{
-//		if(collision.gameObject.tag == "lethal")
-//		{
-//			GetComponent<SpriteRenderer>().color = Color.red;
-//		}
-//	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		Debug.Log("collision: "+collision.gameObject.tag);
+		if(collision.gameObject.tag == "lethal")
+		{
+			GetComponent<SpriteRenderer>().color = Color.red;
+		}
+	}
 }
