@@ -421,9 +421,11 @@ public class PlayerController : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		Debug.Log("collision: "+collision.gameObject.tag);
-		if(collision.gameObject.tag == "lethal")
+		if (collision.gameObject.tag == "lethal")
 		{
-			GetComponent<SpriteRenderer>().color = Color.red;
+			foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>()) {
+				renderer.color = Color.red;
+			}
 		}
 	}
 }
