@@ -39,8 +39,9 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject grenadePrefab;
 	public GameObject throwingStarPrefab;
-	Vector2 grenadeDistance = new Vector2(.4f, .7f);
-	public float throwingForce;
+	Vector2 weaponDistance = new Vector2(.8f, .7f);
+	public float grenadeThrowingForce;
+	public float shurikenVelocity;
 
 	//targeting
 	public GameObject directionalTarget;
@@ -199,11 +200,10 @@ public class PlayerController : MonoBehaviour {
 				directionalTarget.SetActive (false);
 			}
 
-			if (targetDirection == Vector2.zero)
-				targetDirection = new Vector2 (facingRight ? 1 : -1, .5f);
-
 			if (playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade")) {
 				anim.SetBool ("PreparingThrow", true);
+				if (targetDirection == Vector2.zero)
+					targetDirection = new Vector2 (facingRight ? 1 : -1, .5f);
 
 				if (grounded) {//stop sliding when targeting
 					rigidbody2D.velocity = Vector2.zero;
@@ -263,15 +263,15 @@ public class PlayerController : MonoBehaviour {
 					shurikenSprites [shurikenCount - 1].enabled = false;
 					shurikenCount--;
 					throwShuriken (targetDirection);
-					targetDirection = Vector2.zero;
 				}
+				targetDirection = Vector2.zero;
 			} else if (playerInput.GetButtonUp ("Grenade")) {// if(Input.GetButtonDown("Grenade"))
 				if (grenadeCount > 0) {
 					grenadeSprites [grenadeCount - 1].enabled = false;
 					grenadeCount--;
 					throwGrenade (targetDirection);
-					targetDirection = Vector2.zero;
 				}
+				targetDirection = Vector2.zero;
 			}
 
 			if (playerInput.GetButtonDown ("Jump")) {
@@ -392,20 +392,57 @@ public class PlayerController : MonoBehaviour {
 	{
 		anim.SetTrigger ("Throwing");
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
-		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
-		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
-		grenade.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + .5f + (grenadeDistance.y * direction.y));
-		grenade.GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yForce));
+		float xForce = 0;
+		if(Mathf.Abs(hAxis) > .3f)
+			xForce = (facingRight)?grenadeThrowingForce:-grenadeThrowingForce;
+
+		float yForce = 0;
+		if(Mathf.Abs(vAxis) > .3f)
+		{
+			yForce = grenadeThrowingForce;
+		}
+		Vector2 force = new Vector2(xForce, yForce);
+		if(force == Vector2.zero)
+			force = new Vector2((facingRight)?grenadeThrowingForce:-grenadeThrowingForce, yForce);
+
+		grenade.transform.position = getWeaponPosition(direction);
+		grenade.GetComponent<Rigidbody2D>().AddForce(force);
 	}
 
 	void throwShuriken(Vector3 direction)
 	{
 		anim.SetTrigger ("Throwing");
 		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
-		float xForce = ((Mathf.Abs(hAxis) > .1f)?hAxis:(facingRight)?1f:-1f) * throwingForce;
-		float yForce = ((Mathf.Abs(vAxis) > .1f)?vAxis:0) * throwingForce; 
-		shuriken.transform.position = new Vector2(transform.position.x + (grenadeDistance.x * direction.x), transform.position.y + .5f + (grenadeDistance.y * direction.y));
-		shuriken.GetComponent<Rigidbody2D>().AddForce(new Vector2(xForce, yForce));
+		float xVelocity = 0;
+		if(Mathf.Abs(hAxis) > .3f)
+			xVelocity = (facingRight)?shurikenVelocity:-shurikenVelocity;
+
+		float yVelocity = 0;
+		if(Mathf.Abs(vAxis) > .3f)
+		{
+			yVelocity = shurikenVelocity;
+		}
+		Vector2 velocity = new Vector2(xVelocity, yVelocity);
+		if(velocity == Vector2.zero)
+			velocity = new Vector2((facingRight)?shurikenVelocity:-shurikenVelocity, yVelocity);
+
+		shuriken.transform.position = getWeaponPosition(direction);
+		Debug.Log("player position: "+transform.position);
+		Debug.Log("shuriken position: "+shuriken.transform.position);
+		Debug.Log("shuriken velocity: "+velocity);
+		shuriken.GetComponent<ShurikenController>().setVelocity(velocity);
+	}
+
+	Vector2 getWeaponPosition(Vector2 direction)
+	{
+		float xPosition = transform.position.x + (weaponDistance.x * direction.x);
+		float yPosition = transform.position.y + (weaponDistance.y * direction.y);
+		if(vAxis > 0.3f)
+			yPosition += weaponDistance.y;
+		else if(vAxis < -.3f)
+			yPosition -= weaponDistance.y;
+		
+		return new Vector2(xPosition, yPosition);
 	}
 
 	public void takeDamage()
