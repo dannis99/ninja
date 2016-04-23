@@ -219,7 +219,14 @@ public class PlayerController : MonoBehaviour {
 				setDirectionalTarget (targetDirection, Mathf.Atan2 (vAxis, Mathf.Abs (hAxis)) * Mathf.Rad2Deg);
 			} else if (playerInput.GetButtonDown ("Sword")) {
 				if (grounded) {
-					anim.SetBool ("Attack", true);
+					if(Mathf.Abs(hAxis) > .3f)
+					{
+						anim.SetTrigger("MovingSwordAttack");
+					}
+					else
+					{
+						anim.SetBool ("Attack", true);
+					}
 				} else {
 					anim.SetBool ("AirAttack", true);
 				}
