@@ -134,7 +134,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{
-		if (!dead) 
+		if (dead)
+		{
+			anim.SetTrigger ("Death");
+		}
+		else
 		{
 			hAxis = playerInput.GetAxis ("Move Horizontal");
 			vAxis = playerInput.GetAxis ("Move Vertical");
@@ -222,6 +226,7 @@ public class PlayerController : MonoBehaviour {
 				rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
+				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
 				if (grounded)
 					anim.SetBool ("Rolling", true);
 				else
@@ -309,6 +314,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("Dashing", false);
 			anim.SetBool("Rolling", false);
 			dashing = false;
+			gameObject.layer = LayerMask.NameToLayer("Character");
 			rigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
