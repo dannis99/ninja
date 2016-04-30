@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour {
 
 	public float maxSpeed;
 	public float attackThrustSpeed;
+	public float timeBetweenAttacks;
+	public float attackDuration;
+	float timeSinceAttack = 0f;
+	bool ableToAttack = true;
+
 	bool dashing;
 	bool ableToDash = true;
 	public float dashSpeed;
@@ -156,6 +161,14 @@ public class PlayerController : MonoBehaviour {
 			if (anim.GetBool ("AirAttack"))
 				anim.SetBool ("AirAttack", false);
 
+			if (timeSinceAttack <= (attackDuration + timeBetweenAttacks)) {
+				timeSinceAttack += Time.deltaTime;
+			}
+
+			if (!ableToAttack && timeSinceAttack >= (attackDuration + timeBetweenAttacks)) {
+				ableToAttack = true;
+			}
+
 			CheckAbilityToJump ();
 
 			CheckDash ();
@@ -211,17 +224,25 @@ public class PlayerController : MonoBehaviour {
 
 				if (grounded) {//stop sliding when targeting
 					rigidbody2D.velocity = Vector2.zero;
+					Debug.Log("changing velocity 1");
 				}
 
 				if (Mathf.Abs (hAxis) + Mathf.Abs (vAxis) > 1.0f) {
 					targetDirection = new Vector2 (hAxis, .5f + (vAxis / 2f));//setting y to a 0 to 1 range instead of -1 to 1
 				}
 				setDirectionalTarget (targetDirection, Mathf.Atan2 (vAxis, Mathf.Abs (hAxis)) * Mathf.Rad2Deg);
-			} else if (playerInput.GetButtonDown ("Sword")) {
+			} else if (playerInput.GetButtonDown ("Sword") && ableToAttack) {
+				ableToAttack = false;
+				timeSinceAttack = 0f;
 				if (grounded) {
 					if(Mathf.Abs(hAxis) > .3f)
 					{
-						anim.SetTrigger("MovingSwordAttack");
+						anim.SetTrigger("Attack");
+						dashing = true;
+						ableToDash = false;
+						timeSinceDash = 0f;
+						rigidbody2D.AddForce (new Vector2((facingRight)?dashSpeed:-dashSpeed, 0), ForceMode2D.Impulse);
+						Debug.Log("moving attack speed: "+new Vector2(dashSpeed, 0));
 					}
 					else
 					{
@@ -260,10 +281,12 @@ public class PlayerController : MonoBehaviour {
 
 				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
 				rigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
+				Debug.Log("moving attack speed: "+dashForce);
 			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
 				if (grounded || //walking or running
 				   (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
 					rigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, rigidbody2D.velocity.y);
+					Debug.Log("changing velocity 2");
 				} else { //adding force when in the air and moving in the same direction
 					rigidbody2D.AddForce (new Vector2 (hAxis * airMoveForce, rigidbody2D.velocity.y));
 				}
@@ -323,6 +346,7 @@ public class PlayerController : MonoBehaviour {
 			dashing = false;
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			rigidbody2D.velocity = Vector2.zero;//preDashVelocity;
+			Debug.Log("changing velocity 3");
 		}
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
@@ -335,6 +359,7 @@ public class PlayerController : MonoBehaviour {
 			grabbingLedge = true;
 			anim.SetBool ("LedgeGrab", true);
 			rigidbody2D.velocity = Vector2.zero;
+			Debug.Log("changing velocity 4");
 			rigidbody2D.gravityScale = 0f;
 		}
 		else
@@ -350,6 +375,7 @@ public class PlayerController : MonoBehaviour {
 		if (!grounded && touchingRightWall && rigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
 			rigidbody2D.gravityScale = 0.15f;
 			rigidbody2D.velocity = new Vector2 (0f, -1f);
+			Debug.Log("changing velocity 5");
 			wallSliding = true;
 			anim.SetBool ("WallSliding", true);
 		}
@@ -374,6 +400,7 @@ public class PlayerController : MonoBehaviour {
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
 		{
 			rigidbody2D.velocity = Vector2.zero;
+			Debug.Log("changing velocity 6");
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
 			rigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;
