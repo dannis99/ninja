@@ -5,22 +5,24 @@
 # http://www.codeandweb.com/texturepacker/unity
 #
 # Sprite sheet: ninjaParts.png (256 x 256)
-# $TexturePacker:SmartUpdate:9143ef727b4658dcd72891739f40ddc3:681db85850f11455ee27cfb4751f81c3:afe316a49f29c924237c45204946b105$
+# $TexturePacker:SmartUpdate:02e6f9151d46c8f18c5a1e5cf34955a6:a817185a56d439528c771734e0b5becf:afe316a49f29c924237c45204946b105$
 #
 
-ninjaBody_blue;18;76;48;58;0.5;0.5
-ninjaBody_green;18;16;48;58;0.5;0.5
-ninjaBody_red;68;76;48;58;0.5;0.5
-ninjaBody_yellow;68;16;48;58;0.5;0.5
-ninjaEyes;118;119;31;19;0.5;0.5
+ninjaBodyShield;18;76;48;58;0.5;0.5
+ninjaBody_blue;18;16;48;58;0.5;0.5
+ninjaBody_green;68;22;48;58;0.5;0.5
+ninjaBody_red;118;22;48;58;0.5;0.5
+ninjaBody_yellow;168;22;48;58;0.5;0.5
+ninjaEyes;68;115;31;19;0.5;0.5
 ninjaEyesClosed;2;2;29;3;0.5;0.5
 ninjaEyesSquinty;2;7;29;7;0.5;0.5
-ninjaEyesSurprised;151;120;29;18;0.5;0.5
-ninjaFoot;182;118;20;20;0.5;0.5
-ninjaHand;151;99;20;19;0.5;0.5
-ninjaHead_blue;116;198;67;56;0.5;0.5
-ninjaHead_green;185;198;67;56;0.5;0.5
-ninjaHead_red;116;140;67;56;0.5;0.5
-ninjaHead_yellow;185;140;67;56;0.5;0.5
+ninjaEyesSurprised;68;95;29;18;0.5;0.5
+ninjaFoot;218;118;20;20;0.5;0.5
+ninjaHand;185;119;20;19;0.5;0.5
+ninjaHeadShield;116;198;67;56;0.5;0.5
+ninjaHead_blue;185;198;67;56;0.5;0.5
+ninjaHead_green;116;140;67;56;0.5;0.5
+ninjaHead_red;185;140;67;56;0.5;0.5
+ninjaHead_yellow;116;82;67;56;0.5;0.5
 ninjaSword;2;16;14;118;0.5;0.5
 ninjaSwordSlashing;2;136;112;118;0.5;0.5

@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour {
 
 	bool dead;
 
+	public bool shielded;
+	public SpriteRenderer headShield;
+	public SpriteRenderer bodyShield;
+
 	public float maxSpeed;
 	public float attackThrustSpeed;
 	public float timeBetweenAttacks;
@@ -145,6 +149,20 @@ public class PlayerController : MonoBehaviour {
 		}
 		else
 		{
+			//checking shields
+			if(shielded)
+			{
+				headShield.enabled = true;
+				headShield.color = new Color(1f, 1f, 1f, .3f);
+				bodyShield.enabled = true;
+				bodyShield.color = new Color(1f, 1f, 1f, .3f);
+			}
+			else
+			{
+				headShield.enabled = false;
+				bodyShield.enabled = false;
+			}
+
 			hAxis = playerInput.GetAxis ("Move Horizontal");
 			vAxis = playerInput.GetAxis ("Move Vertical");
 			anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
@@ -242,7 +260,6 @@ public class PlayerController : MonoBehaviour {
 						ableToDash = false;
 						timeSinceDash = 0f;
 						rigidbody2D.AddForce (new Vector2((facingRight)?dashSpeed:-dashSpeed, 0), ForceMode2D.Impulse);
-						Debug.Log("moving attack speed: "+new Vector2(dashSpeed, 0));
 					}
 					else
 					{
@@ -487,7 +504,14 @@ public class PlayerController : MonoBehaviour {
 
 	public void takeDamage()
 	{
-		dead = true;
-		anim.SetTrigger ("Death");
+		if(shielded)
+		{
+			shielded = false;
+		}
+		else
+		{
+			dead = true;
+			anim.SetTrigger ("Death");
+		}
 	}
 }
