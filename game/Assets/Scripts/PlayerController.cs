@@ -153,9 +153,9 @@ public class PlayerController : MonoBehaviour {
 			if(shielded)
 			{
 				headShield.enabled = true;
-				headShield.color = new Color(1f, 1f, 1f, .3f);
+				headShield.color = new Color(1f, 1f, 1f, 1f);
 				bodyShield.enabled = true;
-				bodyShield.color = new Color(1f, 1f, 1f, .3f);
+				bodyShield.color = new Color(1f, 1f, 1f, 1f);
 			}
 			else
 			{
