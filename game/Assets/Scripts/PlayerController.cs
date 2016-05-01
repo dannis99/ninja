@@ -4,6 +4,8 @@ using Rewired;
 
 public class PlayerController : MonoBehaviour {
 
+	ShieldController shieldController;
+
 	Player playerInput;
 	public int playerId = 0;
 	public string playerColor;
@@ -19,10 +21,6 @@ public class PlayerController : MonoBehaviour {
 	public Sprite yellowBody;
 
 	bool dead;
-
-	public bool shielded;
-	public SpriteRenderer headShield;
-	public SpriteRenderer bodyShield;
 
 	public float maxSpeed;
 	public float attackThrustSpeed;
@@ -100,9 +98,9 @@ public class PlayerController : MonoBehaviour {
 	void Awake()
 	{
 		playerInput = ReInput.players.GetPlayer(playerId);
-	}
 
-	void Start () {
+		shieldController = GetComponent<ShieldController> ();
+
 		rigidbody2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
 
@@ -110,22 +108,34 @@ public class PlayerController : MonoBehaviour {
 		{
 			bodyRenderer.sprite = redBody;
 			headRenderer.sprite = redHead;
+			shieldController.firstColor = new Color (0f, .78f, .6f, 1f);
+			shieldController.secondColor = new Color (0f, .78f, .6f, .3f);
 		}
 		else if(playerColor == "blue")
 		{
 			bodyRenderer.sprite = blueBody;
 			headRenderer.sprite = blueHead;
+			shieldController.firstColor = new Color (.78f, .6f, 0f, 1f);
+			shieldController.secondColor = new Color (.78f, .6f, 0f, .3f);
 		}
 		else if(playerColor == "green")
 		{
 			bodyRenderer.sprite = greenBody;
 			headRenderer.sprite = greenHead;
+			shieldController.firstColor = new Color (.78f, 0f, .6f, 1f);
+			shieldController.secondColor = new Color (.78f, 0f, .6f, .3f);
 		}
 		else if(playerColor == "yellow")
 		{
 			bodyRenderer.sprite = yellowBody;
 			headRenderer.sprite = yellowHead;
+			shieldController.firstColor = new Color (0f, .7f, .2f, 1f);
+			shieldController.secondColor = new Color (0f, .7f, .2f, .3f);
 		}
+	}
+
+	void Start () {
+		
 	}
 	
 	void FixedUpdate () {
@@ -149,20 +159,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		else
 		{
-			//checking shields
-			if(shielded)
-			{
-				headShield.enabled = true;
-				headShield.color = new Color(1f, 1f, 1f, 1f);
-				bodyShield.enabled = true;
-				bodyShield.color = new Color(1f, 1f, 1f, 1f);
-			}
-			else
-			{
-				headShield.enabled = false;
-				bodyShield.enabled = false;
-			}
-
 			hAxis = playerInput.GetAxis ("Move Horizontal");
 			vAxis = playerInput.GetAxis ("Move Vertical");
 			anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
@@ -504,9 +500,9 @@ public class PlayerController : MonoBehaviour {
 
 	public void takeDamage()
 	{
-		if(shielded)
+		if(shieldController.shielded)
 		{
-			shielded = false;
+			shieldController.shielded = false;
 		}
 		else
 		{
