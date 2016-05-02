@@ -101,15 +101,12 @@ public class PlayerController : MonoBehaviour {
 
 		shieldController = GetComponent<ShieldController> ();
 
-		rigidbody2D = GetComponent<Rigidbody2D>();
-		anim = GetComponent<Animator>();
-
 		if(playerColor == "red")
 		{
 			bodyRenderer.sprite = redBody;
 			headRenderer.sprite = redHead;
-			shieldController.firstColor = new Color (0f, .78f, .6f, 1f);
-			shieldController.secondColor = new Color (0f, .78f, .6f, .3f);
+			shieldController.firstColor = new Color (0f, .78f, .6f, .7f);
+			shieldController.secondColor = new Color (0f, .78f, .6f, 0f);
 		}
 		else if(playerColor == "blue")
 		{
@@ -122,20 +119,21 @@ public class PlayerController : MonoBehaviour {
 		{
 			bodyRenderer.sprite = greenBody;
 			headRenderer.sprite = greenHead;
-			shieldController.firstColor = new Color (.78f, 0f, .6f, 1f);
-			shieldController.secondColor = new Color (.78f, 0f, .6f, .3f);
+			shieldController.firstColor = new Color (.78f, 0f, .6f, .7f);
+			shieldController.secondColor = new Color (.78f, 0f, .6f, 0f);
 		}
 		else if(playerColor == "yellow")
 		{
 			bodyRenderer.sprite = yellowBody;
 			headRenderer.sprite = yellowHead;
-			shieldController.firstColor = new Color (0f, .7f, .2f, 1f);
-			shieldController.secondColor = new Color (0f, .7f, .2f, .3f);
+			shieldController.firstColor = new Color (0f, .7f, .2f, .7f);
+			shieldController.secondColor = new Color (0f, .7f, .2f, 0f);
 		}
 	}
 
 	void Start () {
-		
+		rigidbody2D = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 	}
 	
 	void FixedUpdate () {
@@ -198,11 +196,13 @@ public class PlayerController : MonoBehaviour {
 			// Fall faster while holding down
 			if (!grounded && !wallSliding && vAxis < -0.5f) {
 				rigidbody2D.gravityScale = 2f;
+				Debug.Log("setting gravity in fall");
 				if (playerInput.GetButton ("Sword")) {
 					anim.SetBool ("DownAttack", true);
 				}
 			} else {
 				rigidbody2D.gravityScale = 1f;
+				Debug.Log("setting gravity back from fall");
 				anim.SetBool ("DownAttack", false);
 			}
 
@@ -238,7 +238,6 @@ public class PlayerController : MonoBehaviour {
 
 				if (grounded) {//stop sliding when targeting
 					rigidbody2D.velocity = Vector2.zero;
-					Debug.Log("changing velocity 1");
 				}
 
 				if (Mathf.Abs (hAxis) + Mathf.Abs (vAxis) > 1.0f) {
@@ -294,12 +293,10 @@ public class PlayerController : MonoBehaviour {
 
 				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
 				rigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
-				Debug.Log("moving attack speed: "+dashForce);
 			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
 				if (grounded || //walking or running
 				   (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
 					rigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, rigidbody2D.velocity.y);
-					Debug.Log("changing velocity 2");
 				} else { //adding force when in the air and moving in the same direction
 					rigidbody2D.AddForce (new Vector2 (hAxis * airMoveForce, rigidbody2D.velocity.y));
 				}
@@ -359,7 +356,6 @@ public class PlayerController : MonoBehaviour {
 			dashing = false;
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			rigidbody2D.velocity = Vector2.zero;//preDashVelocity;
-			Debug.Log("changing velocity 3");
 		}
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
@@ -372,14 +368,15 @@ public class PlayerController : MonoBehaviour {
 			grabbingLedge = true;
 			anim.SetBool ("LedgeGrab", true);
 			rigidbody2D.velocity = Vector2.zero;
-			Debug.Log("changing velocity 4");
 			rigidbody2D.gravityScale = 0f;
+			Debug.Log("setting gravity in check ledge");
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
 				anim.SetBool ("LedgeGrab", false);
 				rigidbody2D.gravityScale = 1f;
+				Debug.Log("setting gravity in check ledge 2");
 			}
 	}
 
@@ -387,8 +384,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (!grounded && touchingRightWall && rigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
 			rigidbody2D.gravityScale = 0.15f;
+			Debug.Log("setting gravity in wall slide");
 			rigidbody2D.velocity = new Vector2 (0f, -1f);
-			Debug.Log("changing velocity 5");
 			wallSliding = true;
 			anim.SetBool ("WallSliding", true);
 		}
@@ -413,7 +410,6 @@ public class PlayerController : MonoBehaviour {
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
 		{
 			rigidbody2D.velocity = Vector2.zero;
-			Debug.Log("changing velocity 6");
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
 			rigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;
@@ -508,6 +504,11 @@ public class PlayerController : MonoBehaviour {
 		{
 			dead = true;
 			anim.SetTrigger ("Death");
+			gameObject.layer = LayerMask.NameToLayer("Dodging Character");
+			foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+			{
+				renderer.sortingOrder += 1000;
+			}
 		}
 	}
 }
