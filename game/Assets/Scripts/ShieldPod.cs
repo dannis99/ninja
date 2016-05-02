@@ -25,38 +25,45 @@ public class ShieldPod : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(movingToEnd && bar.transform.position != endPosition)
+		if(movingToEnd && bar.transform.localPosition != endPosition)
 		{
-			bar.transform.position = Vector3.Lerp(startPosition, endPosition, t);
+			t += Time.deltaTime;
+			Debug.Log ("t: " + t);
+			bar.transform.localPosition = Vector3.Lerp(startPosition, endPosition, t);
+			Debug.Log ("position: " + bar.transform.localPosition);
 		}
-		else if(!movingToEnd && bar.transform.position != startPosition)
+		else if(!movingToEnd && bar.transform.localPosition != startPosition)
 		{
-			bar.transform.position = Vector3.Lerp(endPosition, startPosition, t);
+			t += Time.deltaTime;
+			bar.transform.localPosition = Vector3.Lerp(endPosition, startPosition, t);
 		}
 
-		if(bar.transform.position == endPosition)
+		if(bar.transform.localPosition == endPosition)
 		{
 			movingToEnd = false;
 			t = 0;
 		}
-		else if(bar.transform.position == startPosition)
+		else if(bar.transform.localPosition == startPosition)
 		{
 			t = 0;
-		}
-		else
-		{
-			t += Time.deltaTime;
+			if (player != null && !player.shieldController.shielded)
+			{
+				player.shieldController.shielded = true;
+			}
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		if(collider.gameObject.tag == "player" && !player.shieldController.shielded)
+		if(collider.gameObject.tag == "player")
 		{
-			podLight.color = Color.green;
-			playerInPod = true;
 			player = collider.gameObject.GetComponent<PlayerController>();
-			movingToEnd = true;
+			if (!player.shieldController.shielded) 
+			{
+				podLight.color = Color.green;
+				playerInPod = true;
+				movingToEnd = true;
+			}
 		}
 	}
 
