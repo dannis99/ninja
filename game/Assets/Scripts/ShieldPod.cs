@@ -49,6 +49,7 @@ public class ShieldPod : MonoBehaviour {
 			if (player != null && !player.shieldController.shielded)
 			{
 				player.shieldController.shielded = true;
+				podLight.color = Color.red;
 			}
 		}
 	}
