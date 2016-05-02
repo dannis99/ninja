@@ -22,6 +22,11 @@ TextureImporter:
     21300030: ninjaSwordSlashing
     21300032: ninjaBodyShield
     21300034: ninjaHeadShield
+    21300036: shieldPodBar
+    21300038: shieldPodFloor
+    21300040: shieldPodGlass
+    21300042: shieldPodLight
+    21300044: shieldPodTop
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -71,8 +76,8 @@ TextureImporter:
     - name: ninjaBodyShield
       rect:
         serializedVersion: 2
-        x: 18
-        y: 76
+        x: 206
+        y: 452
         width: 48
         height: 58
       alignment: 0
@@ -90,8 +95,8 @@ TextureImporter:
     - name: ninjaBody_blue
       rect:
         serializedVersion: 2
-        x: 18
-        y: 16
+        x: 206
+        y: 392
         width: 48
         height: 58
       alignment: 0
@@ -108,8 +113,8 @@ TextureImporter:
     - name: ninjaBody_green
       rect:
         serializedVersion: 2
-        x: 68
-        y: 22
+        x: 200
+        y: 332
         width: 48
         height: 58
       alignment: 0
@@ -126,8 +131,8 @@ TextureImporter:
     - name: ninjaBody_red
       rect:
         serializedVersion: 2
-        x: 118
-        y: 22
+        x: 200
+        y: 272
         width: 48
         height: 58
       alignment: 0
@@ -144,8 +149,8 @@ TextureImporter:
     - name: ninjaBody_yellow
       rect:
         serializedVersion: 2
-        x: 168
-        y: 22
+        x: 180
+        y: 154
         width: 48
         height: 58
       alignment: 0
@@ -162,8 +167,8 @@ TextureImporter:
     - name: ninjaEyes
       rect:
         serializedVersion: 2
-        x: 68
-        y: 115
+        x: 71
+        y: 371
         width: 31
         height: 19
       alignment: 0
@@ -173,8 +178,8 @@ TextureImporter:
     - name: ninjaEyesClosed
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
+        x: 71
+        y: 337
         width: 29
         height: 3
       alignment: 0
@@ -184,8 +189,8 @@ TextureImporter:
     - name: ninjaEyesSquinty
       rect:
         serializedVersion: 2
-        x: 2
-        y: 7
+        x: 71
+        y: 342
         width: 29
         height: 7
       alignment: 0
@@ -195,8 +200,8 @@ TextureImporter:
     - name: ninjaEyesSurprised
       rect:
         serializedVersion: 2
-        x: 68
-        y: 95
+        x: 71
+        y: 351
         width: 29
         height: 18
       alignment: 0
@@ -206,8 +211,8 @@ TextureImporter:
     - name: ninjaFoot
       rect:
         serializedVersion: 2
-        x: 218
-        y: 118
+        x: 71
+        y: 305
         width: 20
         height: 20
       alignment: 0
@@ -217,8 +222,8 @@ TextureImporter:
     - name: ninjaHand
       rect:
         serializedVersion: 2
-        x: 185
-        y: 119
+        x: 71
+        y: 284
         width: 20
         height: 19
       alignment: 0
@@ -228,8 +233,8 @@ TextureImporter:
     - name: ninjaHeadShield
       rect:
         serializedVersion: 2
-        x: 116
-        y: 198
+        x: 2
+        y: 334
         width: 67
         height: 56
       alignment: 9
@@ -247,8 +252,8 @@ TextureImporter:
     - name: ninjaHead_blue
       rect:
         serializedVersion: 2
-        x: 185
-        y: 198
+        x: 2
+        y: 276
         width: 67
         height: 56
       alignment: 9
@@ -264,8 +269,8 @@ TextureImporter:
     - name: ninjaHead_green
       rect:
         serializedVersion: 2
-        x: 116
-        y: 140
+        x: 111
+        y: 258
         width: 67
         height: 56
       alignment: 9
@@ -281,8 +286,8 @@ TextureImporter:
     - name: ninjaHead_red
       rect:
         serializedVersion: 2
-        x: 185
-        y: 140
+        x: 180
+        y: 214
         width: 67
         height: 56
       alignment: 9
@@ -298,8 +303,8 @@ TextureImporter:
     - name: ninjaHead_yellow
       rect:
         serializedVersion: 2
-        x: 116
-        y: 82
+        x: 111
+        y: 200
         width: 67
         height: 56
       alignment: 9
@@ -315,8 +320,8 @@ TextureImporter:
     - name: ninjaSword
       rect:
         serializedVersion: 2
-        x: 2
-        y: 16
+        x: 95
+        y: 217
         width: 14
         height: 118
       alignment: 9
@@ -327,7 +332,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 136
+        y: 392
         width: 112
         height: 118
       alignment: 9
@@ -341,6 +346,65 @@ TextureImporter:
         - {x: -14, y: -13.306122}
         - {x: 9, y: -13.306122}
         - {x: 9, y: 104.69388}
+    - name: shieldPodBar
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 450
+        width: 88
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: shieldPodFloor
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 487
+        width: 88
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: shieldPodGlass
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 316
+        width: 82
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 66}
+        - {x: -41, y: -66}
+        - {x: 41, y: -66}
+        - {x: 41, y: 66}
+    - name: shieldPodLight
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 327
+        width: 22
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: shieldPodTop
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 462
+        width: 88
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     outline: []
   spritePackingTag: 
   userData: 

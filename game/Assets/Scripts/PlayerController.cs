@@ -4,7 +4,7 @@ using Rewired;
 
 public class PlayerController : MonoBehaviour {
 
-	ShieldController shieldController;
+	public ShieldController shieldController;
 
 	Player playerInput;
 	public int playerId = 0;
