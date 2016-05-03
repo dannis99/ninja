@@ -16,6 +16,7 @@ public class ShieldPod : MonoBehaviour {
 
 	bool movingToEnd;
 	bool playerInPod;
+	bool canShield;
 	float t;
 
 	// Use this for initialization
@@ -40,16 +41,18 @@ public class ShieldPod : MonoBehaviour {
 
 		if(bar.transform.localPosition == endPosition)
 		{
+			canShield = true;
 			movingToEnd = false;
 			t = 0;
 		}
 		else if(bar.transform.localPosition == startPosition)
 		{
 			t = 0;
-			if (player != null && !player.shieldController.shielded)
+			if (canShield && player != null && !player.shieldController.shielded)
 			{
 				player.shieldController.shielded = true;
-				podLight.color = Color.red;
+				podLight.color = Color.green;
+				canShield = false;
 			}
 		}
 	}
@@ -61,7 +64,7 @@ public class ShieldPod : MonoBehaviour {
 			player = collider.gameObject.GetComponent<PlayerController>();
 			if (!player.shieldController.shielded) 
 			{
-				podLight.color = Color.green;
+				podLight.color = Color.yellow;
 				playerInPod = true;
 				movingToEnd = true;
 			}
@@ -81,9 +84,10 @@ public class ShieldPod : MonoBehaviour {
 		if(collider.gameObject.tag == "player")
 		{
 			playerInPod = false;
-			podLight.color = Color.red;
+			podLight.color = Color.green;
 			movingToEnd = false;
 			t = 0;
+			canShield = false;
 		}
 	}
 }

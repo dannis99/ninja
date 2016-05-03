@@ -196,13 +196,13 @@ public class PlayerController : MonoBehaviour {
 			// Fall faster while holding down
 			if (!grounded && !wallSliding && vAxis < -0.5f) {
 				rigidbody2D.gravityScale = 2f;
-				//Debug.Log("setting gravity in fall");
+				////Debug.Log("setting gravity in fall");
 				if (playerInput.GetButton ("Sword")) {
 					anim.SetBool ("DownAttack", true);
 				}
 			} else {
 				rigidbody2D.gravityScale = 1f;
-				//Debug.Log("setting gravity back from fall");
+				////Debug.Log("setting gravity back from fall");
 				anim.SetBool ("DownAttack", false);
 			}
 
@@ -369,14 +369,14 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("LedgeGrab", true);
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.gravityScale = 0f;
-			//Debug.Log("setting gravity in check ledge");
+			////Debug.Log("setting gravity in check ledge");
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
 				anim.SetBool ("LedgeGrab", false);
 				rigidbody2D.gravityScale = 1f;
-				//Debug.Log("setting gravity in check ledge 2");
+				////Debug.Log("setting gravity in check ledge 2");
 			}
 	}
 
@@ -384,7 +384,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (!grounded && touchingRightWall && rigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
 			rigidbody2D.gravityScale = 0.15f;
-			//Debug.Log("setting gravity in wall slide");
+			////Debug.Log("setting gravity in wall slide");
 			rigidbody2D.velocity = new Vector2 (0f, -1f);
 			wallSliding = true;
 			anim.SetBool ("WallSliding", true);
@@ -476,9 +476,9 @@ public class PlayerController : MonoBehaviour {
 			velocity = new Vector2((facingRight)?shurikenVelocity:-shurikenVelocity, yVelocity);
 
 		shuriken.transform.position = getWeaponPosition(direction);
-		//Debug.Log("player position: "+transform.position);
-		//Debug.Log("shuriken position: "+shuriken.transform.position);
-		//Debug.Log("shuriken velocity: "+velocity);
+		////Debug.Log("player position: "+transform.position);
+		////Debug.Log("shuriken position: "+shuriken.transform.position);
+		////Debug.Log("shuriken velocity: "+velocity);
 		shuriken.GetComponent<ShurikenController>().setVelocity(velocity);
 	}
 
@@ -499,9 +499,11 @@ public class PlayerController : MonoBehaviour {
 		if(shieldController.shielded)
 		{
 			shieldController.shielded = false;
+			Debug.Log("removing shield");
 		}
 		else
 		{
+			Debug.Log("dead");
 			dead = true;
 			anim.SetTrigger ("Death");
 			gameObject.layer = LayerMask.NameToLayer("Dodging Character");
