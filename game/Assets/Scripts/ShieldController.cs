@@ -14,10 +14,16 @@ public class ShieldController : MonoBehaviour {
 	bool movingToFirst;
 	float t;
 
+	float tScale;
+	Color scaledColor;
+	Vector3 startScale = new Vector3(1.0f, 1.0f, 1.0f);
+	Vector3 endScale = new Vector3(2.0f, 2.0f, 1.0f);
+
 	// Use this for initialization
 	void Start () {
 		headShield.color = secondColor;
 		bodyShield.color = secondColor;
+		scaledColor = new Color(firstColor.r, firstColor.g, firstColor.b, 0f);
 	}
 	
 	// Update is called once per frame
@@ -27,6 +33,8 @@ public class ShieldController : MonoBehaviour {
 		{
 			headShield.enabled = true;
 			bodyShield.enabled = true;
+			headShield.transform.localScale = startScale;
+			bodyShield.transform.localScale = startScale;
 
 			if (headShield.color == firstColor && movingToFirst) 
 			{
@@ -49,8 +57,20 @@ public class ShieldController : MonoBehaviour {
 		}
 		else
 		{
-			headShield.enabled = false;
-			bodyShield.enabled = false;
+			if(headShield.transform.localScale != endScale)
+			{
+				tScale += Time.deltaTime;
+				headShield.transform.localScale = Vector3.Lerp(startScale, endScale, tScale);
+				bodyShield.transform.localScale = Vector3.Lerp(startScale, endScale, tScale);
+				headShield.color = Color.Lerp(firstColor,scaledColor, tScale);
+				bodyShield.color = Color.Lerp(firstColor,scaledColor, tScale);
+			}
+			else
+			{
+				tScale = 0;
+				headShield.enabled = false;
+				bodyShield.enabled = false;
+			}
 		}
 	}
 }
