@@ -7,7 +7,7 @@ public class SwordController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("creating sword");
+		
 	}
 	
 	// Update is called once per frame

@@ -95,11 +95,12 @@ public class PlayerController : MonoBehaviour {
 	int grenadeCount = 3;
 	int shurikenCount = 3;
 
+	//particleEffects
+	public ParticleSystem slideSmoke;
+
 	void Awake()
 	{
 		playerInput = ReInput.players.GetPlayer(playerId);
-
-		shieldController = GetComponent<ShieldController> ();
 
 		if(playerColor == "red")
 		{
@@ -387,11 +388,16 @@ public class PlayerController : MonoBehaviour {
 			////Debug.Log("setting gravity in wall slide");
 			rigidbody2D.velocity = new Vector2 (0f, -1f);
 			wallSliding = true;
+
 			anim.SetBool ("WallSliding", true);
+			if(!slideSmoke.isPlaying)
+				slideSmoke.Play();
 		}
 		else {
 			wallSliding = false;
 			anim.SetBool ("WallSliding", false);
+			if(slideSmoke.isPlaying)
+				slideSmoke.Stop();
 		}
 	}
 
