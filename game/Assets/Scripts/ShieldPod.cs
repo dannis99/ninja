@@ -86,7 +86,7 @@ public class ShieldPod : MonoBehaviour {
 			playerInPod = false;
 			podLight.color = Color.green;
 			movingToEnd = false;
-			t = 0;
+			t = 1f - t;
 			canShield = false;
 		}
 	}
