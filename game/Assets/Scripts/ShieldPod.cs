@@ -5,6 +5,11 @@ public class ShieldPod : MonoBehaviour {
 
 	public SpriteRenderer podLight;
 	public GameObject bar;
+	public Collider2D podCollider;
+	public SpriteRenderer glassRenderer;
+	public Sprite[] glassSprites;
+	public ParticleSystem[] smokeParticleSystems;
+	public Animator anim;
 
 	PlayerController player;
 
@@ -18,6 +23,7 @@ public class ShieldPod : MonoBehaviour {
 	bool playerInPod;
 	bool canShield;
 	float t;
+	int damageCount = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +63,31 @@ public class ShieldPod : MonoBehaviour {
 		}
 	}
 
+	public void takeDamage()
+	{
+		damageCount++;
+		glassRenderer.sprite = glassSprites[damageCount];
+		if(damageCount == 2)
+		{
+			foreach(ParticleSystem smoke in smokeParticleSystems)
+			{
+				if(!smoke.isPlaying)
+					smoke.Play();
+			}
+		}
+		else if(damageCount == 3)
+		{
+			foreach(ParticleSystem smoke in smokeParticleSystems)
+			{
+				if(smoke.isPlaying)
+					smoke.Stop();
+			}
+			podCollider.enabled = false;
+			anim.SetTrigger("broken");
+			podLight.color = Color.red;
+		}
+	}
+
 	void OnTriggerEnter2D(Collider2D collider)
 	{
 		if(collider.gameObject.tag == "player")
@@ -68,6 +99,10 @@ public class ShieldPod : MonoBehaviour {
 				playerInPod = true;
 				movingToEnd = true;
 			}
+		}
+		else if(collider.gameObject.tag == "lethal")
+		{
+			takeDamage();
 		}
 	}
 

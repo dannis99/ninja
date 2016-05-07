@@ -519,4 +519,9 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D collider)
+	{
+		Debug.Log("player collision: "+collider.gameObject.tag);
+	}
 }
