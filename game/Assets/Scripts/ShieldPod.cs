@@ -11,6 +11,10 @@ public class ShieldPod : MonoBehaviour {
 	public ParticleSystem[] smokeParticleSystems;
 	public Animator anim;
 
+	public float timeBetweenDamage;
+	float timeSinceDamage;
+	bool canTakeDamage = true;
+
 	PlayerController player;
 
 	Vector3 startPosition = new Vector3(0f, -0.67f, 0f);
@@ -61,11 +65,21 @@ public class ShieldPod : MonoBehaviour {
 				canShield = false;
 			}
 		}
+
+		if(!canTakeDamage)
+		{
+			timeSinceDamage += Time.deltaTime;
+			if(timeSinceDamage > timeBetweenDamage)
+			{
+				canTakeDamage = true;
+			}
+		}
 	}
 
 	public void takeDamage()
 	{
 		damageCount++;
+		timeSinceDamage = 0;
 		glassRenderer.sprite = glassSprites[damageCount];
 		if(damageCount == 2)
 		{
@@ -102,7 +116,8 @@ public class ShieldPod : MonoBehaviour {
 		}
 		else if(collider.gameObject.tag == "lethal")
 		{
-			takeDamage();
+			if(canTakeDamage)
+				takeDamage();
 		}
 	}
 
