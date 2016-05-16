@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.9.2</string>
         <key>fileName</key>
-        <string>/Users/dannis/dev/ninja/art/characters/ninjaParts.tps</string>
+        <string>/Users/dannis/dev/ninja/art/maps/mapParts.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -190,7 +190,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>ninjaSprites</filename>
+            <filename>../characters/ninjaSprites</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

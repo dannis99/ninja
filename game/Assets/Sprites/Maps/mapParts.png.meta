@@ -1,0 +1,268 @@
+fileFormatVersion: 2
+guid: 236517ed6e9314276aa668037b982272
+timeCreated: 1462910602
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: groundBackground
+    21300002: groundBorderLowerCenter
+    21300004: groundBorderLowerLeft
+    21300006: groundBorderLowerRight
+    21300008: groundBorderUpperCenter
+    21300010: groundBorderUpperLeft
+    21300012: groundBorderUpperRight
+    21300014: spaceshipGround1
+    21300016: spaceshipGround2
+    21300018: spaceshipGround3
+    21300020: spaceshipGround4
+    21300022: spaceshipGround5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: groundBackground
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 204
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 25}
+        - {x: -25, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: 25}
+    - name: groundBorderLowerCenter
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 152
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: -19}
+        - {x: -25, y: -19}
+    - name: groundBorderLowerLeft
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 100
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 25}
+        - {x: -25, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: -19}
+        - {x: -19, y: 25}
+    - name: groundBorderLowerRight
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 48
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 19, y: 25}
+        - {x: -25, y: -19}
+        - {x: -25, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: 25}
+    - name: groundBorderUpperCenter
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 204
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 25}
+        - {x: -25, y: 19}
+        - {x: 25, y: 19}
+        - {x: 25, y: 25}
+    - name: groundBorderUpperLeft
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 204
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 25}
+        - {x: -25, y: -25}
+        - {x: -19, y: -25}
+        - {x: 25, y: 19}
+        - {x: 25, y: 25}
+    - name: groundBorderUpperRight
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 204
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 25}
+        - {x: -25, y: 19}
+        - {x: 19, y: -25}
+        - {x: 25, y: -25}
+        - {x: 25, y: 25}
+    - name: spaceshipGround1
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 152
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 0}
+        - {x: 17, y: 23}
+        - {x: -23, y: 23}
+        - {x: -23, y: -22}
+        - {x: -20, y: -25}
+        - {x: 24, y: -25}
+        - {x: 24, y: 23}
+        - {x: 19, y: 23}
+        - {x: 17, y: 21}
+    - name: spaceshipGround2
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 100
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: -25}
+        - {x: 20, y: -25}
+        - {x: 20, y: 23}
+        - {x: -17, y: 23}
+    - name: spaceshipGround3
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 48
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 23}
+        - {x: -24, y: 14}
+        - {x: -24, y: -23}
+        - {x: 9, y: -23}
+        - {x: 24, y: -16}
+        - {x: 24, y: 23}
+    - name: spaceshipGround4
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 152
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 23}
+        - {x: -20, y: -21}
+        - {x: 0, y: -21}
+        - {x: 10, y: -16}
+        - {x: 20, y: -9}
+        - {x: 20, y: 11}
+        - {x: 17, y: 23}
+    - name: spaceshipGround5
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 152
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 23}
+        - {x: -20, y: -14}
+        - {x: -14, y: -16}
+        - {x: -6, y: -13}
+        - {x: 3, y: -19}
+        - {x: 13, y: -25}
+        - {x: 19, y: -25}
+        - {x: 19, y: 22}
+        - {x: 17, y: 23}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

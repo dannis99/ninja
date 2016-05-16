@@ -24,7 +24,6 @@ public class ShieldPod : MonoBehaviour {
 	Vector3 toPosition;
 
 	bool movingToEnd;
-	bool playerInPod;
 	bool canShield;
 	float t;
 	int damageCount = 0;
@@ -104,13 +103,13 @@ public class ShieldPod : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
+		Debug.Log("collided :"+collider.gameObject.tag);
 		if(collider.gameObject.tag == "player")
 		{
 			player = collider.gameObject.GetComponent<PlayerController>();
 			if (!player.shieldController.shielded) 
 			{
 				podLight.color = Color.yellow;
-				playerInPod = true;
 				movingToEnd = true;
 			}
 		}
@@ -133,7 +132,6 @@ public class ShieldPod : MonoBehaviour {
 	{
 		if(collider.gameObject.tag == "player")
 		{
-			playerInPod = false;
 			podLight.color = Color.green;
 			movingToEnd = false;
 			t = 1f - t;

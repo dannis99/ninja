@@ -1,0 +1,22 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# Sprite sheet: mapParts.png (256 x 256)
+# $TexturePacker:SmartUpdate:93a34d586aebad2f9635cc8487fb5d0b:9b72d9aa0143fd765b83f2571f9c66ce:5d0f7d4628ee7f5f6de3339d6ff14581$
+#
+
+groundBackground;2;204;50;50;0.5;0.5
+groundBorderLowerCenter;2;152;50;50;0.5;0.5
+groundBorderLowerLeft;2;100;50;50;0.5;0.5
+groundBorderLowerRight;2;48;50;50;0.5;0.5
+groundBorderUpperCenter;54;204;50;50;0.5;0.5
+groundBorderUpperLeft;106;204;50;50;0.5;0.5
+groundBorderUpperRight;158;204;50;50;0.5;0.5
+spaceshipGround1;54;152;50;50;0.5;0.5
+spaceshipGround2;54;100;50;50;0.5;0.5
+spaceshipGround3;54;48;50;50;0.5;0.5
+spaceshipGround4;106;152;50;50;0.5;0.5
+spaceshipGround5;158;152;50;50;0.5;0.5

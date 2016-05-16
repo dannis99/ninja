@@ -2,10 +2,13 @@ version: 2
 importPivots: 0
 tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
+- Assets/Sprites/Maps/mapParts.tpsheet
 - Assets/Sprites/Ninja/ninjaParts.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
+- Assets/Sprites/Maps/mapParts.png
 - Assets/Sprites/Ninja/ninjaParts.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
 - 
