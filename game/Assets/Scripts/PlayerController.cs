@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour {
 						dashing = true;
 						ableToDash = false;
 						timeSinceDash = 0f;
-						rigidbody2D.AddForce (new Vector2((facingRight)?dashSpeed:-dashSpeed, 0), ForceMode2D.Impulse);
+						rigidbody2D.AddForce (new Vector2((facingRight)?attackThrustSpeed:-attackThrustSpeed, 0), ForceMode2D.Impulse);
 					}
 					else
 					{
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour {
 				} else {
 					anim.SetBool ("AirAttack", true);
 				}
-				rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
+				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
 				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
@@ -505,11 +505,9 @@ public class PlayerController : MonoBehaviour {
 		if(shieldController.shielded)
 		{
 			shieldController.shielded = false;
-			Debug.Log("removing shield");
 		}
 		else
 		{
-			Debug.Log("dead");
 			dead = true;
 			anim.SetTrigger ("Death");
 			gameObject.layer = LayerMask.NameToLayer("Dodging Character");
@@ -518,10 +516,5 @@ public class PlayerController : MonoBehaviour {
 				renderer.sortingOrder += 1000;
 			}
 		}
-	}
-
-	void OnTriggerEnter2D(Collider2D collider)
-	{
-		Debug.Log("player collision: "+collider.gameObject.tag);
 	}
 }
