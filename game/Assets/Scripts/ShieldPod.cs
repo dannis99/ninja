@@ -79,6 +79,7 @@ public class ShieldPod : MonoBehaviour {
 	{
 		damageCount++;
 		timeSinceDamage = 0;
+		canTakeDamage = false;
 		glassRenderer.sprite = glassSprites[damageCount];
 		if(damageCount == 2)
 		{
