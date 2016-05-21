@@ -422,7 +422,7 @@ public class PlayerController : MonoBehaviour {
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
 			if(grabbingLedge)
 			{
-				force = new Vector2(force.x*2f, force.y*1.2f);
+				force = new Vector2(force.x*1.5f, force.y*1.1f);
 			}
 			playerRigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;

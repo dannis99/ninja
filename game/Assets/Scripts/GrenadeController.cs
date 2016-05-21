@@ -7,6 +7,7 @@ public class GrenadeController : MonoBehaviour {
 	public CircleCollider2D grenadeCollider;
 	public SpriteRenderer renderer;
 	public ParticleSystem particleSystem;
+	public Light grenadeLight;
 	public int secondsToExplosion;
 	public float explosionRadius;
 	public int explosionDuration;
@@ -20,6 +21,7 @@ public class GrenadeController : MonoBehaviour {
 	void Explode () {
 		particleSystem.Play();
 		renderer.enabled = false;
+		grenadeLight.color = Color.black;
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		Vector3 explosionPos = transform.position;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, explosionRadius, 1 << LayerMask.NameToLayer("Character"));
