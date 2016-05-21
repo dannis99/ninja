@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 	float vAxis;
 	
 	Animator anim;
-	new Rigidbody2D rigidbody2D;
+	Rigidbody2D playerRigidbody2D;
 
 	public GameObject grenadePrefab;
 	public GameObject throwingStarPrefab;
@@ -133,7 +133,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
-		rigidbody2D = GetComponent<Rigidbody2D>();
+		RigidbodyConstraints2D rc2D = GetComponent<Rigidbody2D>().constraints;
+		DestroyImmediate(GetComponent<Rigidbody2D>());
+		playerRigidbody2D = gameObject.AddComponent<Rigidbody2D>();
+		playerRigidbody2D.constraints = rc2D;
 		anim = GetComponent<Animator>();
 	}
 	
@@ -160,7 +163,7 @@ public class PlayerController : MonoBehaviour {
 		{
 			hAxis = playerInput.GetAxis ("Move Horizontal");
 			vAxis = playerInput.GetAxis ("Move Vertical");
-			anim.SetFloat ("vSpeed", rigidbody2D.velocity.y);
+			anim.SetFloat ("vSpeed", playerRigidbody2D.velocity.y);
 			if (Mathf.Abs (hAxis) <= 0.1)
 				anim.SetFloat ("Speed", hAxis);
 			//anim.SetBool("Ground", grounded);
@@ -196,13 +199,13 @@ public class PlayerController : MonoBehaviour {
 
 			// Fall faster while holding down
 			if (!grounded && !wallSliding && vAxis < -0.5f) {
-				rigidbody2D.gravityScale = 2f;
+				playerRigidbody2D.gravityScale = 2f;
 				////Debug.Log("setting gravity in fall");
 				if (playerInput.GetButton ("Sword")) {
 					anim.SetBool ("DownAttack", true);
 				}
 			} else {
-				rigidbody2D.gravityScale = 1f;
+				playerRigidbody2D.gravityScale = 1f;
 				////Debug.Log("setting gravity back from fall");
 				anim.SetBool ("DownAttack", false);
 			}
@@ -238,7 +241,7 @@ public class PlayerController : MonoBehaviour {
 					targetDirection = new Vector2 (facingRight ? 1 : -1, .5f);
 
 				if (grounded) {//stop sliding when targeting
-					rigidbody2D.velocity = Vector2.zero;
+					playerRigidbody2D.velocity = Vector2.zero;
 				}
 
 				if (Mathf.Abs (hAxis) + Mathf.Abs (vAxis) > 1.0f) {
@@ -255,7 +258,7 @@ public class PlayerController : MonoBehaviour {
 						dashing = true;
 						ableToDash = false;
 						timeSinceDash = 0f;
-						rigidbody2D.AddForce (new Vector2((facingRight)?attackThrustSpeed:-attackThrustSpeed, 0), ForceMode2D.Impulse);
+						playerRigidbody2D.AddForce (new Vector2((facingRight)?attackThrustSpeed:-attackThrustSpeed, 0), ForceMode2D.Impulse);
 					}
 					else
 					{
@@ -293,13 +296,13 @@ public class PlayerController : MonoBehaviour {
 					yDashForce = yDashForce / (Mathf.Abs (xDashForce) + Mathf.Abs (yDashForce)) * dashSpeed;
 
 				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
-				rigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
+				playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
 			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
 				if (grounded || //walking or running
-				   (!grounded && (hAxis < 0 && rigidbody2D.velocity.x > 0 || hAxis > 0 && rigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
-					rigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, rigidbody2D.velocity.y);
+				   (!grounded && (hAxis < 0 && playerRigidbody2D.velocity.x > 0 || hAxis > 0 && playerRigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
+					playerRigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, playerRigidbody2D.velocity.y);
 				} else { //adding force when in the air and moving in the same direction
-					rigidbody2D.AddForce (new Vector2 (hAxis * airMoveForce, rigidbody2D.velocity.y));
+					playerRigidbody2D.AddForce (new Vector2 (hAxis * airMoveForce, playerRigidbody2D.velocity.y));
 				}
 				anim.SetFloat ("Speed", Mathf.Abs (hAxis));
 			}
@@ -356,7 +359,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool("Rolling", false);
 			dashing = false;
 			gameObject.layer = LayerMask.NameToLayer("Character");
-			rigidbody2D.velocity = Vector2.zero;//preDashVelocity;
+			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
@@ -368,25 +371,25 @@ public class PlayerController : MonoBehaviour {
 		if (canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1))) {
 			grabbingLedge = true;
 			anim.SetBool ("LedgeGrab", true);
-			rigidbody2D.velocity = Vector2.zero;
-			rigidbody2D.gravityScale = 0f;
+			playerRigidbody2D.velocity = Vector2.zero;
+			playerRigidbody2D.gravityScale = 0f;
 			////Debug.Log("setting gravity in check ledge");
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
 				anim.SetBool ("LedgeGrab", false);
-				rigidbody2D.gravityScale = 1f;
+				playerRigidbody2D.gravityScale = 1f;
 				////Debug.Log("setting gravity in check ledge 2");
 			}
 	}
 
 	void CheckWallSlide (float hAxis)
 	{
-		if (!grounded && touchingRightWall && rigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
-			rigidbody2D.gravityScale = 0.15f;
+		if (!grounded && touchingRightWall && playerRigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
+			playerRigidbody2D.gravityScale = 0.15f;
 			////Debug.Log("setting gravity in wall slide");
-			rigidbody2D.velocity = new Vector2 (0f, -1f);
+			playerRigidbody2D.velocity = new Vector2 (0f, -1f);
 			wallSliding = true;
 
 			anim.SetBool ("WallSliding", true);
@@ -406,7 +409,7 @@ public class PlayerController : MonoBehaviour {
 		if((grounded || (!doubleJump && doubleJumpAllowed)))
 		{
 			//anim.SetBool("Ground", false);
-			rigidbody2D.AddForce(new Vector2(0, jumpForce));
+			playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
 
 			if(!doubleJump && !grounded)
 			{
@@ -415,9 +418,13 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
 		{
-			rigidbody2D.velocity = Vector2.zero;
+			playerRigidbody2D.velocity = Vector2.zero;
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || (!facingRight && touchingLeftWall)) ? -jumpPushForce : jumpPushForce, jumpForce);
-			rigidbody2D.AddForce (force);
+			if(grabbingLedge)
+			{
+				force = new Vector2(force.x*2f, force.y*1.2f);
+			}
+			playerRigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;
 			timeSinceUnableToWallJump = ghostJumpInterval;//setting ghost jump so you can't regular jump and then ghost jump
 			wallJumping = true;
