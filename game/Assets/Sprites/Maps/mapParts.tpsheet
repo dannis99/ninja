@@ -4,19 +4,23 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: mapParts.png (256 x 256)
-# $TexturePacker:SmartUpdate:6e8b85a919abe843c5ec23f453aba887:c9a8cdc0e9869d78888d0ae35ef8c08d:5d0f7d4628ee7f5f6de3339d6ff14581$
+# Sprite sheet: mapParts.png (512 x 1024)
+# $TexturePacker:SmartUpdate:9ec3b1a41cfa84b8bc61032a018e8696:55b1de1bafb27cfdccc947db97b4ca03:5d0f7d4628ee7f5f6de3339d6ff14581$
 #
 
-groundBackground;2;204;50;50;0.5;0.5
-groundBorderLowerCenter;2;152;50;50;0.5;0.5
-groundBorderLowerLeft;2;100;50;50;0.5;0.5
-groundBorderLowerRight;2;48;50;50;0.5;0.5
-groundBorderUpperCenter;54;204;50;50;0.5;0.5
-groundBorderUpperLeft;106;204;50;50;0.5;0.5
-groundBorderUpperRight;158;204;50;50;0.5;0.5
-spaceshipGround1;54;152;50;50;0.5;0.5
-spaceshipGround2;54;100;50;50;0.5;0.5
-spaceshipGround3;54;48;50;50;0.5;0.5
-spaceshipGround4;106;152;50;50;0.5;0.5
-spaceshipGround5;158;152;50;50;0.5;0.5
+groundBackground;2;164;50;50;0.5;0.5
+groundBorderLowerCenter;2;112;50;50;0.5;0.5
+groundBorderLowerLeft;2;60;50;50;0.5;0.5
+groundBorderLowerRight;2;8;50;50;0.5;0.5
+groundBorderUpperCenter;54;164;50;50;0.5;0.5
+groundBorderUpperLeft;54;112;50;50;0.5;0.5
+groundBorderUpperRight;54;60;50;50;0.5;0.5
+spaceshipGround1;54;8;50;50;0.5;0.5
+spaceshipGround2;106;164;50;50;0.5;0.5
+spaceshipGround3;106;112;50;50;0.5;0.5
+spaceshipGround4;106;60;50;50;0.5;0.5
+spaceshipGround5;106;8;50;50;0.5;0.5
+window;2;822;500;200;0.5;0.5
+windowBolts;2;620;500;200;0.5;0.5
+windowBorder;2;418;500;200;0.5;0.5
+windowGlare;2;216;500;200;0.5;0.5

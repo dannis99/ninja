@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c1db805034065401582a6c6639f7420c
-timeCreated: 1461993009
+timeCreated: 1463935364
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -36,6 +36,7 @@ TextureImporter:
     21300058: glass
     21300060: glassBracket
     21300062: glassGlare
+    21300064: border
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -82,11 +83,26 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: border
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 29
+        width: 45
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 15, z: 15, w: 15}
+      outline:
+      - - {x: -22.5, y: 22.5}
+        - {x: -22.5, y: -22.5}
+        - {x: 22.5, y: -22.5}
+        - {x: 22.5, y: 22.5}
     - name: chestBase
       rect:
         serializedVersion: 2
-        x: 86
-        y: 150
+        x: 138
+        y: 66
         width: 74
         height: 30
       alignment: 0
@@ -96,8 +112,8 @@ TextureImporter:
     - name: chestLid
       rect:
         serializedVersion: 2
-        x: 155
-        y: 113
+        x: 214
+        y: 70
         width: 37
         height: 26
       alignment: 0
@@ -107,8 +123,8 @@ TextureImporter:
     - name: chestLight
       rect:
         serializedVersion: 2
-        x: 86
-        y: 380
+        x: 54
+        y: 112
         width: 22
         height: 10
       alignment: 0
@@ -118,8 +134,8 @@ TextureImporter:
     - name: glass
       rect:
         serializedVersion: 2
-        x: 200
-        y: 340
+        x: 86
+        y: 76
         width: 50
         height: 50
       alignment: 0
@@ -134,7 +150,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 102
-        y: 315
+        y: 380
         width: 10
         height: 10
       alignment: 0
@@ -144,8 +160,8 @@ TextureImporter:
     - name: glassGlare
       rect:
         serializedVersion: 2
-        x: 200
-        y: 288
+        x: 2
+        y: 72
         width: 50
         height: 50
       alignment: 0
@@ -170,7 +186,7 @@ TextureImporter:
     - name: ninjaBodyShield
       rect:
         serializedVersion: 2
-        x: 206
+        x: 200
         y: 452
         width: 48
         height: 58
@@ -189,7 +205,7 @@ TextureImporter:
     - name: ninjaBody_blue
       rect:
         serializedVersion: 2
-        x: 206
+        x: 200
         y: 392
         width: 48
         height: 58
@@ -207,8 +223,8 @@ TextureImporter:
     - name: ninjaBody_green
       rect:
         serializedVersion: 2
-        x: 198
-        y: 228
+        x: 200
+        y: 332
         width: 48
         height: 58
       alignment: 0
@@ -225,8 +241,8 @@ TextureImporter:
     - name: ninjaBody_red
       rect:
         serializedVersion: 2
-        x: 198
-        y: 168
+        x: 155
+        y: 98
         width: 48
         height: 58
       alignment: 0
@@ -243,8 +259,8 @@ TextureImporter:
     - name: ninjaBody_yellow
       rect:
         serializedVersion: 2
-        x: 195
-        y: 108
+        x: 205
+        y: 98
         width: 48
         height: 58
       alignment: 0
@@ -261,8 +277,8 @@ TextureImporter:
     - name: ninjaEyes
       rect:
         serializedVersion: 2
-        x: 162
-        y: 161
+        x: 214
+        y: 49
         width: 31
         height: 19
       alignment: 0
@@ -272,8 +288,8 @@ TextureImporter:
     - name: ninjaEyesClosed
       rect:
         serializedVersion: 2
-        x: 155
-        y: 99
+        x: 54
+        y: 88
         width: 29
         height: 3
       alignment: 0
@@ -283,8 +299,8 @@ TextureImporter:
     - name: ninjaEyesSquinty
       rect:
         serializedVersion: 2
-        x: 155
-        y: 104
+        x: 54
+        y: 103
         width: 29
         height: 7
       alignment: 0
@@ -294,8 +310,8 @@ TextureImporter:
     - name: ninjaEyesSurprised
       rect:
         serializedVersion: 2
-        x: 162
-        y: 141
+        x: 155
+        y: 224
         width: 29
         height: 18
       alignment: 0
@@ -305,8 +321,8 @@ TextureImporter:
     - name: ninjaFoot
       rect:
         serializedVersion: 2
-        x: 86
-        y: 348
+        x: 155
+        y: 202
         width: 20
         height: 20
       alignment: 0
@@ -316,8 +332,8 @@ TextureImporter:
     - name: ninjaHand
       rect:
         serializedVersion: 2
-        x: 86
-        y: 327
+        x: 155
+        y: 181
         width: 20
         height: 19
       alignment: 0
@@ -327,8 +343,8 @@ TextureImporter:
     - name: ninjaHeadShield
       rect:
         serializedVersion: 2
-        x: 86
-        y: 92
+        x: 186
+        y: 274
         width: 67
         height: 56
       alignment: 9
@@ -347,7 +363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 186
-        y: 50
+        y: 216
         width: 67
         height: 56
       alignment: 9
@@ -363,8 +379,8 @@ TextureImporter:
     - name: ninjaHead_green
       rect:
         serializedVersion: 2
-        x: 2
-        y: 66
+        x: 86
+        y: 186
         width: 67
         height: 56
       alignment: 9
@@ -380,8 +396,8 @@ TextureImporter:
     - name: ninjaHead_red
       rect:
         serializedVersion: 2
-        x: 2
-        y: 8
+        x: 177
+        y: 158
         width: 67
         height: 56
       alignment: 9
@@ -397,8 +413,8 @@ TextureImporter:
     - name: ninjaHead_yellow
       rect:
         serializedVersion: 2
-        x: 71
-        y: 34
+        x: 86
+        y: 128
         width: 67
         height: 56
       alignment: 9
@@ -415,7 +431,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 86
-        y: 207
+        y: 272
         width: 14
         height: 118
       alignment: 9
@@ -443,8 +459,8 @@ TextureImporter:
     - name: shieldPodBar
       rect:
         serializedVersion: 2
-        x: 116
-        y: 450
+        x: 101
+        y: 37
         width: 88
         height: 10
       alignment: 0
@@ -454,8 +470,8 @@ TextureImporter:
     - name: shieldPodFloor
       rect:
         serializedVersion: 2
-        x: 116
-        y: 487
+        x: 2
+        y: 4
         width: 88
         height: 23
       alignment: 0
@@ -466,7 +482,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 116
-        y: 316
+        y: 378
         width: 82
         height: 132
       alignment: 0
@@ -498,8 +514,8 @@ TextureImporter:
     - name: shieldPodGlassCracked
       rect:
         serializedVersion: 2
-        x: 2
-        y: 124
+        x: 102
+        y: 244
         width: 82
         height: 132
       alignment: 0
@@ -513,8 +529,8 @@ TextureImporter:
     - name: shieldPodGlassCracked2
       rect:
         serializedVersion: 2
-        x: 114
-        y: 182
+        x: 2
+        y: 124
         width: 82
         height: 132
       alignment: 0
@@ -528,8 +544,8 @@ TextureImporter:
     - name: shieldPodLight
       rect:
         serializedVersion: 2
-        x: 86
-        y: 370
+        x: 54
+        y: 93
         width: 22
         height: 8
       alignment: 0
@@ -539,8 +555,8 @@ TextureImporter:
     - name: shieldPodTop
       rect:
         serializedVersion: 2
-        x: 116
-        y: 462
+        x: 92
+        y: 4
         width: 88
         height: 23
       alignment: 0

@@ -16,6 +16,10 @@ TextureImporter:
     21300018: spaceshipGround3
     21300020: spaceshipGround4
     21300022: spaceshipGround5
+    21300024: window
+    21300026: windowBorder
+    21300028: windowGlare
+    21300030: windowBolts
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,7 +70,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 204
+        y: 164
         width: 50
         height: 50
       alignment: 0
@@ -81,7 +85,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 152
+        y: 112
         width: 50
         height: 50
       alignment: 0
@@ -96,7 +100,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 100
+        y: 60
         width: 50
         height: 50
       alignment: 0
@@ -112,7 +116,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2
-        y: 48
+        y: 8
         width: 50
         height: 50
       alignment: 0
@@ -128,7 +132,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 54
-        y: 204
+        y: 164
         width: 50
         height: 50
       alignment: 0
@@ -142,8 +146,8 @@ TextureImporter:
     - name: groundBorderUpperLeft
       rect:
         serializedVersion: 2
-        x: 106
-        y: 204
+        x: 54
+        y: 112
         width: 50
         height: 50
       alignment: 0
@@ -158,8 +162,8 @@ TextureImporter:
     - name: groundBorderUpperRight
       rect:
         serializedVersion: 2
-        x: 158
-        y: 204
+        x: 54
+        y: 60
         width: 50
         height: 50
       alignment: 0
@@ -175,7 +179,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 54
-        y: 152
+        y: 8
         width: 50
         height: 50
       alignment: 0
@@ -194,8 +198,8 @@ TextureImporter:
     - name: spaceshipGround2
       rect:
         serializedVersion: 2
-        x: 54
-        y: 100
+        x: 106
+        y: 164
         width: 50
         height: 50
       alignment: 0
@@ -209,8 +213,8 @@ TextureImporter:
     - name: spaceshipGround3
       rect:
         serializedVersion: 2
-        x: 54
-        y: 48
+        x: 106
+        y: 112
         width: 50
         height: 50
       alignment: 0
@@ -227,7 +231,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 106
-        y: 152
+        y: 60
         width: 50
         height: 50
       alignment: 0
@@ -244,8 +248,8 @@ TextureImporter:
     - name: spaceshipGround5
       rect:
         serializedVersion: 2
-        x: 158
-        y: 152
+        x: 106
+        y: 8
         width: 50
         height: 50
       alignment: 0
@@ -261,6 +265,188 @@ TextureImporter:
         - {x: 19, y: -25}
         - {x: 19, y: 22}
         - {x: 17, y: 23}
+    - name: window
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 822
+        width: 500
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -250, y: 100}
+        - {x: -250, y: -100}
+        - {x: 250, y: -100}
+        - {x: 250, y: 100}
+    - name: windowBolts
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 620
+        width: 500
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -249, y: -86}
+        - {x: -250, y: -89}
+        - {x: -250, y: -97}
+        - {x: -246, y: -100}
+        - {x: -239, y: -100}
+        - {x: -235, y: -99}
+        - {x: -235, y: -91}
+        - {x: -236, y: -86}
+      - - {x: -158, y: -86}
+        - {x: -158, y: -96}
+        - {x: -154, y: -100}
+        - {x: -147, y: -100}
+        - {x: -143, y: -96}
+        - {x: -143, y: -91}
+        - {x: -145, y: -86}
+      - - {x: -56, y: -86}
+        - {x: -58, y: -88}
+        - {x: -58, y: -96}
+        - {x: -57, y: -100}
+        - {x: -46, y: -100}
+        - {x: -43, y: -99}
+        - {x: -43, y: -90}
+        - {x: -47, y: -86}
+      - - {x: 53, y: -86}
+        - {x: 45, y: -86}
+        - {x: 42, y: -88}
+        - {x: 42, y: -96}
+        - {x: 43, y: -100}
+        - {x: 53, y: -100}
+        - {x: 57, y: -95}
+        - {x: 57, y: -91}
+      - - {x: 153, y: -86}
+        - {x: 145, y: -86}
+        - {x: 142, y: -88}
+        - {x: 142, y: -96}
+        - {x: 143, y: -100}
+        - {x: 153, y: -100}
+        - {x: 157, y: -95}
+        - {x: 157, y: -91}
+      - - {x: 237, y: -86}
+        - {x: 235, y: -91}
+        - {x: 235, y: -96}
+        - {x: 239, y: -100}
+        - {x: 247, y: -100}
+        - {x: 250, y: -97}
+        - {x: 250, y: -91}
+        - {x: 248, y: -86}
+      - - {x: -247, y: 12}
+        - {x: -250, y: 9}
+        - {x: -250, y: 4}
+        - {x: -248, y: -2}
+        - {x: -237, y: -2}
+        - {x: -235, y: 3}
+        - {x: -235, y: 9}
+        - {x: -237, y: 12}
+      - - {x: 237, y: 12}
+        - {x: 235, y: 7}
+        - {x: 235, y: 2}
+        - {x: 239, y: -2}
+        - {x: 247, y: -2}
+        - {x: 250, y: 1}
+        - {x: 250, y: 7}
+        - {x: 248, y: 12}
+      - - {x: -247, y: 99}
+        - {x: -250, y: 96}
+        - {x: -250, y: 91}
+        - {x: -248, y: 85}
+        - {x: -237, y: 85}
+        - {x: -235, y: 90}
+        - {x: -235, y: 96}
+        - {x: -239, y: 99}
+      - - {x: -157, y: 99}
+        - {x: -158, y: 97}
+        - {x: -158, y: 86}
+        - {x: -157, y: 85}
+        - {x: -145, y: 85}
+        - {x: -143, y: 89}
+        - {x: -143, y: 97}
+        - {x: -146, y: 99}
+      - - {x: -54, y: 99}
+        - {x: -58, y: 97}
+        - {x: -58, y: 86}
+        - {x: -55, y: 85}
+        - {x: -45, y: 85}
+        - {x: -43, y: 91}
+        - {x: -43, y: 97}
+        - {x: -45, y: 99}
+      - - {x: 44, y: 99}
+        - {x: 42, y: 95}
+        - {x: 42, y: 85}
+        - {x: 56, y: 85}
+        - {x: 57, y: 88}
+        - {x: 57, y: 97}
+        - {x: 54, y: 99}
+      - - {x: 144, y: 99}
+        - {x: 142, y: 95}
+        - {x: 142, y: 85}
+        - {x: 156, y: 85}
+        - {x: 157, y: 88}
+        - {x: 157, y: 97}
+        - {x: 154, y: 99}
+      - - {x: 237, y: 99}
+        - {x: 234, y: 96}
+        - {x: 234, y: 91}
+        - {x: 236, y: 85}
+        - {x: 247, y: 85}
+        - {x: 249, y: 90}
+        - {x: 249, y: 96}
+        - {x: 245, y: 99}
+    - name: windowBorder
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 418
+        width: 500
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -250, y: 100}
+        - {x: -250, y: -100}
+        - {x: 250, y: -100}
+        - {x: 250, y: 100}
+      - - {x: -232, y: 82}
+        - {x: 232, y: 82}
+        - {x: 232, y: -82}
+        - {x: -232, y: -82}
+    - name: windowGlare
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 216
+        width: 500
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -97, y: 100}
+        - {x: -156, y: 69}
+        - {x: -250, y: -74}
+        - {x: -250, y: -92}
+        - {x: -244, y: -92}
+        - {x: -163, y: -1}
+        - {x: -80, y: 95}
+        - {x: -80, y: 100}
+      - - {x: -113, y: 96}
+        - {x: -113, y: 100}
+        - {x: -199, y: 100}
+        - {x: -250, y: -10}
+        - {x: -250, y: -62}
+        - {x: -244, y: -62}
+        - {x: -199, y: -11}
+        - {x: -167, y: 29}
+        - {x: -114, y: 89}
     outline: []
   spritePackingTag: 
   userData: 
