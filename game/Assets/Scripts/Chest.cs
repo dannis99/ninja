@@ -10,11 +10,16 @@ public class Chest : MonoBehaviour {
 	public GameObject chestLidLeft;
 	public GameObject chestLidRight;
 	public Collider2D chestCollider;
+	public SpriteRenderer itemRenderer;
+	public Light itemLight;
 
 	PlayerController player;
 
+	GameObject itemToGive;
 	float xLidStart = .185f;
 	float xLidEnd = .4f;
+	float yItemStart = -.6f;
+	float yItemEnd = -.09f;
 
 	Vector3 fromPosition;
 	Vector3 toPosition;
@@ -25,7 +30,18 @@ public class Chest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		float random = Random.Range(0, 100);
+		int itemIndex = 0;
+		foreach(float chance in itemChances)
+		{
+			if(random <= chance)
+			{
+				itemToGive = possibleItems[itemIndex];
+				break;
+			}
+			itemIndex++;
+		}
+		itemRenderer.sprite = itemToGive.GetComponent<SpriteRenderer>().sprite;
 	}
 	
 	// Update is called once per frame
@@ -35,37 +51,30 @@ public class Chest : MonoBehaviour {
 			t += Time.deltaTime;
 			chestLidRight.transform.localPosition = new Vector3(Mathf.Lerp(xLidStart, xLidEnd, t), chestLidRight.transform.localPosition.y, chestLidRight.transform.localPosition.z);
 			chestLidLeft.transform.localPosition = new Vector3(-Mathf.Lerp(xLidStart, xLidEnd, t), chestLidRight.transform.localPosition.y, chestLidRight.transform.localPosition.z);
+			itemRenderer.transform.localPosition = new Vector3(itemRenderer.transform.localPosition.x, Mathf.Lerp(yItemStart, yItemEnd, t), itemRenderer.transform.localPosition.z);
+			itemLight.enabled = true;
 		}
 		else if(!movingToEnd && chestLidRight.transform.localPosition.x != xLidStart)
 		{
 			t += Time.deltaTime;
 			chestLidRight.transform.localPosition = new Vector3(Mathf.Lerp(xLidEnd, xLidStart, t), chestLidRight.transform.localPosition.y, chestLidRight.transform.localPosition.z);
 			chestLidLeft.transform.localPosition = new Vector3(-Mathf.Lerp(xLidEnd, xLidStart, t), chestLidRight.transform.localPosition.y, chestLidRight.transform.localPosition.z);
+			itemRenderer.transform.localPosition = new Vector3(itemRenderer.transform.localPosition.x, Mathf.Lerp(yItemEnd, yItemStart, t), itemRenderer.transform.localPosition.z);
 		}
 
 		if(chestActive && chestLidRight.transform.localPosition.x == xLidEnd)
 		{
-			float random = Random.Range(0, 100);
-			GameObject itemToGive = null;
-			//give the player an item
-			int itemIndex = 0;
-			foreach(float chance in itemChances)
-			{
-				if(random <= chance)
-				{
-					itemToGive = possibleItems[itemIndex];
-					break;
-				}
-				itemIndex++;
-			}
 			Debug.Log("About to give player: "+itemToGive.name);
+			player.setItem(itemToGive);
 			chestLight.color = Color.red;
 			chestCollider.enabled = false;
 			chestActive = false;
+			itemRenderer.gameObject.SetActive(false);
 		}
 		else if(chestLidRight.transform.localPosition.x == xLidStart)
 		{
 			t = 0;
+			itemLight.enabled = false;
 		}
 	}
 
@@ -74,11 +83,8 @@ public class Chest : MonoBehaviour {
 		if(collider.gameObject.tag == "player")
 		{
 			player = collider.gameObject.GetComponent<PlayerController>();
-			if (!player.shieldController.shielded) 
-			{
-				chestLight.color = Color.yellow;
-				movingToEnd = true;
-			}
+			chestLight.color = Color.yellow;
+			movingToEnd = true;
 		}
 	}
 

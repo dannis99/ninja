@@ -92,8 +92,10 @@ public class PlayerController : MonoBehaviour {
 	//weapons
 	public SpriteRenderer[] grenadeSprites;
 	public SpriteRenderer[] shurikenSprites;
-	int grenadeCount = 3;
-	int shurikenCount = 3;
+	int maxGrenades = 3;
+	int grenadeCount;
+	int maxShurikens = 3;
+	int shurikenCount;
 
 	//particleEffects
 	public ParticleSystem slideSmoke;
@@ -138,6 +140,8 @@ public class PlayerController : MonoBehaviour {
 		playerRigidbody2D = gameObject.AddComponent<Rigidbody2D>();
 		playerRigidbody2D.constraints = rc2D;
 		anim = GetComponent<Animator>();
+		grenadeCount = maxGrenades;
+		shurikenCount = maxShurikens;
 	}
 	
 	void FixedUpdate () {
@@ -309,15 +313,11 @@ public class PlayerController : MonoBehaviour {
 
 			if (playerInput.GetButtonUp ("Shuriken")) {// Input.GetButtonDown("Shuriken"))
 				if (shurikenCount > 0) {
-					shurikenSprites [shurikenCount - 1].enabled = false;
-					shurikenCount--;
 					throwShuriken (targetDirection);
 				}
 				targetDirection = Vector2.zero;
 			} else if (playerInput.GetButtonUp ("Grenade")) {// if(Input.GetButtonDown("Grenade"))
 				if (grenadeCount > 0) {
-					grenadeSprites [grenadeCount - 1].enabled = false;
-					grenadeCount--;
 					throwGrenade (targetDirection);
 				}
 				targetDirection = Vector2.zero;
@@ -327,6 +327,36 @@ public class PlayerController : MonoBehaviour {
 				tryToJump ();
 			}
 		}
+	}
+
+	void updateGrenadeSprites()
+	{
+		for(int i = 0; i < grenadeSprites.Length; i++)
+		{
+			if(grenadeCount > i)
+			{
+				grenadeSprites [i].enabled = true;
+			}
+			else
+			{
+				grenadeSprites [i].enabled = false;
+			}
+		}					
+	}
+
+	void updateShurikenSprites()
+	{
+		for(int i = 0; i < shurikenSprites.Length; i++)
+		{
+			if(shurikenCount > i)
+			{
+				shurikenSprites [i].enabled = true;
+			}
+			else
+			{
+				shurikenSprites [i].enabled = false;
+			}
+		}					
 	}
 
 	void CheckAbilityToJump ()
@@ -452,6 +482,8 @@ public class PlayerController : MonoBehaviour {
 
 	void throwGrenade(Vector3 direction)
 	{
+		grenadeCount--;
+		updateGrenadeSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
 		float xForce = 0;
@@ -473,6 +505,8 @@ public class PlayerController : MonoBehaviour {
 
 	void throwShuriken(Vector3 direction)
 	{
+		shurikenCount--;
+		updateShurikenSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
 		float xVelocity = 0;
@@ -522,6 +556,20 @@ public class PlayerController : MonoBehaviour {
 			{
 				renderer.sortingOrder += 1000;
 			}
+		}
+	}
+
+	public void setItem(GameObject item)
+	{
+		if(item.GetComponent<GrenadeController>() != null)
+		{
+			grenadeCount = maxGrenades;
+			updateGrenadeSprites();
+		}
+		else if(item.GetComponent<ShurikenController>() != null)
+		{
+			shurikenCount = maxShurikens;
+			updateShurikenSprites();
 		}
 	}
 }
