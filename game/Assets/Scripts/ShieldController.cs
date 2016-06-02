@@ -68,6 +68,8 @@ public class ShieldController : MonoBehaviour {
 			else
 			{
 				tScale = 0;
+				headShield.color = secondColor;
+				bodyShield.color = secondColor;
 				headShield.enabled = false;
 				bodyShield.enabled = false;
 			}
