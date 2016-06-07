@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour {
 	public LayerMask whatIsGround;
 
 	//walls
+	public BoxCollider2D ledgeCollider;
 	public bool canGrabLedge = false;
 	public bool grabbingLedge = false;
 	public bool touchingWall = false;
@@ -401,16 +402,13 @@ public class PlayerController : MonoBehaviour {
 		if (canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1))) {
 			grabbingLedge = true;
 			anim.SetBool ("LedgeGrab", true);
-			playerRigidbody2D.velocity = Vector2.zero;
-			playerRigidbody2D.gravityScale = 0f;
-			////Debug.Log("setting gravity in check ledge");
+			ledgeCollider.enabled = true;
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
 				anim.SetBool ("LedgeGrab", false);
-				playerRigidbody2D.gravityScale = 1f;
-				////Debug.Log("setting gravity in check ledge 2");
+				ledgeCollider.enabled = false;
 			}
 	}
 
