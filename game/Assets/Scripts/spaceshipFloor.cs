@@ -4,15 +4,15 @@ using System.Collections;
 public class spaceshipFloor : MonoBehaviour {
 
 	public Sprite[] floorSprites;
-	public SpriteRenderer renderer;
+	public SpriteRenderer floorRenderer;
 
 	Color originalColor;
 	int playerCount = 0;
 	
 	// Use this for initialization
 	void Start () {
-		renderer.sprite = floorSprites[Random.Range(0, floorSprites.Length)];
-		originalColor = renderer.color;
+		floorRenderer.sprite = floorSprites[Random.Range(0, floorSprites.Length)];
+		originalColor = floorRenderer.color;
 	}
 	
 	// Update is called once per frame
@@ -26,7 +26,7 @@ public class spaceshipFloor : MonoBehaviour {
 		{
 			if(playerCount == 0)
 			{
-				renderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+				floorRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
 			}
 			playerCount++;
 		}
@@ -39,7 +39,7 @@ public class spaceshipFloor : MonoBehaviour {
 			playerCount--;
 			if(playerCount == 0)
 			{
-				renderer.color = originalColor;
+				floorRenderer.color = originalColor;
 			}
 		}
 	}
