@@ -11,6 +11,8 @@ public class ElectricGrenadeController : GrenadeController {
 		base.Explode();
 		grenadeParticleSystem.Play();
 		electricCollider.enabled = true;
+		grenadeRigidbody.isKinematic = true;
+		Invoke("destroyGrenade", grenadeDuration);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)
@@ -20,5 +22,10 @@ public class ElectricGrenadeController : GrenadeController {
 			collider.gameObject.GetComponent<PlayerController>().takeDamage();
 			destroyGrenade();
 		}
+	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		Explode();
 	}
 }

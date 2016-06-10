@@ -12,7 +12,8 @@ public class GrenadeController : MonoBehaviour {
 	public int secondsToExplosion;
 
 	protected void Start () {
-		Invoke("Explode", secondsToExplosion);
+		if(secondsToExplosion > 0)
+			Invoke("Explode", secondsToExplosion);
 	}
 
 	protected void Explode () {
