@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour {
 	//ground
 	public bool grounded = false;
 	public Transform groundCheck;
-	float groundRadius = 0.02f;
 	public LayerMask whatIsGround;
 
 	//walls
@@ -149,7 +148,7 @@ public class PlayerController : MonoBehaviour {
 		if (!dead) 
 		{
 			// The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
-			grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, whatIsGround);
+			grounded = Physics2D.OverlapArea (groundCheck.position, new Vector2 (groundCheck.position.x + .25f, groundCheck.position.y - .1f), whatIsGround);
 			touchingLeftWall = Physics2D.OverlapArea (wallCheckLeft.position, new Vector2 (wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall);
 			touchingRightWall = Physics2D.OverlapArea (wallCheckRight.position, new Vector2 (wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
 			touchingWall = touchingLeftWall || touchingRightWall;
