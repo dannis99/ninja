@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>unity-texture2d</string>
         <key>textureFileName</key>
-        <filename>../../game/Assets/Sprites/Ninja/ninjaParts.png</filename>
+        <filename>../../game/Assets/Sprites/Maps/mapParts.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -147,7 +147,7 @@
             <key>datafile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../game/Assets/Sprites/Ninja/ninjaParts.tpsheet</filename>
+                <filename>../../game/Assets/Sprites/Maps/mapParts.tpsheet</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -190,7 +190,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>../characters/ninjaSprites</filename>
+            <filename>mapSprites</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

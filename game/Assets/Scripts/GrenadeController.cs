@@ -11,13 +11,19 @@ public class GrenadeController : MonoBehaviour {
 	public Light grenadeLight;
 	public int secondsToExplosion;
 
+	protected bool exploded;
+
 	protected void Start () {
 		if(secondsToExplosion > 0)
 			Invoke("Explode", secondsToExplosion);
 	}
 
-	protected void Explode () {
+	protected void Update () {
 		
+	}
+
+	protected void Explode () {
+		exploded = true;
 	}
 
 	protected void destroyGrenade()
