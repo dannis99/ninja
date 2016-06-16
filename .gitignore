@@ -1,7 +1,7 @@
 game/[Ll]ibrary/
 game/[Tt]emp/
 game/[Oo]bj/
-game/[Bb]uild/
+[Bb]uild/
 game/[Bb]uilds/
 game/Assets/AssetStoreTools*
 
@@ -24,3 +24,4 @@ game/ExportedObj/
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+builds/
