@@ -38,6 +38,7 @@ TextureImporter:
     21300062: glassGlare
     21300064: border
     21300066: portal
+    21300068: portalStand
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -87,8 +88,8 @@ TextureImporter:
     - name: border
       rect:
         serializedVersion: 2
-        x: 156
-        y: 5
+        x: 2
+        y: 11
         width: 45
         height: 45
       alignment: 0
@@ -102,8 +103,8 @@ TextureImporter:
     - name: chestBase
       rect:
         serializedVersion: 2
-        x: 98
-        y: 150
+        x: 372
+        y: 162
         width: 74
         height: 30
       alignment: 0
@@ -113,8 +114,8 @@ TextureImporter:
     - name: chestLid
       rect:
         serializedVersion: 2
-        x: 68
-        y: 64
+        x: 462
+        y: 228
         width: 37
         height: 26
       alignment: 0
@@ -124,8 +125,8 @@ TextureImporter:
     - name: chestLight
       rect:
         serializedVersion: 2
-        x: 86
-        y: 380
+        x: 351
+        y: 7
         width: 22
         height: 10
       alignment: 0
@@ -135,8 +136,8 @@ TextureImporter:
     - name: glass
       rect:
         serializedVersion: 2
-        x: 200
-        y: 340
+        x: 448
+        y: 135
         width: 50
         height: 50
       alignment: 0
@@ -150,8 +151,8 @@ TextureImporter:
     - name: glassBracket
       rect:
         serializedVersion: 2
-        x: 86
-        y: 181
+        x: 495
+        y: 216
         width: 10
         height: 10
       alignment: 0
@@ -161,8 +162,8 @@ TextureImporter:
     - name: glassGlare
       rect:
         serializedVersion: 2
-        x: 200
-        y: 288
+        x: 420
+        y: 25
         width: 50
         height: 50
       alignment: 0
@@ -187,8 +188,8 @@ TextureImporter:
     - name: ninjaBodyShield
       rect:
         serializedVersion: 2
-        x: 206
-        y: 452
+        x: 2
+        y: 58
         width: 48
         height: 58
       alignment: 0
@@ -206,8 +207,8 @@ TextureImporter:
     - name: ninjaBody_blue
       rect:
         serializedVersion: 2
-        x: 206
-        y: 392
+        x: 182
+        y: 62
         width: 48
         height: 58
       alignment: 0
@@ -224,8 +225,8 @@ TextureImporter:
     - name: ninjaBody_green
       rect:
         serializedVersion: 2
-        x: 192
-        y: 228
+        x: 182
+        y: 2
         width: 48
         height: 58
       alignment: 0
@@ -242,8 +243,8 @@ TextureImporter:
     - name: ninjaBody_red
       rect:
         serializedVersion: 2
-        x: 192
-        y: 168
+        x: 232
+        y: 62
         width: 48
         height: 58
       alignment: 0
@@ -260,8 +261,8 @@ TextureImporter:
     - name: ninjaBody_yellow
       rect:
         serializedVersion: 2
-        x: 18
-        y: 64
+        x: 232
+        y: 2
         width: 48
         height: 58
       alignment: 0
@@ -278,8 +279,8 @@ TextureImporter:
     - name: ninjaEyes
       rect:
         serializedVersion: 2
-        x: 107
-        y: 71
+        x: 462
+        y: 207
         width: 31
         height: 19
       alignment: 0
@@ -289,8 +290,8 @@ TextureImporter:
     - name: ninjaEyesClosed
       rect:
         serializedVersion: 2
-        x: 107
-        y: 66
+        x: 351
+        y: 77
         width: 29
         height: 3
       alignment: 0
@@ -300,8 +301,8 @@ TextureImporter:
     - name: ninjaEyesSquinty
       rect:
         serializedVersion: 2
-        x: 155
-        y: 101
+        x: 2
+        y: 2
         width: 29
         height: 7
       alignment: 0
@@ -311,8 +312,8 @@ TextureImporter:
     - name: ninjaEyesSurprised
       rect:
         serializedVersion: 2
-        x: 140
-        y: 72
+        x: 462
+        y: 187
         width: 29
         height: 18
       alignment: 0
@@ -322,8 +323,8 @@ TextureImporter:
     - name: ninjaFoot
       rect:
         serializedVersion: 2
-        x: 86
-        y: 214
+        x: 351
+        y: 82
         width: 20
         height: 20
       alignment: 0
@@ -333,8 +334,8 @@ TextureImporter:
     - name: ninjaHand
       rect:
         serializedVersion: 2
-        x: 86
-        y: 193
+        x: 373
+        y: 83
         width: 20
         height: 19
       alignment: 0
@@ -344,95 +345,95 @@ TextureImporter:
     - name: ninjaHeadShield
       rect:
         serializedVersion: 2
-        x: 174
-        y: 110
+        x: 282
+        y: 64
         width: 67
         height: 56
       alignment: 9
       pivot: {x: 0.6363997, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 21.361221, y: 28}
-        - {x: -26.638779, y: 28}
-        - {x: -42.63878, y: 5}
-        - {x: -42.63878, y: -28}
-        - {x: 18.361221, y: -28}
-        - {x: 22.361221, y: -22}
-        - {x: 24.361221, y: -20}
-        - {x: 24.361221, y: 21}
+      - - {x: 21.361206, y: 28}
+        - {x: -26.638794, y: 28}
+        - {x: -42.638794, y: 5}
+        - {x: -42.638794, y: -28}
+        - {x: 18.361206, y: -28}
+        - {x: 22.361206, y: -22}
+        - {x: 24.361206, y: -20}
+        - {x: 24.361206, y: 21}
     - name: ninjaHead_blue
       rect:
         serializedVersion: 2
-        x: 86
-        y: 92
+        x: 282
+        y: 6
         width: 67
         height: 56
       alignment: 9
       pivot: {x: 0.6363997, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -34.63878, y: 28}
-        - {x: -42.63878, y: 12}
-        - {x: -42.63878, y: -28}
-        - {x: 24.361221, y: -28}
-        - {x: 24.361221, y: 24}
-        - {x: 16.361221, y: 28}
+      - - {x: -34.638794, y: 28}
+        - {x: -42.638794, y: 12}
+        - {x: -42.638794, y: -28}
+        - {x: 24.361206, y: -28}
+        - {x: 24.361206, y: 24}
+        - {x: 16.361206, y: 28}
     - name: ninjaHead_green
       rect:
         serializedVersion: 2
-        x: 18
-        y: 6
+        x: 372
+        y: 104
         width: 67
         height: 56
       alignment: 9
       pivot: {x: 0.6363997, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -34.63878, y: 28}
-        - {x: -42.63878, y: 12}
-        - {x: -42.63878, y: -28}
-        - {x: 24.361221, y: -28}
-        - {x: 24.361221, y: 24}
-        - {x: 16.361221, y: 28}
+      - - {x: -34.638794, y: 28}
+        - {x: -42.638794, y: 12}
+        - {x: -42.638794, y: -28}
+        - {x: 24.361206, y: -28}
+        - {x: 24.361206, y: 24}
+        - {x: 16.361206, y: 28}
     - name: ninjaHead_red
       rect:
         serializedVersion: 2
-        x: 87
-        y: 6
+        x: 441
+        y: 77
         width: 67
         height: 56
       alignment: 9
       pivot: {x: 0.6363997, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -34.63878, y: 28}
-        - {x: -42.63878, y: 12}
-        - {x: -42.63878, y: -28}
-        - {x: 24.361221, y: -28}
-        - {x: 24.361221, y: 24}
-        - {x: 16.361221, y: 28}
+      - - {x: -34.638794, y: 28}
+        - {x: -42.638794, y: 12}
+        - {x: -42.638794, y: -28}
+        - {x: 24.361206, y: -28}
+        - {x: 24.361206, y: 24}
+        - {x: 16.361206, y: 28}
     - name: ninjaHead_yellow
       rect:
         serializedVersion: 2
-        x: 186
-        y: 52
+        x: 351
+        y: 19
         width: 67
         height: 56
       alignment: 9
       pivot: {x: 0.6363997, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -34.63878, y: 28}
-        - {x: -42.63878, y: 12}
-        - {x: -42.63878, y: -28}
-        - {x: 24.361221, y: -28}
-        - {x: 24.361221, y: 24}
-        - {x: 16.361221, y: 28}
+      - - {x: -34.638794, y: 28}
+        - {x: -42.638794, y: 12}
+        - {x: -42.638794, y: -28}
+        - {x: 24.361206, y: -28}
+        - {x: 24.361206, y: 24}
+        - {x: 16.361206, y: 28}
     - name: ninjaSword
       rect:
         serializedVersion: 2
-        x: 2
-        y: 4
+        x: 166
+        y: 2
         width: 14
         height: 118
       alignment: 9
@@ -442,8 +443,8 @@ TextureImporter:
     - name: ninjaSwordSlashing
       rect:
         serializedVersion: 2
-        x: 2
-        y: 392
+        x: 52
+        y: 2
         width: 112
         height: 118
       alignment: 9
@@ -452,18 +453,29 @@ TextureImporter:
       outline:
       - - {x: -31, y: 104.69388}
         - {x: -56, y: 80.69388}
-        - {x: -56, y: 28.693878}
-        - {x: -47, y: 5.693878}
-        - {x: -14, y: -13.306122}
-        - {x: 9, y: -13.306122}
+        - {x: -56, y: 28.693882}
+        - {x: -47, y: 5.693882}
+        - {x: -14, y: -13.306118}
+        - {x: 9, y: -13.306118}
         - {x: 9, y: 104.69388}
     - name: portal
       rect:
         serializedVersion: 2
-        x: 86
-        y: 236
+        x: 350
+        y: 122
         width: 20
         height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: portalStand
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 118
+        width: 10
+        height: 136
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -471,8 +483,8 @@ TextureImporter:
     - name: shieldPodBar
       rect:
         serializedVersion: 2
-        x: 116
-        y: 450
+        x: 372
+        y: 194
         width: 88
         height: 10
       alignment: 0
@@ -482,8 +494,8 @@ TextureImporter:
     - name: shieldPodFloor
       rect:
         serializedVersion: 2
-        x: 116
-        y: 487
+        x: 372
+        y: 231
         width: 88
         height: 23
       alignment: 0
@@ -493,8 +505,8 @@ TextureImporter:
     - name: shieldPodGlass
       rect:
         serializedVersion: 2
-        x: 116
-        y: 316
+        x: 14
+        y: 122
         width: 82
         height: 132
       alignment: 0
@@ -508,8 +520,8 @@ TextureImporter:
     - name: shieldPodGlassBroken
       rect:
         serializedVersion: 2
-        x: 2
-        y: 258
+        x: 98
+        y: 122
         width: 82
         height: 132
       alignment: 0
@@ -526,8 +538,8 @@ TextureImporter:
     - name: shieldPodGlassCracked
       rect:
         serializedVersion: 2
-        x: 2
-        y: 124
+        x: 182
+        y: 122
         width: 82
         height: 132
       alignment: 0
@@ -541,8 +553,8 @@ TextureImporter:
     - name: shieldPodGlassCracked2
       rect:
         serializedVersion: 2
-        x: 108
-        y: 182
+        x: 266
+        y: 122
         width: 82
         height: 132
       alignment: 0
@@ -556,8 +568,8 @@ TextureImporter:
     - name: shieldPodLight
       rect:
         serializedVersion: 2
-        x: 86
-        y: 370
+        x: 375
+        y: 9
         width: 22
         height: 8
       alignment: 0
@@ -567,8 +579,8 @@ TextureImporter:
     - name: shieldPodTop
       rect:
         serializedVersion: 2
-        x: 116
-        y: 462
+        x: 372
+        y: 206
         width: 88
         height: 23
       alignment: 0
