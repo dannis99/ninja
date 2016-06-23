@@ -32,11 +32,14 @@ public class Chest : MonoBehaviour {
 	void Start () {
 		float random = Random.Range(0, 100);
 		int itemIndex = 0;
+        float totalChance = 0;
 		foreach(float chance in itemChances)
 		{
-			if(random <= chance)
+            totalChance += chance;
+			if(random <= totalChance)
 			{
 				itemToGive = possibleItems[itemIndex];
+                Debug.Log("chest item: " + itemToGive.name);
 				break;
 			}
 			itemIndex++;

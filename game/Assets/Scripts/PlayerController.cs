@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Rewired;
 
 public class PlayerController : MonoBehaviour {
@@ -44,8 +45,9 @@ public class PlayerController : MonoBehaviour {
 	Animator anim;
 	Rigidbody2D playerRigidbody2D;
 
-	public GameObject grenadePrefab;
-	public GameObject throwingStarPrefab;
+    public GameObject grenadePrefab;
+    public GameObject shurikenPrefab;
+    public List<GameObject> weaponPrefabs;
 	Vector2 weaponDistance = new Vector2(.8f, .7f);
 	public float grenadeThrowingForce;
 	public float shurikenVelocity;
@@ -505,7 +507,7 @@ public class PlayerController : MonoBehaviour {
 		shurikenCount--;
 		updateShurikenSprites();
 		anim.SetTrigger ("Throwing");
-		GameObject shuriken = Instantiate<GameObject>(throwingStarPrefab);
+		GameObject shuriken = Instantiate<GameObject>(shurikenPrefab);
 		float xVelocity = 0;
 		if(Mathf.Abs(hAxis) > .3f)
 			xVelocity = (facingRight)?shurikenVelocity:-shurikenVelocity;
@@ -558,14 +560,34 @@ public class PlayerController : MonoBehaviour {
 
 	public void setItem(GameObject item)
 	{
-		if(item.GetComponent<GrenadeController>() != null)
+        if (item.GetComponent<FragGrenadeController>() != null)
+        {
+            foreach(GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<FragGrenadeController>() != null)
+                    grenadePrefab = weapon;
+            }
+            grenadeCount = maxGrenades;
+            updateGrenadeSprites();
+        }
+        else if (item.GetComponent<ElectricGrenadeController>() != null)
+        {
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<ElectricGrenadeController>() != null)
+                    grenadePrefab = weapon;
+            }
+            grenadeCount = maxGrenades;
+            updateGrenadeSprites();
+        }
+        else if(item.GetComponent<ShurikenController>() != null)
 		{
-			grenadeCount = maxGrenades;
-			updateGrenadeSprites();
-		}
-		else if(item.GetComponent<ShurikenController>() != null)
-		{
-			shurikenCount = maxShurikens;
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<ShurikenController>() != null)
+                    shurikenPrefab = weapon;
+            }
+            shurikenCount = maxShurikens;
 			updateShurikenSprites();
 		}
 	}
