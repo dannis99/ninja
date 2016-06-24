@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour {
 		////Debug.Log("player position: "+transform.position);
 		////Debug.Log("shuriken position: "+shuriken.transform.position);
 		////Debug.Log("shuriken velocity: "+velocity);
-		shuriken.GetComponent<ShurikenController>().setVelocity(velocity);
+		shuriken.GetComponent<ShurikenParentController>().setVelocity(velocity);
 	}
 
 	Vector2 getWeaponPosition(Vector2 direction)
@@ -590,5 +590,15 @@ public class PlayerController : MonoBehaviour {
             shurikenCount = maxShurikens;
 			updateShurikenSprites();
 		}
-	}
+        else if (item.GetComponent<BouncingShurikenController>() != null)
+        {
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<BouncingShurikenController>() != null)
+                    shurikenPrefab = weapon;
+            }
+            shurikenCount = maxShurikens;
+            updateShurikenSprites();
+        }
+    }
 }
