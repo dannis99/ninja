@@ -600,5 +600,15 @@ public class PlayerController : MonoBehaviour {
             shurikenCount = maxShurikens;
             updateShurikenSprites();
         }
+        else if (item.GetComponent<PenetratingShurikenController>() != null)
+        {
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<PenetratingShurikenController>() != null)
+                    shurikenPrefab = weapon;
+            }
+            shurikenCount = maxShurikens;
+            updateShurikenSprites();
+        }
     }
 }
