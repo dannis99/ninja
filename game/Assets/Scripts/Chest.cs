@@ -45,7 +45,8 @@ public class Chest : MonoBehaviour {
 			itemIndex++;
 		}
 		itemRenderer.sprite = itemToGive.GetComponent<SpriteRenderer>().sprite;
-	}
+        itemRenderer.color = itemToGive.GetComponent<SpriteRenderer>().color;
+    }
 	
 	// Update is called once per frame
 	void Update () {

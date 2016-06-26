@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Rewired;
 
 public class PlayerController : MonoBehaviour {
-    public static string ANIM_GROUND = "Ground";
+    //public static string ANIM_GROUND = "Ground";
     public static string ANIM_ATTACK = "Attack";
     public static string ANIM_AIR_ATTACK = "AirAttack";
     public static string ANIM_DOWN_ATTACK = "DownAttack";
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     public static string ANIM_WALL_SLIDING = "WallSliding";
 
     private List<string> animParams = new List<string> {
-        ANIM_GROUND,
+        //ANIM_GROUND,
         ANIM_DOWN_ATTACK,
         ANIM_DUCKING,
         ANIM_LOOKING_UP,
