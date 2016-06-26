@@ -40,6 +40,7 @@ TextureImporter:
     21300066: portal
     21300068: portalStand
     21300070: slime
+    21300072: slimeGround
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -335,7 +336,7 @@ TextureImporter:
     - name: ninjaHand
       rect:
         serializedVersion: 2
-        x: 373
+        x: 395
         y: 83
         width: 20
         height: 19
@@ -569,8 +570,8 @@ TextureImporter:
     - name: shieldPodLight
       rect:
         serializedVersion: 2
-        x: 375
-        y: 9
+        x: 417
+        y: 94
         width: 22
         height: 8
       alignment: 0
@@ -595,6 +596,17 @@ TextureImporter:
         y: 204
         width: 10
         height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: slimeGround
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 82
+        width: 20
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

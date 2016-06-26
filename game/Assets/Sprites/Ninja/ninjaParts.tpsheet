@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:211991811506720765efe5f2710cd2ef:0966125f3c95042da97e19a1ff1f2ec1:afe316a49f29c924237c45204946b105$
+# $TexturePacker:SmartUpdate:7581e697258f9697445d8d578139aad3:ead90e7d7a9463c32c7a567551f9efd6:afe316a49f29c924237c45204946b105$
 #
 :format=40000
 :texture=ninjaParts.png
@@ -27,7 +27,7 @@ ninjaEyesClosed;351;77;29;3;0.5;0.5
 ninjaEyesSquinty;2;2;29;7;0.5;0.5
 ninjaEyesSurprised;462;187;29;18;0.5;0.5
 ninjaFoot;351;82;20;20;0.5;0.5
-ninjaHand;373;83;20;19;0.5;0.5
+ninjaHand;395;83;20;19;0.5;0.5
 ninjaHeadShield;282;64;67;56;0.5;0.5
 ninjaHead_blue;282;6;67;56;0.5;0.5
 ninjaHead_green;372;104;67;56;0.5;0.5
@@ -43,6 +43,7 @@ shieldPodGlass;14;122;82;132;0.5;0.5
 shieldPodGlassBroken;98;122;82;132;0.5;0.5
 shieldPodGlassCracked;182;122;82;132;0.5;0.5
 shieldPodGlassCracked2;266;122;82;132;0.5;0.5
-shieldPodLight;375;9;22;8;0.5;0.5
+shieldPodLight;417;94;22;8;0.5;0.5
 shieldPodTop;372;206;88;23;0.5;0.5
 slime;495;204;10;10;0.5;0.5
+slimeGround;373;82;20;20;0.5;0.5
