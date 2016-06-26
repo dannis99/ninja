@@ -11,18 +11,36 @@ public class GrenadeController : MonoBehaviour {
 	public Light grenadeLight;
 	public int secondsToExplosion;
 
+    private float t;
+    private Color onColor;
+    private Color offColor;
+    private float timeFluctuation = 2f;
+
 	protected bool exploded;
 
 	protected void Start () {
+        onColor = grenadeLight.color;
+        offColor = Color.black;
 		if(secondsToExplosion > 0)
 			Invoke("Explode", secondsToExplosion);
 	}
 
 	protected void Update () {
-		
+        t += Time.deltaTime;
+        float timeDiff = t % timeFluctuation;
+        if(timeDiff > timeFluctuation/2f)
+        {
+            grenadeRenderer.color = Color.Lerp(onColor, offColor, timeDiff - Mathf.Floor(timeDiff));
+            grenadeLight.color = Color.Lerp(onColor, offColor, timeDiff - Mathf.Floor(timeDiff));
+        }
+        else
+        {
+            grenadeRenderer.color = Color.Lerp(offColor, onColor, timeDiff - Mathf.Floor(timeDiff));
+            grenadeLight.color = Color.Lerp(offColor, onColor, timeDiff - Mathf.Floor(timeDiff));
+        }
 	}
 
-	protected void Explode () {
+	protected virtual void Explode () {
 		exploded = true;
 	}
 

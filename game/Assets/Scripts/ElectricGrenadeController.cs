@@ -8,7 +8,7 @@ public class ElectricGrenadeController : GrenadeController {
 	public CircleCollider2D electricCollider;
 	float startGrenadeRadius = .1f;
 	float endGrenadeRadius = 1f;
-	float t = 0;
+	float deltaTime = 0;
     float delay = 0;
 
 	protected void Update()
@@ -26,9 +26,9 @@ public class ElectricGrenadeController : GrenadeController {
             {
                 if(!grenadeParticleSystem.isPlaying)
                     grenadeParticleSystem.Play();
-                shape.radius = Mathf.Lerp(startGrenadeRadius, endGrenadeRadius, t);
-                electricCollider.radius = Mathf.Lerp(startGrenadeRadius, endGrenadeRadius, t);
-                t += Time.deltaTime;
+                shape.radius = Mathf.Lerp(startGrenadeRadius, endGrenadeRadius, deltaTime);
+                electricCollider.radius = Mathf.Lerp(startGrenadeRadius, endGrenadeRadius, deltaTime);
+                deltaTime += Time.deltaTime;
             }			
 		}
 	}

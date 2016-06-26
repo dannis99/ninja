@@ -8,7 +8,7 @@ public class FragGrenadeController : GrenadeController {
 	public int explosionDuration;
 	public int explosionForce;
 
-	protected void Explode () {
+	protected override void Explode () {
 		base.Explode();
 		grenadeParticleSystem.Play();
 		grenadeRenderer.enabled = false;

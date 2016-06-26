@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:4d06fc5d8c9e541f9b71710bf70ec0e3:355d6985d3c85afa7c85d265126ca582:afe316a49f29c924237c45204946b105$
+# $TexturePacker:SmartUpdate:211991811506720765efe5f2710cd2ef:0966125f3c95042da97e19a1ff1f2ec1:afe316a49f29c924237c45204946b105$
 #
 :format=40000
 :texture=ninjaParts.png
@@ -45,3 +45,4 @@ shieldPodGlassCracked;182;122;82;132;0.5;0.5
 shieldPodGlassCracked2;266;122;82;132;0.5;0.5
 shieldPodLight;375;9;22;8;0.5;0.5
 shieldPodTop;372;206;88;23;0.5;0.5
+slime;495;204;10;10;0.5;0.5

@@ -39,6 +39,7 @@ TextureImporter:
     21300064: border
     21300066: portal
     21300068: portalStand
+    21300070: slime
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -583,6 +584,17 @@ TextureImporter:
         y: 206
         width: 88
         height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: slime
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 204
+        width: 10
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

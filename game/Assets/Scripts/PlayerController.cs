@@ -580,6 +580,16 @@ public class PlayerController : MonoBehaviour {
             grenadeCount = maxGrenades;
             updateGrenadeSprites();
         }
+        else if (item.GetComponent<SlimeGrenadeController>() != null)
+        {
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<SlimeGrenadeController>() != null)
+                    grenadePrefab = weapon;
+            }
+            grenadeCount = maxGrenades;
+            updateGrenadeSprites();
+        }
         else if(item.GetComponent<ShurikenController>() != null)
 		{
             foreach (GameObject weapon in weaponPrefabs)
