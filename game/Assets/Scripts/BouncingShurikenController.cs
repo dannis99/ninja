@@ -19,11 +19,8 @@ public class BouncingShurikenController : ShurikenParentController
             else if(bounces > 0)
             {
                 bounces--;
-                Debug.Log("bounces");
                 var hit = collision.contacts[0];
-                Debug.Log("old velocity: " + velocity);
                 velocity = Vector2.Reflect(velocity, hit.normal);
-                Debug.Log("new velocity: " + velocity);
             }
             else
             {

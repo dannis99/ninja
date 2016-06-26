@@ -4,8 +4,34 @@ using System.Collections.Generic;
 using Rewired;
 
 public class PlayerController : MonoBehaviour {
+    public static string ANIM_GROUND = "Ground";
+    public static string ANIM_ATTACK = "Attack";
+    public static string ANIM_AIR_ATTACK = "AirAttack";
+    public static string ANIM_DOWN_ATTACK = "DownAttack";
+    public static string ANIM_DUCKING = "Ducking";
+    public static string ANIM_LOOKING_UP = "LookingUp";
+    public static string ANIM_PREPARING_THROW = "PreparingThrow";
+    public static string ANIM_ROLLING = "Rolling";
+    public static string ANIM_DASHING = "Dashing";
+    public static string ANIM_LEDGE_GRAB = "LedgeGrab";
+    public static string ANIM_WALL_SLIDING = "WallSliding";
 
-	public ShieldController shieldController;
+    private List<string> animParams = new List<string> {
+        ANIM_GROUND,
+        ANIM_DOWN_ATTACK,
+        ANIM_DUCKING,
+        ANIM_LOOKING_UP,
+        ANIM_PREPARING_THROW,
+        ANIM_ATTACK,
+        ANIM_AIR_ATTACK,
+        ANIM_ROLLING,
+        ANIM_DASHING,
+        ANIM_LEDGE_GRAB,
+        ANIM_WALL_SLIDING
+    };
+
+
+    public ShieldController shieldController;
 
 	Player playerInput;
 	public int playerId = 0;
@@ -172,16 +198,16 @@ public class PlayerController : MonoBehaviour {
 			anim.SetFloat ("vSpeed", playerRigidbody2D.velocity.y);
 			if (Mathf.Abs (hAxis) <= 0.1)
 				anim.SetFloat ("Speed", hAxis);
-			//anim.SetBool("Ground", grounded);
+			//anim.SetBool(ANIM_GROUND, grounded);
 			// If the input is moving the player right and the player is facing left...
 			if ((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight)) {
 				Flip ();
 			}
 
-			if (anim.GetBool ("Attack"))
-				anim.SetBool ("Attack", false);
-			if (anim.GetBool ("AirAttack"))
-				anim.SetBool ("AirAttack", false);
+			if (anim.GetBool (ANIM_ATTACK))
+				anim.SetBool (ANIM_ATTACK, false);
+			if (anim.GetBool (ANIM_AIR_ATTACK))
+				anim.SetBool (ANIM_AIR_ATTACK, false);
 
 			if (timeSinceAttack <= (attackDuration + timeBetweenAttacks)) {
 				timeSinceAttack += Time.deltaTime;
@@ -208,12 +234,12 @@ public class PlayerController : MonoBehaviour {
 				playerRigidbody2D.gravityScale = 2f;
 				////Debug.Log("setting gravity in fall");
 				if (playerInput.GetButton ("Sword")) {
-					anim.SetBool ("DownAttack", true);
+					anim.SetBool (ANIM_DOWN_ATTACK, true);
 				}
 			} else {
 				playerRigidbody2D.gravityScale = 1f;
 				////Debug.Log("setting gravity back from fall");
-				anim.SetBool ("DownAttack", false);
+				anim.SetBool (ANIM_DOWN_ATTACK, false);
 			}
 
 			CheckLedgeGrab (hAxis);
@@ -222,27 +248,27 @@ public class PlayerController : MonoBehaviour {
 
 			//duck
 			if (grounded && vAxis < -0.5f && Mathf.Abs (hAxis) < .3f) {
-				anim.SetBool ("Ducking", true);
+				anim.SetBool (ANIM_DUCKING, true);
 			} else {
-				anim.SetBool ("Ducking", false);
+				anim.SetBool (ANIM_DUCKING, false);
 			}
 
 			//looking up
 			if (grounded && vAxis > 0.5f && Mathf.Abs (hAxis) < .3f) {
-				anim.SetBool ("LookingUp", true);
+				anim.SetBool (ANIM_LOOKING_UP, true);
 			} else {
-				anim.SetBool ("LookingUp", false);
+				anim.SetBool (ANIM_LOOKING_UP, false);
 			}
 
 			/* checking inputs */
 
 			if (!playerInput.GetButton ("Shuriken") && !playerInput.GetButton ("Grenade")) {
-				anim.SetBool ("PreparingThrow", false);
+				anim.SetBool (ANIM_PREPARING_THROW, false);
 				directionalTarget.SetActive (false);
 			}
 
 			if (playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade")) {
-				anim.SetBool ("PreparingThrow", true);
+				anim.SetBool (ANIM_PREPARING_THROW, true);
 				if (targetDirection == Vector2.zero)
 					targetDirection = new Vector2 (facingRight ? 1 : -1, .5f);
 
@@ -268,19 +294,19 @@ public class PlayerController : MonoBehaviour {
 					}
 					else
 					{
-						anim.SetBool ("Attack", true);
+						anim.SetBool (ANIM_ATTACK, true);
 					}
 				} else {
-					anim.SetBool ("AirAttack", true);
+					anim.SetBool (ANIM_AIR_ATTACK, true);
 				}
 				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
 				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
 				if (grounded)
-					anim.SetBool ("Rolling", true);
+					anim.SetBool (ANIM_ROLLING, true);
 				else
-					anim.SetBool ("Dashing", true);
+					anim.SetBool (ANIM_DASHING, true);
 				ableToDash = false;
 				timeSinceDash = 0f;
 				//preDashVelocity = rigidbody2D.velocity;
@@ -387,8 +413,8 @@ public class PlayerController : MonoBehaviour {
 			timeSinceDash += Time.deltaTime;
 		}
 		if (dashing && timeSinceDash >= dashDuration) {
-			anim.SetBool("Dashing", false);
-			anim.SetBool("Rolling", false);
+			anim.SetBool(ANIM_DASHING, false);
+			anim.SetBool(ANIM_ROLLING, false);
 			dashing = false;
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
@@ -402,13 +428,13 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (canGrabLedge && ((!facingRight && hAxis < -.1) || (facingRight && hAxis > .1))) {
 			grabbingLedge = true;
-			anim.SetBool ("LedgeGrab", true);
+			anim.SetBool (ANIM_LEDGE_GRAB, true);
 			ledgeCollider.enabled = true;
 		}
 		else
 			if (grabbingLedge) {
 				grabbingLedge = false;
-				anim.SetBool ("LedgeGrab", false);
+				anim.SetBool (ANIM_LEDGE_GRAB, false);
 				ledgeCollider.enabled = false;
 			}
 	}
@@ -421,13 +447,13 @@ public class PlayerController : MonoBehaviour {
 			playerRigidbody2D.velocity = new Vector2 (0f, -1f);
 			wallSliding = true;
 
-			anim.SetBool ("WallSliding", true);
+			anim.SetBool (ANIM_WALL_SLIDING, true);
 			if(!slideSmoke.isPlaying)
 				slideSmoke.Play();
 		}
 		else {
 			wallSliding = false;
-			anim.SetBool ("WallSliding", false);
+			anim.SetBool (ANIM_WALL_SLIDING, false);
 			if(slideSmoke.isPlaying)
 				slideSmoke.Stop();
 		}
@@ -437,7 +463,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if((grounded || (!doubleJump && doubleJumpAllowed)))
 		{
-			//anim.SetBool("Ground", false);
+			//anim.SetBool(ANIM_GROUND, false);
 			playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
 
 			if(!doubleJump && !grounded)
@@ -549,7 +575,13 @@ public class PlayerController : MonoBehaviour {
 		else
 		{
 			dead = true;
-			anim.SetTrigger ("Death");
+            slideSmoke.Stop();
+            playerRigidbody2D.gravityScale = 1f;
+            foreach(string animParam in animParams)
+            {
+                anim.SetBool(animParam, false);
+            }            
+            anim.SetTrigger ("Death");
 			gameObject.layer = LayerMask.NameToLayer("Dodging Character");
 			foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
 			{
