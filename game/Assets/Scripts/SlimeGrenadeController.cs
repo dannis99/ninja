@@ -20,7 +20,12 @@ public class SlimeGrenadeController : GrenadeController {
             GameObject slime = Instantiate<GameObject>(slimePrefab);
             slime.transform.position = transform.position;
             Rigidbody2D slimeBody = slime.GetComponent<Rigidbody2D>();
-            slimeBody.AddForce(new Vector2(Random.Range(-maxForce, maxForce), Random.Range(-maxForce, maxForce)), ForceMode2D.Impulse);
+            float xForce = Random.Range(.5f, maxForce);
+            xForce = (Random.Range(1, 3) == 2) ? -xForce : xForce;
+            float yForce = Random.Range(.5f, maxForce);
+            Debug.Log("random:" + Random.Range(1, 2));
+            Debug.Log("slime force: " + xForce + "," + yForce);
+            slimeBody.AddForce(new Vector2(xForce, yForce), ForceMode2D.Impulse);
         }
         destroyGrenade();
 	}
