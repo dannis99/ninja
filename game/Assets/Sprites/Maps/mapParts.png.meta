@@ -20,6 +20,7 @@ TextureImporter:
     21300026: windowBorder
     21300028: windowGlare
     21300030: windowBolts
+    21300032: floatingPlatform
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,6 +67,17 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
+    - name: floatingPlatform
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 204
+        width: 176
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: groundBackground
       rect:
         serializedVersion: 2

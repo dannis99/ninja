@@ -4,10 +4,13 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# Sprite sheet: mapParts.png (512 x 1024)
-# $TexturePacker:SmartUpdate:9ec3b1a41cfa84b8bc61032a018e8696:b36ac0227824ab9e8c21b3576c5f630d:5d0f7d4628ee7f5f6de3339d6ff14581$
+# $TexturePacker:SmartUpdate:2b239606f43751a3c1b45661a5c5d1c1:2483d7264434ba6e6258ba0477608488:5d0f7d4628ee7f5f6de3339d6ff14581$
 #
+:format=40000
+:texture=mapParts.png
+:size=512x1024
 
+floatingPlatform;158;204;176;10;0.5;0.5
 groundBackground;2;164;50;50;0.5;0.5
 groundBorderLowerCenter;2;112;50;50;0.5;0.5
 groundBorderLowerLeft;2;60;50;50;0.5;0.5
