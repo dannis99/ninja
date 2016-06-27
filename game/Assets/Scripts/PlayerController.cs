@@ -302,6 +302,7 @@ public class PlayerController : MonoBehaviour {
 				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
+                setSpriteColor(new Color(1f, 1f, 1f, .6f));
 				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
 				if (grounded)
 					anim.SetBool (ANIM_ROLLING, true);
@@ -356,6 +357,14 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 	}
+
+    void setSpriteColor(Color color)
+    {
+        foreach(SpriteRenderer subRenderer in gameObject.GetComponentsInChildren<SpriteRenderer>())
+        {
+            subRenderer.color = color;
+        }
+    }
 
 	void updateGrenadeSprites()
 	{
@@ -416,6 +425,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool(ANIM_DASHING, false);
 			anim.SetBool(ANIM_ROLLING, false);
 			dashing = false;
+            setSpriteColor(Color.white);
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
