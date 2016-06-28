@@ -128,6 +128,10 @@ public class PlayerController : MonoBehaviour {
 	//particleEffects
 	public ParticleSystem slideSmoke;
 
+    //platform stuff
+    public GameObject platform;
+    public Vector3 platformPreviousPosition;
+
 	void Awake()
 	{
 		playerInput = ReInput.players.GetPlayer(playerId);
@@ -180,6 +184,36 @@ public class PlayerController : MonoBehaviour {
 			touchingLeftWall = Physics2D.OverlapArea (wallCheckLeft.position, new Vector2 (wallCheckLeft.position.x - wallTouchWidth, wallCheckLeft.position.y + .1f), whatIsWall);
 			touchingRightWall = Physics2D.OverlapArea (wallCheckRight.position, new Vector2 (wallCheckRight.position.x + wallTouchWidth, wallCheckRight.position.y + .1f), whatIsWall);
 			touchingWall = touchingLeftWall || touchingRightWall;
+
+            if(grounded)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(groundCheck.position, Vector3.down, .1f);
+                if(hit.collider != null && hit.collider.gameObject.GetComponent<FloatingPlatform>() != null)
+                {
+                    if (platform == null)
+                    {
+                        platform = hit.collider.gameObject;
+                        platformPreviousPosition = Vector3.zero;
+                    }                        
+                }
+                else
+                {
+                    platform = null;
+                }
+            }
+            else
+            {
+                platform = null;
+            }
+
+            if(platform != null)
+            {
+                Vector3 platformDelta = Vector3.zero;
+                if (platformPreviousPosition != Vector3.zero)
+                    platformDelta = platform.transform.position - platformPreviousPosition;
+                transform.position += platformDelta;
+                platformPreviousPosition = platform.transform.position;
+            }
 
 			canGrabLedge = touchingRightWall && !Physics2D.OverlapArea (ledgeCheck.position, new Vector2 (ledgeCheck.position.x + wallTouchWidth, ledgeCheck.position.y + .01f), whatIsWall);
 		}
