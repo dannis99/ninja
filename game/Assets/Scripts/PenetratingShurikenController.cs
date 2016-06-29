@@ -18,8 +18,9 @@ public class PenetratingShurikenController : ShurikenParentController {
                 active = false;
                 velocity = Vector2.zero;
 				shurikenRigidbody2D.isKinematic = true;
+                transform.SetParent(collider.gameObject.transform);
 
-				foreach(Collider2D currCollider in colliders)
+                foreach (Collider2D currCollider in colliders)
 				{
 					currCollider.enabled = false;
 				}

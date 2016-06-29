@@ -27,6 +27,7 @@ public class BouncingShurikenController : ShurikenParentController
                 active = false;
                 velocity = Vector2.zero;
                 shurikenRigidbody2D.isKinematic = true;
+                transform.SetParent(collision.gameObject.transform);
 
                 foreach (Collider2D collider in colliders)
                 {

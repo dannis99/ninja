@@ -55,6 +55,7 @@ public class ElectricGrenadeController : GrenadeController {
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
+        this.transform.SetParent(collision.gameObject.transform);
 		Explode();
 	}
 }
