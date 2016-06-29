@@ -33,7 +33,27 @@ public class FragGrenadeController : GrenadeController {
             	player.takeDamage();
             }
         }
-		//grenadeCollider.radius = explosionRadius;
-		Invoke("destroyGrenade", explosionDuration);
+
+        colliders = Physics2D.OverlapCircleAll(explosionPos, explosionRadius * 2f, 1 << LayerMask.NameToLayer("Character"));
+        playersAlreadyHit = new List<PlayerController>();
+        foreach (Collider2D hit in colliders)
+        {
+            PlayerController player = hit.GetComponent<PlayerController>();
+            if (player != null && !playersAlreadyHit.Contains(player))
+            {
+                Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    Vector3 newVector = rb.transform.position - transform.position;
+                    newVector.Normalize();
+                    rb.AddForce(newVector * (explosionForce/2f), ForceMode2D.Impulse);
+                }
+
+                playersAlreadyHit.Add(player);
+            }
+        }
+
+        //grenadeCollider.radius = explosionRadius;
+        Invoke("destroyGrenade", explosionDuration);
 	}
 }
