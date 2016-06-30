@@ -38,9 +38,7 @@ public class ShieldPod : MonoBehaviour {
 		if(movingToEnd && bar.transform.localPosition != endPosition)
 		{
 			t += Time.deltaTime;
-			Debug.Log ("t: " + t);
 			bar.transform.localPosition = Vector3.Lerp(startPosition, endPosition, t);
-			Debug.Log ("position: " + bar.transform.localPosition);
 		}
 		else if(!movingToEnd && bar.transform.localPosition != startPosition)
 		{

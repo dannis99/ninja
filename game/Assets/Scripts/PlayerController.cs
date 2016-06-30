@@ -336,7 +336,7 @@ public class PlayerController : MonoBehaviour {
 				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
-                setSpriteColor(new Color(1f, 1f, 1f, .6f));
+                setSpriteOpacity(.6f);
 				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
 				if (grounded)
 					anim.SetBool (ANIM_ROLLING, true);
@@ -392,11 +392,11 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-    void setSpriteColor(Color color)
+    void setSpriteOpacity(float opacity)
     {
         foreach(SpriteRenderer subRenderer in gameObject.GetComponentsInChildren<SpriteRenderer>())
         {
-            subRenderer.color = color;
+            subRenderer.color = new Color(subRenderer.color.r, subRenderer.color.g, subRenderer.color.b, opacity);
         }
     }
 
@@ -459,7 +459,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool(ANIM_DASHING, false);
 			anim.SetBool(ANIM_ROLLING, false);
 			dashing = false;
-            setSpriteColor(Color.white);
+            setSpriteOpacity(1f);
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
@@ -661,6 +661,16 @@ public class PlayerController : MonoBehaviour {
             foreach (GameObject weapon in weaponPrefabs)
             {
                 if (weapon.GetComponent<SlimeGrenadeController>() != null)
+                    grenadePrefab = weapon;
+            }
+            grenadeCount = maxGrenades;
+            updateGrenadeSprites();
+        }
+        else if (item.GetComponent<TimeGrenadeController>() != null)
+        {
+            foreach (GameObject weapon in weaponPrefabs)
+            {
+                if (weapon.GetComponent<TimeGrenadeController>() != null)
                     grenadePrefab = weapon;
             }
             grenadeCount = maxGrenades;
