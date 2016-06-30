@@ -41,7 +41,8 @@ public class ElectricGrenadeController : GrenadeController {
 		electricCollider.radius = startGrenadeRadius;
 		electricCollider.enabled = true;
 		grenadeRigidbody.isKinematic = true;
-		Invoke("destroyGrenade", grenadeDuration);
+        grenadeCollider.enabled = false;
+        Invoke("destroyGrenade", grenadeDuration);
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)

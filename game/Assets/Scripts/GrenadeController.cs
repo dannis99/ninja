@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class GrenadeController : MonoBehaviour {
+public class GrenadeController : MonoBehaviour, ISlowable {
 
 	public CircleCollider2D grenadeCollider;
 	public Rigidbody2D grenadeRigidbody;
@@ -44,8 +45,18 @@ public class GrenadeController : MonoBehaviour {
 		exploded = true;
 	}
 
-	protected void destroyGrenade()
+	protected virtual void destroyGrenade()
 	{
 		Destroy(this.gameObject);
 	}
+
+    public void slowed()
+    {
+        grenadeRigidbody.velocity /= 2f;
+    }
+
+    public void unSlowed()
+    {
+        grenadeRigidbody.velocity *= 2f;
+    }
 }

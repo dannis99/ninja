@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Rewired;
+using System;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, ISlowable {
     //public static string ANIM_GROUND = "Ground";
     public static string ANIM_ATTACK = "Attack";
     public static string ANIM_AIR_ATTACK = "AirAttack";
@@ -706,5 +707,23 @@ public class PlayerController : MonoBehaviour {
             shurikenCount = maxShurikens;
             updateShurikenSprites();
         }
+    }
+
+    float slowMultiplier = 2f;
+
+    public void slowed()
+    {
+        maxSpeed /= slowMultiplier;
+        dashSpeed /= slowMultiplier;
+        attackThrustSpeed /= slowMultiplier;
+        anim.speed /= slowMultiplier;
+    }
+
+    public void unSlowed()
+    {
+        maxSpeed *= slowMultiplier;
+        dashSpeed *= slowMultiplier;
+        attackThrustSpeed *= slowMultiplier;
+        anim.speed *= slowMultiplier;
     }
 }

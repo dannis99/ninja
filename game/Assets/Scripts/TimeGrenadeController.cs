@@ -7,31 +7,38 @@ public class TimeGrenadeController : GrenadeController {
     public CircleCollider2D timeCollider;
     public SpriteRenderer timeRenderer;
 	
-	protected void Explode()
+	protected override void Explode()
 	{
 		base.Explode();
         grenadeParticleSystem.Play();
         timeCollider.enabled = true;
         timeRenderer.enabled = true;
 		grenadeRigidbody.isKinematic = true;
-		Invoke("destroyGrenade", grenadeDuration);
+        grenadeCollider.enabled = false;
+        Invoke("collapseCollider", grenadeDuration-.1f);
+        Invoke("destroyGrenade", grenadeDuration);
 	}
 
-	void OnTriggerEnter2D(Collider2D collider)
+    void collapseCollider()
+    {
+        timeCollider.radius = 0f;
+    }
+    
+    void OnTriggerEnter2D(Collider2D collider)
 	{
-        Rigidbody2D colliderBody = collider.gameObject.GetComponent<Rigidbody2D>();
-        if(colliderBody != null)
+        ISlowable slowable = collider.gameObject.GetComponent<ISlowable>();
+        if(slowable != null)
         {
-            colliderBody.velocity /= 2;
+            slowable.slowed();
         }
 	}
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        Rigidbody2D colliderBody = collider.gameObject.GetComponent<Rigidbody2D>();
-        if (colliderBody != null)
+        ISlowable slowable = collider.gameObject.GetComponent<ISlowable>();
+        if (slowable != null)
         {
-            colliderBody.velocity *= 2;
+            slowable.unSlowed();
         }
     }
 
