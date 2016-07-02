@@ -19,8 +19,9 @@ public class Portal : MonoBehaviour
             }
             else
             {
+                Vector3 positionDifference = pairedPortal.transform.position - transform.position;
                 pairedPortal.portaledObject = currObject;
-                currObject.transform.position = pairedPortal.transform.position;
+                currObject.transform.position += positionDifference;
             }
         }        
     }

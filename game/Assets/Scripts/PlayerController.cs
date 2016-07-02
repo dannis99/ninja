@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
     public static string ANIM_PREPARING_THROW = "PreparingThrow";
     public static string ANIM_ROLLING = "Rolling";
     public static string ANIM_DASHING = "Dashing";
+    public static string ANIM_DASH_UPWARD = "DashUpward";
     public static string ANIM_LEDGE_GRAB = "LedgeGrab";
     public static string ANIM_WALL_SLIDING = "WallSliding";
 
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
         ANIM_AIR_ATTACK,
         ANIM_ROLLING,
         ANIM_DASHING,
+        ANIM_DASH_UPWARD,
         ANIM_LEDGE_GRAB,
         ANIM_WALL_SLIDING
     };
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	public float timeBetweenDashes;
 	public float dashDuration;
 	float timeSinceDash = 0f;
+    Vector2 dashToward = Vector2.zero;
 	//Vector2 preDashVelocity;
 	public float airMoveForce;
 	bool facingRight = true;
@@ -337,34 +340,50 @@ public class PlayerController : MonoBehaviour, ISlowable {
 				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
 			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
 				dashing = true;
+                playerRigidbody2D.isKinematic = true;
                 setSpriteOpacity(.6f);
 				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
-				if (grounded)
-					anim.SetBool (ANIM_ROLLING, true);
-				else
-					anim.SetBool (ANIM_DASHING, true);
+				
 				ableToDash = false;
 				timeSinceDash = 0f;
-				//preDashVelocity = rigidbody2D.velocity;
-				float xDashForce = dashSpeed;
-				if (!facingRight)
-					xDashForce = -dashSpeed;
-				if (Mathf.Abs (vAxis) > .1f && Mathf.Abs (hAxis) < .1f)
-					xDashForce = 0;
+                //preDashVelocity = rigidbody2D.velocity;
+                float yDashForce = 0;
+				if (Mathf.Abs (vAxis) > .4f)
+					yDashForce = (vAxis > .1f) ? 1f : -1f;
 
-				float yDashForce = 0;
-				if (Mathf.Abs (vAxis) > .1f)
-					yDashForce = (vAxis > .1f) ? dashSpeed : -dashSpeed;
+                float xDashForce = 0;
+                if (Mathf.Abs(hAxis) > .4f || yDashForce == 0)
+                    xDashForce = (facingRight) ? 1f : -1f;
 
-				//gotta set the combination of the forces to to the total dash force
-				if (xDashForce > 0)
-					xDashForce = xDashForce / (Mathf.Abs (xDashForce) + Mathf.Abs (yDashForce)) * dashSpeed;
+				////gotta set the combination of the forces to to the total dash force
+    //            if(Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+    //            {
+    //                xDashForce *= dashSpeed;
+    //            }
+    //            else if (Mathf.Abs(yDashForce) > Mathf.Abs(xDashForce))
+    //            {
+    //                yDashForce *= dashSpeed;
+    //            }
+    //            else if(Mathf.Abs(xDashForce) == 1 && Mathf.Abs(yDashForce) == 1)
+    //            {
+    //                xDashForce *= (dashSpeed/2f);
+    //                yDashForce *= (dashSpeed/2f);
+    //            }
+    //            else
+    //            {
+    //                xDashForce = (facingRight)?dashSpeed:-dashSpeed;
+    //            }
+                    
+                if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    anim.SetBool(ANIM_ROLLING, true);
+                else if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    anim.SetBool(ANIM_DASHING, true);
+                else
+                    anim.SetBool(ANIM_DASH_UPWARD, true);
 
-				if (yDashForce > 0)
-					yDashForce = yDashForce / (Mathf.Abs (xDashForce) + Mathf.Abs (yDashForce)) * dashSpeed;
-
-				Vector2 dashForce = new Vector2 (xDashForce, yDashForce);
-				playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
+                Vector3 dashForce = new Vector2 (xDashForce, yDashForce);
+                dashToward = transform.position + (dashForce * 10f);
+				//playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
 			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
 				if (grounded || //walking or running
 				   (!grounded && (hAxis < 0 && playerRigidbody2D.velocity.x > 0 || hAxis > 0 && playerRigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
@@ -455,15 +474,24 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	{
 		if (timeSinceDash <= (dashDuration + timeBetweenDashes)) {
 			timeSinceDash += Time.deltaTime;
+            if(dashing)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, dashToward, dashSpeed * Time.deltaTime);
+            }
 		}
+
 		if (dashing && timeSinceDash >= dashDuration) {
 			anim.SetBool(ANIM_DASHING, false);
 			anim.SetBool(ANIM_ROLLING, false);
-			dashing = false;
+            anim.SetBool(ANIM_DASH_UPWARD, false);
+            dashing = false;
+            playerRigidbody2D.isKinematic = false;
+            dashToward = Vector2.zero;
             setSpriteOpacity(1f);
 			gameObject.layer = LayerMask.NameToLayer("Character");
 			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
+
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
 		}
@@ -726,4 +754,23 @@ public class PlayerController : MonoBehaviour, ISlowable {
         attackThrustSpeed *= slowMultiplier;
         anim.speed *= slowMultiplier;
     }
+
+    void OnTriggerEnter2D(Collider2D collider)
+	{
+        if(dashing && collider.gameObject.layer == LayerMask.NameToLayer("Walls") ||
+                      collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Debug.Log("player trigger: " + collider.gameObject.name);
+            timeSinceDash = dashDuration + timeBetweenDashes + .1f;
+        }        
+    }
+
+	//void OnCollisionEnter2D(Collision2D collision)
+	//{
+ //       if(dashing && collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
+ //       {
+ //           Debug.Log("player collision: " + collision.gameObject.name);
+ //           playerRigidbody2D.isKinematic = false;
+ //       }
+	//}
 }
