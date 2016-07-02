@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void CheckWallSlide (float hAxis)
 	{
-		if (!grounded && touchingRightWall && playerRigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
+		if (!grounded && !dashing && touchingRightWall && playerRigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
 			playerRigidbody2D.gravityScale = 0.15f;
 			////Debug.Log("setting gravity in wall slide");
 			playerRigidbody2D.velocity = new Vector2 (0f, -1f);
@@ -757,8 +757,13 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     void OnTriggerEnter2D(Collider2D collider)
 	{
-        if(dashing && collider.gameObject.layer == LayerMask.NameToLayer("Walls") ||
+        if (dashing && collider.gameObject.layer == LayerMask.NameToLayer("Walls") ||
                       collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Debug.Log("transform.position: " + transform.position + " dashToward: " + dashToward);
+        }
+        if (dashing && ((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.y - dashToward.y) <= .2f) ||
+                    (collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.x - dashToward.x) <= .2f)))
         {
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
