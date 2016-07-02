@@ -760,7 +760,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
         if(dashing && collider.gameObject.layer == LayerMask.NameToLayer("Walls") ||
                       collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            Debug.Log("player trigger: " + collider.gameObject.name);
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
     }
