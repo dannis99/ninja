@@ -66,8 +66,12 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	public float dashDuration;
 	float timeSinceDash = 0f;
     Vector2 dashToward = Vector2.zero;
-	//Vector2 preDashVelocity;
-	public float airMoveForce;
+    public ParticleSystem dashRightEffect;
+    public ParticleSystem dashLeftEffect;
+    public ParticleSystem dashUpEffect;
+
+    //Vector2 preDashVelocity;
+    public float airMoveForce;
 	bool facingRight = true;
 	float hAxis;
 	float vAxis;
@@ -146,28 +150,40 @@ public class PlayerController : MonoBehaviour, ISlowable {
 			headRenderer.sprite = redHead;
 			shieldController.firstColor = new Color (0f, .78f, .6f, .7f);
 			shieldController.secondColor = new Color (0f, .78f, .6f, 0f);
-		}
+            dashRightEffect.startColor = Color.red;
+            dashLeftEffect.startColor = Color.red;
+            dashUpEffect.startColor = Color.red;
+        }
 		else if(playerColor == "blue")
 		{
 			bodyRenderer.sprite = blueBody;
 			headRenderer.sprite = blueHead;
 			shieldController.firstColor = new Color (.78f, .6f, 0f, 1f);
 			shieldController.secondColor = new Color (.78f, .6f, 0f, .3f);
-		}
+            dashRightEffect.startColor = Color.cyan;
+            dashLeftEffect.startColor = Color.cyan;
+            dashUpEffect.startColor = Color.cyan;
+        }
 		else if(playerColor == "green")
 		{
 			bodyRenderer.sprite = greenBody;
 			headRenderer.sprite = greenHead;
 			shieldController.firstColor = new Color (.78f, 0f, .6f, .7f);
 			shieldController.secondColor = new Color (.78f, 0f, .6f, 0f);
-		}
+            dashRightEffect.startColor = Color.green;
+            dashLeftEffect.startColor = Color.green;
+            dashUpEffect.startColor = Color.green;
+        }
 		else if(playerColor == "yellow")
 		{
 			bodyRenderer.sprite = yellowBody;
 			headRenderer.sprite = yellowHead;
 			shieldController.firstColor = new Color (0f, .7f, .2f, .7f);
 			shieldController.secondColor = new Color (0f, .7f, .2f, 0f);
-		}
+            dashRightEffect.startColor = Color.yellow;
+            dashLeftEffect.startColor = Color.yellow;
+            dashUpEffect.startColor = Color.yellow;
+        }
 	}
 
 	void Start () {
@@ -178,6 +194,8 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		anim = GetComponent<Animator>();
 		grenadeCount = maxGrenades;
 		shurikenCount = maxShurikens;
+        updateShurikenSprites();
+        updateGrenadeSprites();
 	}
 	
 	void FixedUpdate () {
@@ -354,32 +372,25 @@ public class PlayerController : MonoBehaviour, ISlowable {
                 float xDashForce = 0;
                 if (Mathf.Abs(hAxis) > .4f || yDashForce == 0)
                     xDashForce = (facingRight) ? 1f : -1f;
-
-				////gotta set the combination of the forces to to the total dash force
-    //            if(Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
-    //            {
-    //                xDashForce *= dashSpeed;
-    //            }
-    //            else if (Mathf.Abs(yDashForce) > Mathf.Abs(xDashForce))
-    //            {
-    //                yDashForce *= dashSpeed;
-    //            }
-    //            else if(Mathf.Abs(xDashForce) == 1 && Mathf.Abs(yDashForce) == 1)
-    //            {
-    //                xDashForce *= (dashSpeed/2f);
-    //                yDashForce *= (dashSpeed/2f);
-    //            }
-    //            else
-    //            {
-    //                xDashForce = (facingRight)?dashSpeed:-dashSpeed;
-    //            }
-                    
+                
                 if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                {
                     anim.SetBool(ANIM_ROLLING, true);
+                }
                 else if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                {
                     anim.SetBool(ANIM_DASHING, true);
+                    if (facingRight)
+                        dashRightEffect.Play();
+                    else
+                        dashLeftEffect.Play();
+                }
                 else
+                {
                     anim.SetBool(ANIM_DASH_UPWARD, true);
+                    if(yDashForce > 0)
+                        dashUpEffect.Play();
+                }
 
                 Vector3 dashForce = new Vector2 (xDashForce, yDashForce);
                 dashToward = transform.position + (dashForce * 10f);
@@ -422,11 +433,13 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void updateGrenadeSprites()
 	{
-		for(int i = 0; i < grenadeSprites.Length; i++)
+        Color grenadeColor = grenadePrefab.GetComponent<SpriteRenderer>().color;
+        for (int i = 0; i < grenadeSprites.Length; i++)
 		{
 			if(grenadeCount > i)
 			{
 				grenadeSprites [i].enabled = true;
+                grenadeSprites[i].color = grenadeColor;
 			}
 			else
 			{
@@ -437,11 +450,13 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void updateShurikenSprites()
 	{
-		for(int i = 0; i < shurikenSprites.Length; i++)
+        Color shurikenColor = shurikenPrefab.GetComponent<SpriteRenderer>().color;
+        for (int i = 0; i < shurikenSprites.Length; i++)
 		{
 			if(shurikenCount > i)
 			{
 				shurikenSprites [i].enabled = true;
+                shurikenSprites[i].color = shurikenColor;
 			}
 			else
 			{
@@ -757,13 +772,9 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     void OnTriggerEnter2D(Collider2D collider)
 	{
-        if (dashing && collider.gameObject.layer == LayerMask.NameToLayer("Walls") ||
-                      collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            Debug.Log("transform.position: " + transform.position + " dashToward: " + dashToward);
-        }
-        if (dashing && ((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.y - dashToward.y) <= .2f) ||
-                    (collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.x - dashToward.x) <= .2f)))
+        if (dashing && /* moving horizontally */((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.x - dashToward.x) >= .2f) ||
+                       /* in air jumping up */(collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.y - dashToward.y) >= .2f) ||
+                       /* on ground jumping up */(grounded && collider.gameObject.layer == LayerMask.NameToLayer("Ground") && dashToward.y - transform.position.y >= .2f)))
         {
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
