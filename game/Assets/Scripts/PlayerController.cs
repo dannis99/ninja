@@ -120,7 +120,10 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	public float airDragMultiplier;
 	public float jumpForce;
 	public float jumpPushForce;
-	
+    public float maxJumpDuration;
+    float timeSinceJump;
+    bool jumping;
+
 	//double jump
 	bool doubleJumpAllowed = false;
 	bool doubleJump = false;
@@ -459,6 +462,19 @@ public class PlayerController : MonoBehaviour, ISlowable {
                 {
                     tryToJump();
                 }
+
+                if (playerInput.GetButton("Jump") && jumping && timeSinceJump < maxJumpDuration)
+                {
+                    Debug.Log("jump down");
+                    playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
+                    timeSinceJump += Time.deltaTime;
+                }
+
+                if (playerInput.GetButtonUp("Jump"))
+                {
+                    jumping = false;
+                    timeSinceJump = 0;
+                }
             }
 		}
 	}
@@ -596,8 +612,10 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	{
 		if((grounded || (!doubleJump && doubleJumpAllowed)))
 		{
-			//anim.SetBool(ANIM_GROUND, false);
-			playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
+            //anim.SetBool(ANIM_GROUND, false);
+            //playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
+            timeSinceJump = 0;
+            jumping = true;
 
 			if(!doubleJump && !grounded)
 			{
