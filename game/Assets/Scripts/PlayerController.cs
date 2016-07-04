@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
     public static string ANIM_DASH_UPWARD = "DashUpward";
     public static string ANIM_LEDGE_GRAB = "LedgeGrab";
     public static string ANIM_WALL_SLIDING = "WallSliding";
+    public static string ANIM_BLOCKING = "Blocking";
 
     private List<string> animParams = new List<string> {
         //ANIM_GROUND,
@@ -331,6 +332,16 @@ public class PlayerController : MonoBehaviour, ISlowable {
                 anim.SetBool(ANIM_LOOKING_UP, false);
             }
 
+            //blocking
+            if(grounded && playerInput.GetButton("Block"))
+            {
+                anim.SetBool(ANIM_BLOCKING, true);
+            }
+            else
+            {
+                anim.SetBool(ANIM_BLOCKING, false);
+            }
+
             /* checking inputs */
             if (!playerInput.GetButton("Shuriken") && !playerInput.GetButton("Grenade"))
             {
@@ -574,7 +585,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void CheckWallSlide (float hAxis)
 	{
-		if (!grounded && !dashing && touchingRightWall && playerRigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
+		if (!grounded && !dashing && !grabbingLedge && touchingRightWall && playerRigidbody2D.velocity.y <= 0 && (/* falling */(facingRight && hAxis > 0f) || /* holding against right wall */(!facingRight && hAxis < 0f)))/* holding against left wall */ {
 			playerRigidbody2D.gravityScale = 0.15f;
 			////Debug.Log("setting gravity in wall slide");
 			playerRigidbody2D.velocity = new Vector2 (0f, -1f);

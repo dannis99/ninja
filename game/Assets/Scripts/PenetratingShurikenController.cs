@@ -5,7 +5,7 @@ public class PenetratingShurikenController : ShurikenParentController {
 
 	bool active = true;
 	
-	void OnTriggerEnter2D(Collider2D collider)
+    public override void OnTriggerEnter2D(Collider2D collider)
 	{
 		if(active)
 		{
@@ -13,7 +13,7 @@ public class PenetratingShurikenController : ShurikenParentController {
 			{
 				collider.gameObject.GetComponent<PlayerController>().takeDamage();
 			}
-			else
+			else if(collider.gameObject.tag == "surface")
 			{
                 active = false;
                 velocity = Vector2.zero;

@@ -17,7 +17,15 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
     public virtual void setVelocity(Vector2 newVelocity)
 	{
 		velocity = newVelocity;
-	}   
+	}
+    
+    public virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.tag == "lethalSword")
+        {
+            velocity = new Vector2(-1f * velocity.x, -1f * velocity.y);
+        }
+    }   
 
     public void slowed()
     {

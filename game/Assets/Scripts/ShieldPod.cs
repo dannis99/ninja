@@ -112,7 +112,7 @@ public class ShieldPod : MonoBehaviour {
 				movingToEnd = true;
 			}
 		}
-		else if(collider.gameObject.tag == "lethal")
+		else if(collider.gameObject.tag.Contains("lethal"))
 		{
 			if(canTakeDamage)
 				takeDamage();

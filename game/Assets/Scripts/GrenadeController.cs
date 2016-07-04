@@ -50,6 +50,15 @@ public class GrenadeController : MonoBehaviour, ISlowable {
 		Destroy(this.gameObject);
 	}
 
+    public virtual void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "lethalSword")
+        {
+            Vector3 force = transform.position - collider.gameObject.transform.position;
+            grenadeRigidbody.AddForce(force * 100f);
+        }
+    }
+
     public void slowed()
     {
         grenadeRigidbody.velocity /= 2f;
