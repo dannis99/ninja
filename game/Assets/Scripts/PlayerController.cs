@@ -243,185 +243,230 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void Update()
 	{
-		if (dead)
-		{
-			anim.SetTrigger ("Death");
-		}
-		else
-		{
-			hAxis = playerInput.GetAxis ("Move Horizontal");
-			vAxis = playerInput.GetAxis ("Move Vertical");
-			anim.SetFloat ("vSpeed", playerRigidbody2D.velocity.y);
-			if (Mathf.Abs (hAxis) <= 0.1)
-				anim.SetFloat ("Speed", hAxis);
-			//anim.SetBool(ANIM_GROUND, grounded);
-			// If the input is moving the player right and the player is facing left...
-			if ((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight)) {
-				Flip ();
-			}
+        if (dead)
+        {
+            anim.SetTrigger("Death");
+        }
+        else
+        {
+            hAxis = playerInput.GetAxis("Move Horizontal");
+            vAxis = playerInput.GetAxis("Move Vertical");
+            anim.SetFloat("vSpeed", playerRigidbody2D.velocity.y);
+            if (Mathf.Abs(hAxis) <= 0.1)
+                anim.SetFloat("Speed", hAxis);
+            //anim.SetBool(ANIM_GROUND, grounded);
+            // If the input is moving the player right and the player is facing left...
+            if ((hAxis > 0 && !facingRight) || (hAxis < 0 && facingRight))
+            {
+                Flip();
+            }
 
-			if (anim.GetBool (ANIM_ATTACK))
-				anim.SetBool (ANIM_ATTACK, false);
-			if (anim.GetBool (ANIM_AIR_ATTACK))
-				anim.SetBool (ANIM_AIR_ATTACK, false);
+            if (anim.GetBool(ANIM_ATTACK))
+                anim.SetBool(ANIM_ATTACK, false);
+            if (anim.GetBool(ANIM_AIR_ATTACK))
+                anim.SetBool(ANIM_AIR_ATTACK, false);
 
-			if (timeSinceAttack <= (attackDuration + timeBetweenAttacks)) {
-				timeSinceAttack += Time.deltaTime;
-			}
+            if (timeSinceAttack <= (attackDuration + timeBetweenAttacks))
+            {
+                timeSinceAttack += Time.deltaTime;
+            }
 
-			if (!ableToAttack && timeSinceAttack >= (attackDuration + timeBetweenAttacks)) {
-				ableToAttack = true;
-			}
+            if (!ableToAttack && timeSinceAttack >= (attackDuration + timeBetweenAttacks))
+            {
+                ableToAttack = true;
+            }
 
-			CheckAbilityToJump ();
+            CheckAbilityToJump();
 
-			CheckDash ();
+            CheckDash();
 
-			//checking wall jump duration
-			if (wallJumping) {
-				timeSinceWallJump += Time.deltaTime;
-				if (timeSinceWallJump >= wallJumpDuration) {
-					wallJumping = false;
-				}
-			}
-
-			// Fall faster while holding down
-			if (!grounded && !wallSliding && vAxis < -0.5f) {
-				playerRigidbody2D.gravityScale = 2f;
-				////Debug.Log("setting gravity in fall");
-				if (playerInput.GetButton ("Sword")) {
-					anim.SetBool (ANIM_DOWN_ATTACK, true);
-				}
-			} else {
-				playerRigidbody2D.gravityScale = 1f;
-				////Debug.Log("setting gravity back from fall");
-				anim.SetBool (ANIM_DOWN_ATTACK, false);
-			}
-
-			CheckLedgeGrab (hAxis);
-			if (!grabbingLedge)
-				CheckWallSlide (hAxis);
-
-			//duck
-			if (grounded && vAxis < -0.5f && Mathf.Abs (hAxis) < .3f) {
-				anim.SetBool (ANIM_DUCKING, true);
-			} else {
-				anim.SetBool (ANIM_DUCKING, false);
-			}
-
-			//looking up
-			if (grounded && vAxis > 0.5f && Mathf.Abs (hAxis) < .3f) {
-				anim.SetBool (ANIM_LOOKING_UP, true);
-			} else {
-				anim.SetBool (ANIM_LOOKING_UP, false);
-			}
-
-			/* checking inputs */
-
-			if (!playerInput.GetButton ("Shuriken") && !playerInput.GetButton ("Grenade")) {
-				anim.SetBool (ANIM_PREPARING_THROW, false);
-				directionalTarget.SetActive (false);
-			}
-
-			if (playerInput.GetButton ("Shuriken") || playerInput.GetButton ("Grenade")) {
-				anim.SetBool (ANIM_PREPARING_THROW, true);
-				if (targetDirection == Vector2.zero)
-					targetDirection = new Vector2 (facingRight ? 1 : -1, .5f);
-
-				if (grounded) {//stop sliding when targeting
-					playerRigidbody2D.velocity = Vector2.zero;
-				}
-
-				if (Mathf.Abs (hAxis) + Mathf.Abs (vAxis) > 1.0f) {
-					targetDirection = new Vector2 (hAxis, .5f + (vAxis / 2f));//setting y to a 0 to 1 range instead of -1 to 1
-				}
-				setDirectionalTarget (targetDirection, Mathf.Atan2 (vAxis, Mathf.Abs (hAxis)) * Mathf.Rad2Deg);
-			} else if (playerInput.GetButtonDown ("Sword") && ableToAttack) {
-				ableToAttack = false;
-				timeSinceAttack = 0f;
-				if (grounded) {
-					if(Mathf.Abs(hAxis) > .3f)
-					{
-						anim.SetTrigger("Attack");
-						dashing = true;
-						ableToDash = false;
-						timeSinceDash = 0f;
-						playerRigidbody2D.AddForce (new Vector2((facingRight)?attackThrustSpeed:-attackThrustSpeed, 0), ForceMode2D.Impulse);
-					}
-					else
-					{
-						anim.SetBool (ANIM_ATTACK, true);
-					}
-				} else {
-					anim.SetBool (ANIM_AIR_ATTACK, true);
-				}
-				//rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
-			} else if (playerInput.GetButtonDown ("Dash") && ableToDash) {
-				dashing = true;
-                playerRigidbody2D.isKinematic = true;
-                setSpriteOpacity(.6f);
-				gameObject.layer = LayerMask.NameToLayer("Dodging Character");
-				
-				ableToDash = false;
-				timeSinceDash = 0f;
-                //preDashVelocity = rigidbody2D.velocity;
-                float yDashForce = 0;
-				if (Mathf.Abs (vAxis) > .4f)
-					yDashForce = (vAxis > .1f) ? 1f : -1f;
-
-                float xDashForce = 0;
-                if (Mathf.Abs(hAxis) > .4f || yDashForce == 0)
-                    xDashForce = (facingRight) ? 1f : -1f;
-                
-                if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+            //checking wall jump duration
+            if (wallJumping)
+            {
+                timeSinceWallJump += Time.deltaTime;
+                if (timeSinceWallJump >= wallJumpDuration)
                 {
-                    anim.SetBool(ANIM_ROLLING, true);
+                    wallJumping = false;
                 }
-                else if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+            }
+
+            // Fall faster while holding down
+            if (!grounded && !wallSliding && vAxis < -0.5f)
+            {
+                playerRigidbody2D.gravityScale = 2f;
+                ////Debug.Log("setting gravity in fall");
+                if (playerInput.GetButton("Sword"))
                 {
-                    anim.SetBool(ANIM_DASHING, true);
-                    if (facingRight)
-                        dashRightEffect.Play();
+                    anim.SetBool(ANIM_DOWN_ATTACK, true);
+                }
+            }
+            else
+            {
+                playerRigidbody2D.gravityScale = 1f;
+                ////Debug.Log("setting gravity back from fall");
+                anim.SetBool(ANIM_DOWN_ATTACK, false);
+            }
+
+            CheckLedgeGrab(hAxis);
+            if (!grabbingLedge)
+                CheckWallSlide(hAxis);
+
+            //duck
+            if (grounded && vAxis < -0.5f && Mathf.Abs(hAxis) < .3f)
+            {
+                anim.SetBool(ANIM_DUCKING, true);
+            }
+            else
+            {
+                anim.SetBool(ANIM_DUCKING, false);
+            }
+
+            //looking up
+            if (grounded && vAxis > 0.5f && Mathf.Abs(hAxis) < .3f)
+            {
+                anim.SetBool(ANIM_LOOKING_UP, true);
+            }
+            else
+            {
+                anim.SetBool(ANIM_LOOKING_UP, false);
+            }
+
+            /* checking inputs */
+            if (!playerInput.GetButton("Shuriken") && !playerInput.GetButton("Grenade"))
+            {
+                anim.SetBool(ANIM_PREPARING_THROW, false);
+                directionalTarget.SetActive(false);
+            }
+
+            if (playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade"))
+            {
+                anim.SetBool(ANIM_PREPARING_THROW, true);
+                if (targetDirection == Vector2.zero)
+                    targetDirection = new Vector2(facingRight ? 1 : -1, .5f);
+
+                if (grounded)
+                {//stop sliding when targeting
+                    playerRigidbody2D.velocity = Vector2.zero;
+                }
+
+                if (Mathf.Abs(hAxis) + Mathf.Abs(vAxis) > 1.0f)
+                {
+                    targetDirection = new Vector2(hAxis, .5f + (vAxis / 2f));//setting y to a 0 to 1 range instead of -1 to 1
+                }
+                setDirectionalTarget(targetDirection, Mathf.Atan2(vAxis, Mathf.Abs(hAxis)) * Mathf.Rad2Deg);
+            }
+
+            if (playerInput.GetButtonUp("Shuriken"))
+            {// Input.GetButtonDown("Shuriken"))
+                if (shurikenCount > 0)
+                {
+                    throwShuriken(targetDirection);
+                }
+                targetDirection = Vector2.zero;
+            }
+            else if (playerInput.GetButtonUp("Grenade"))
+            {// if(Input.GetButtonDown("Grenade"))
+                if (grenadeCount > 0)
+                {
+                    throwGrenade(targetDirection);
+                }
+                targetDirection = Vector2.zero;
+            }
+
+            if (!blockingActionInEffect())
+            {
+                if (playerInput.GetButtonDown("Sword") && ableToAttack)
+                {
+                    ableToAttack = false;
+                    timeSinceAttack = 0f;
+                    if (grounded)
+                    {
+                        if (Mathf.Abs(hAxis) > .3f)
+                        {
+                            anim.SetTrigger("Attack");
+                            dashing = true;
+                            ableToDash = false;
+                            timeSinceDash = 0f;
+                            dashToward = transform.position + (new Vector3((facingRight)?1f:-1f, 0f) * 10f);
+                        }
+                        else
+                        {
+                            anim.SetBool(ANIM_ATTACK, true);
+                        }
+                    }
                     else
-                        dashLeftEffect.Play();
+                    {
+                        anim.SetBool(ANIM_AIR_ATTACK, true);
+                    }
+                    //rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
                 }
-                else
+                else if (playerInput.GetButtonDown("Dash") && ableToDash)
                 {
-                    anim.SetBool(ANIM_DASH_UPWARD, true);
-                    if(yDashForce > 0)
-                        dashUpEffect.Play();
+                    dashing = true;
+                    playerRigidbody2D.isKinematic = true;
+                    setSpriteOpacity(.6f);
+                    gameObject.layer = LayerMask.NameToLayer("Dodging Character");
+
+                    ableToDash = false;
+                    timeSinceDash = 0f;
+                    //preDashVelocity = rigidbody2D.velocity;
+                    float yDashForce = 0;
+                    if (Mathf.Abs(vAxis) > .4f)
+                        yDashForce = (vAxis > .1f) ? 1f : -1f;
+
+                    float xDashForce = 0;
+                    if (Mathf.Abs(hAxis) > .4f || yDashForce == 0)
+                        xDashForce = (facingRight) ? 1f : -1f;
+
+                    if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    {
+                        anim.SetBool(ANIM_ROLLING, true);
+                    }
+                    else if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    {
+                        anim.SetBool(ANIM_DASHING, true);
+                        if (facingRight)
+                            dashRightEffect.Play();
+                        else
+                            dashLeftEffect.Play();
+                    }
+                    else
+                    {
+                        anim.SetBool(ANIM_DASH_UPWARD, true);
+                        if (yDashForce > 0)
+                            dashUpEffect.Play();
+                    }
+
+                    Vector3 dashForce = new Vector2(xDashForce, yDashForce);
+                    dashToward = transform.position + (dashForce * 10f);
+                    //playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
                 }
+                else if (Mathf.Abs(hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing)
+                {//checking if we are going to allow side to side force or velocity changes
+                    if (grounded || //walking or running
+                       (!grounded && (hAxis < 0 && playerRigidbody2D.velocity.x > 0 || hAxis > 0 && playerRigidbody2D.velocity.x < 0)))
+                    {//Changing velocity when moving along the ground or when in the air and changing direction
+                        playerRigidbody2D.velocity = new Vector2(hAxis * maxSpeed, playerRigidbody2D.velocity.y);
+                    }
+                    else
+                    { //adding force when in the air and moving in the same direction
+                        playerRigidbody2D.AddForce(new Vector2(hAxis * airMoveForce, playerRigidbody2D.velocity.y));
+                    }
+                    anim.SetFloat("Speed", Mathf.Abs(hAxis));
+                }               
 
-                Vector3 dashForce = new Vector2 (xDashForce, yDashForce);
-                dashToward = transform.position + (dashForce * 10f);
-				//playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
-			} else if (Mathf.Abs (hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing) {//checking if we are going to allow side to side force or velocity changes
-				if (grounded || //walking or running
-				   (!grounded && (hAxis < 0 && playerRigidbody2D.velocity.x > 0 || hAxis > 0 && playerRigidbody2D.velocity.x < 0))) {//Changing velocity when moving along the ground or when in the air and changing direction
-					playerRigidbody2D.velocity = new Vector2 (hAxis * maxSpeed, playerRigidbody2D.velocity.y);
-				} else { //adding force when in the air and moving in the same direction
-					playerRigidbody2D.AddForce (new Vector2 (hAxis * airMoveForce, playerRigidbody2D.velocity.y));
-				}
-				anim.SetFloat ("Speed", Mathf.Abs (hAxis));
-			}
-
-			if (playerInput.GetButtonUp ("Shuriken")) {// Input.GetButtonDown("Shuriken"))
-				if (shurikenCount > 0) {
-					throwShuriken (targetDirection);
-				}
-				targetDirection = Vector2.zero;
-			} else if (playerInput.GetButtonUp ("Grenade")) {// if(Input.GetButtonDown("Grenade"))
-				if (grenadeCount > 0) {
-					throwGrenade (targetDirection);
-				}
-				targetDirection = Vector2.zero;
-			}
-
-			if (playerInput.GetButtonDown ("Jump")) {
-				tryToJump ();
-			}
+                if (playerInput.GetButtonDown("Jump"))
+                {
+                    tryToJump();
+                }
+            }
 		}
 	}
+
+    private bool blockingActionInEffect()
+    {
+        return dashing || timeSinceAttack <= attackDuration || playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade");
+    }
 
     void setSpriteOpacity(float opacity)
     {
@@ -622,24 +667,26 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		updateShurikenSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject shuriken = Instantiate<GameObject>(shurikenPrefab);
-		float xVelocity = 0;
-		if(Mathf.Abs(hAxis) > .3f)
-			xVelocity = (facingRight)?shurikenVelocity:-shurikenVelocity;
 
+        float hAxisToUse = (Mathf.Abs(hAxis) > .2f) ? hAxis : 0f;
+        float vAxisToUse = (Mathf.Abs(vAxis) > .2f) ? vAxis : 0f;
+        Debug.Log("hAxis: " + hAxis + " vAxis: " + vAxis);
+        Debug.Log("hAxisToUse: " + hAxisToUse + " vAxisToUse: " + vAxisToUse);
+        float xVelocity = 0;
 		float yVelocity = 0;
-		if(Mathf.Abs(vAxis) > .3f)
-		{
-			yVelocity = shurikenVelocity;
-		}
+		//balance it so the velocity isn't less than or greater than the total shuriken velocity
+        if(Mathf.Abs(hAxisToUse) > 0)
+            xVelocity = (Mathf.Abs(hAxisToUse) < Mathf.Abs(vAxisToUse))?shurikenVelocity * hAxisToUse: (facingRight)?shurikenVelocity:-shurikenVelocity;
+        if(Mathf.Abs(vAxisToUse) > 0)
+            yVelocity = (Mathf.Abs(vAxisToUse) < Mathf.Abs(hAxisToUse))?shurikenVelocity * vAxisToUse: shurikenVelocity;
 		Vector2 velocity = new Vector2(xVelocity, yVelocity);
+
 		if(velocity == Vector2.zero)
 			velocity = new Vector2((facingRight)?shurikenVelocity:-shurikenVelocity, yVelocity);
 
 		shuriken.transform.position = getWeaponPosition(direction);
-		////Debug.Log("player position: "+transform.position);
-		////Debug.Log("shuriken position: "+shuriken.transform.position);
-		////Debug.Log("shuriken velocity: "+velocity);
 		shuriken.GetComponent<ShurikenParentController>().setVelocity(velocity);
+        Debug.Log("SHURIKEN VELOCITY: " + velocity);
 	}
 
 	Vector2 getWeaponPosition(Vector2 direction)
