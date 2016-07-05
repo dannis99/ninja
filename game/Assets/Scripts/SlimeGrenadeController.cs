@@ -22,7 +22,7 @@ public class SlimeGrenadeController : GrenadeController {
             Rigidbody2D slimeBody = slime.GetComponent<Rigidbody2D>();
             float xForce = Random.Range(.5f, maxForce);
             xForce = (Random.Range(1, 3) == 2) ? -xForce : xForce;
-            float yForce = Random.Range(.5f, maxForce);
+            float yForce = Random.Range(0, maxForce);
             slimeBody.AddForce(new Vector2(xForce, yForce), ForceMode2D.Impulse);
         }
         destroyGrenade();
