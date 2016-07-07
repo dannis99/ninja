@@ -21,6 +21,8 @@ TextureImporter:
     21300028: windowGlare
     21300030: windowBolts
     21300032: floatingPlatform
+    21300034: light
+    21300036: lightCage
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -187,6 +189,28 @@ TextureImporter:
         - {x: 19, y: -25}
         - {x: 25, y: -25}
         - {x: 25, y: 25}
+    - name: light
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 189
+        width: 20
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lightCage
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 185
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: spaceshipGround1
       rect:
         serializedVersion: 2

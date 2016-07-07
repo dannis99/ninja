@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # http://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:d2d157c9a1b0afd76bc14cd25ffb1491:156d6ce319c3f810a67bc19d269bd17f:5d0f7d4628ee7f5f6de3339d6ff14581$
+# $TexturePacker:SmartUpdate:3dcae1391df8905f83184d8e63133ee8:6b894b760eb0346cbd19186e61f54298:5d0f7d4628ee7f5f6de3339d6ff14581$
 #
 :format=40000
 :texture=mapParts.png
@@ -18,6 +18,8 @@ groundBorderLowerRight;2;8;50;50;0.5;0.5
 groundBorderUpperCenter;54;164;50;50;0.5;0.5
 groundBorderUpperLeft;54;112;50;50;0.5;0.5
 groundBorderUpperRight;54;60;50;50;0.5;0.5
+light;366;189;20;25;0.5;0.5
+lightCage;336;185;28;29;0.5;0.5
 spaceshipGround1;54;8;50;50;0.5;0.5
 spaceshipGround2;106;164;50;50;0.5;0.5
 spaceshipGround3;106;112;50;50;0.5;0.5

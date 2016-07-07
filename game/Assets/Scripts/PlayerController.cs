@@ -285,7 +285,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             if (wallJumping)
             {
                 timeSinceWallJump += Time.deltaTime;
-                if (timeSinceWallJump >= wallJumpDuration)
+                if (grounded || timeSinceWallJump >= wallJumpDuration)
                 {
                     wallJumping = false;
                 }
@@ -429,11 +429,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
                     if (Mathf.Abs(hAxis) > .4f || yDashForce == 0)
                         xDashForce = (facingRight) ? 1f : -1f;
 
-                    if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
-                    {
-                        anim.SetBool(ANIM_ROLLING, true);
-                    }
-                    else if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    //if (grounded && Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
+                    //{
+                    //    anim.SetBool(ANIM_ROLLING, true);
+                    //}
+                    if (Mathf.Abs(xDashForce) > Mathf.Abs(yDashForce))
                     {
                         anim.SetBool(ANIM_DASHING, true);
                         if (facingRight)
@@ -447,9 +447,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
                         if (yDashForce > 0)
                             dashUpEffect.Play();
                     }
-
+                    
                     Vector3 dashForce = new Vector2(xDashForce, yDashForce);
+                    Debug.Log("dashForce: " + dashForce);
                     dashToward = transform.position + (dashForce * 10f);
+                    Debug.Log("dashToward: " + dashToward);
                     //playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
                 }
                 else if (Mathf.Abs(hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing)
@@ -544,14 +546,16 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	void CheckDash ()
 	{
 		if (timeSinceDash <= (dashDuration + timeBetweenDashes)) {
+            Debug.Log("setting time since dash");
 			timeSinceDash += Time.deltaTime;
             if(dashing)
             {
+                Debug.Log("dashing towards: " + dashToward);
                 transform.position = Vector3.MoveTowards(transform.position, dashToward, dashSpeed * Time.deltaTime);
             }
 		}
 
-		if (dashing && timeSinceDash >= dashDuration) {
+        if (dashing && timeSinceDash >= dashDuration) {
 			anim.SetBool(ANIM_DASHING, false);
 			anim.SetBool(ANIM_ROLLING, false);
             anim.SetBool(ANIM_DASH_UPWARD, false);
@@ -830,10 +834,12 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     void OnTriggerEnter2D(Collider2D collider)
 	{
+        Debug.Log("dashToward.y "+dashToward.y+" transform.position.y "+transform.position.y);
         if (dashing && /* moving horizontally */((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.x - dashToward.x) >= .2f) ||
-                       /* in air jumping up */(collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.y - dashToward.y) >= .2f) ||
-                       /* on ground jumping up */(grounded && collider.gameObject.layer == LayerMask.NameToLayer("Ground") && dashToward.y - transform.position.y >= .2f)))
+                       /* in air jumping up */(collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.y - dashToward.y) >= .2f && 
+                                                                              /* allow jumping up from the ground */!(grounded && dashToward.y > transform.position.y))))
         {
+            Debug.Log("dash trigger");
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
     }
