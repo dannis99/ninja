@@ -4,6 +4,7 @@ using System.Collections;
 public class SwordController : MonoBehaviour {
 
 	public GameObject currentPlayer;
+    public PlayerController currentPlayerController;
     public GameObject swordClashPrefab;
     public GameObject alternateSwordHitBox;
     bool canHitPlayer = true;
@@ -35,10 +36,15 @@ public class SwordController : MonoBehaviour {
             Vector3 otherPlayerPosition = Vector3.zero;
             SwordController swordController = collider.gameObject.GetComponent<SwordController>();
             if (swordController != null)
+            {
                 otherPlayerPosition = swordController.currentPlayer.transform.position;
+            }
             else
+            {
                 otherPlayerPosition = collider.gameObject.transform.position;
+            }
 
+            currentPlayerController.setReeling();
             Vector3 force = currentPlayer.transform.position - otherPlayerPosition;
             Debug.Log("Adding force to player: " + currentPlayer.name + " force: " + force * 100f);
             currentPlayer.GetComponent<Rigidbody2D>().AddForce(force * 250f);

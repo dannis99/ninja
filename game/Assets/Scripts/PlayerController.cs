@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
     public static string ANIM_LEDGE_GRAB = "LedgeGrab";
     public static string ANIM_WALL_SLIDING = "WallSliding";
     public static string ANIM_BLOCKING = "Blocking";
+    public static string ANIM_REELING = "Reeling";
 
     private List<string> animParams = new List<string> {
         //ANIM_GROUND,
@@ -31,7 +32,8 @@ public class PlayerController : MonoBehaviour, ISlowable {
         ANIM_DASHING,
         ANIM_DASH_UPWARD,
         ANIM_LEDGE_GRAB,
-        ANIM_WALL_SLIDING
+        ANIM_WALL_SLIDING,
+        ANIM_REELING
     };
 
 
@@ -500,7 +502,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     private bool blockingActionInEffect()
     {
-        return dashing || timeSinceAttack <= attackDuration || playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade") || anim.GetBool(ANIM_BLOCKING);
+        return dashing || timeSinceAttack <= attackDuration || playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade") || anim.GetBool(ANIM_BLOCKING) || anim.GetBool(ANIM_REELING);
     }
 
     void setSpriteOpacity(float opacity)
@@ -672,6 +674,17 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		directionalTarget.SetActive(true);
 		directionalTarget.transform.localPosition = new Vector2((facingRight ? targetDistance.x : -targetDistance.x) * direction.x, targetDistance.y * direction.y);
 	}
+
+    public void setReeling()
+    {
+        anim.SetBool(ANIM_REELING, true);
+        Invoke("notReeling", .25f);
+    }
+
+    void notReeling()
+    {
+        anim.SetBool(ANIM_REELING, false);
+    }
 
 	void throwGrenade(Vector3 direction)
 	{
