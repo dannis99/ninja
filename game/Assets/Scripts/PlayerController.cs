@@ -57,8 +57,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	public float attackThrustSpeed;
 	public float timeBetweenAttacks;
 	public float attackDuration;
+    float blockDuration;
 	float timeSinceAttack = 0f;
 	bool ableToAttack = true;
+    float timeSinceBlock = 0f;
+    bool ableToBlock = true;
 
 	bool dashing;
 	bool ableToDash = true;
@@ -197,6 +200,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		shurikenCount = maxShurikens;
         updateShurikenSprites();
         updateGrenadeSprites();
+        blockDuration = attackDuration * 3f;
 	}
 	
 	void FixedUpdate () {
@@ -267,15 +271,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             if (anim.GetBool(ANIM_AIR_ATTACK))
                 anim.SetBool(ANIM_AIR_ATTACK, false);
 
-            if (timeSinceAttack <= (attackDuration + timeBetweenAttacks))
-            {
-                timeSinceAttack += Time.deltaTime;
-            }
-
-            if (!ableToAttack && timeSinceAttack >= (attackDuration + timeBetweenAttacks))
-            {
-                ableToAttack = true;
-            }
+            checkAbilityToUseWeapon();
 
             CheckAbilityToJump();
 
@@ -333,13 +329,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
             }
 
             //blocking
-            if(grounded && playerInput.GetButton("Block"))
+            if(grounded && playerInput.GetButtonDown("Block") && ableToBlock)
             {
+                timeSinceBlock = 0f;
+                ableToBlock = false;
                 anim.SetBool(ANIM_BLOCKING, true);
-            }
-            else
-            {
-                anim.SetBool(ANIM_BLOCKING, false);
             }
 
             /* checking inputs */
@@ -386,7 +380,9 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
             if (!blockingActionInEffect())
             {
-                if (playerInput.GetButtonDown("Sword") && ableToAttack)
+                if (playerInput.GetButtonDown("Sword") && ableToAttack || (
+                        playerId != 0 && ableToAttack && Time.realtimeSinceStartup % 5 < 1
+                    ))
                 {
                     ableToAttack = false;
                     timeSinceAttack = 0f;
@@ -395,10 +391,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
                         if (Mathf.Abs(hAxis) > .3f)
                         {
                             anim.SetTrigger("Attack");
-                            dashing = true;
-                            ableToDash = false;
-                            timeSinceDash = 0f;
-                            dashToward = transform.position + (new Vector3((facingRight)?1f:-1f, 0f) * 10f);
+                            playerRigidbody2D.AddForce(new Vector2(facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
+                            //dashing = true;
+                            //ableToDash = false;
+                            //timeSinceDash = 0f;
+                            //dashToward = transform.position + (new Vector3((facingRight)?1f:-1f, 0f) * 10f);
                         }
                         else
                         {
@@ -408,8 +405,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
                     else
                     {
                         anim.SetBool(ANIM_AIR_ATTACK, true);
-                    }
-                    //rigidbody2D.AddForce (new Vector2 (facingRight ? attackThrustSpeed : -attackThrustSpeed, 0), ForceMode2D.Impulse);
+                    }                    
                 }
                 else if (playerInput.GetButtonDown("Dash") && ableToDash)
                 {
@@ -449,9 +445,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
                     }
                     
                     Vector3 dashForce = new Vector2(xDashForce, yDashForce);
-                    Debug.Log("dashForce: " + dashForce);
                     dashToward = transform.position + (dashForce * 10f);
-                    Debug.Log("dashToward: " + dashToward);
                     //playerRigidbody2D.AddForce (dashForce, ForceMode2D.Impulse);
                 }
                 else if (Mathf.Abs(hAxis) > 0.3 && !wallJumping && !wallSliding && !dashing)
@@ -476,9 +470,37 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		}
 	}
 
+    private void checkAbilityToUseWeapon()
+    {
+        if (timeSinceAttack <= (attackDuration + timeBetweenAttacks))
+        {
+            timeSinceAttack += Time.deltaTime;
+        }
+
+        if (!ableToAttack && timeSinceAttack >= (attackDuration + timeBetweenAttacks))
+        {
+            ableToAttack = true;
+        }
+
+        if (timeSinceBlock <= (blockDuration + timeBetweenAttacks))
+        {
+            timeSinceBlock += Time.deltaTime;
+        }
+
+        if(timeSinceBlock > blockDuration && timeSinceBlock <= blockDuration + timeBetweenAttacks)
+        {
+            anim.SetBool(ANIM_BLOCKING, false);
+        }
+
+        if (!ableToBlock && timeSinceBlock >= (blockDuration + timeBetweenAttacks))
+        {
+            ableToBlock = true;
+        }
+    }
+
     private bool blockingActionInEffect()
     {
-        return dashing || timeSinceAttack <= attackDuration || playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade");
+        return dashing || timeSinceAttack <= attackDuration || playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade") || anim.GetBool(ANIM_BLOCKING);
     }
 
     void setSpriteOpacity(float opacity)
@@ -546,11 +568,9 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	void CheckDash ()
 	{
 		if (timeSinceDash <= (dashDuration + timeBetweenDashes)) {
-            Debug.Log("setting time since dash");
-			timeSinceDash += Time.deltaTime;
+            timeSinceDash += Time.deltaTime;
             if(dashing)
             {
-                Debug.Log("dashing towards: " + dashToward);
                 transform.position = Vector3.MoveTowards(transform.position, dashToward, dashSpeed * Time.deltaTime);
             }
 		}
@@ -685,8 +705,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
         float hAxisToUse = (Mathf.Abs(hAxis) > .2f) ? hAxis : 0f;
         float vAxisToUse = (Mathf.Abs(vAxis) > .2f) ? vAxis : 0f;
-        Debug.Log("hAxis: " + hAxis + " vAxis: " + vAxis);
-        Debug.Log("hAxisToUse: " + hAxisToUse + " vAxisToUse: " + vAxisToUse);
         float xVelocity = 0;
 		float yVelocity = 0;
 		//balance it so the velocity isn't less than or greater than the total shuriken velocity
@@ -701,7 +719,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 		shuriken.transform.position = getWeaponPosition(direction);
 		shuriken.GetComponent<ShurikenParentController>().setVelocity(velocity);
-        Debug.Log("SHURIKEN VELOCITY: " + velocity);
 	}
 
 	Vector2 getWeaponPosition(Vector2 direction)
@@ -834,12 +851,10 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     void OnTriggerEnter2D(Collider2D collider)
 	{
-        Debug.Log("dashToward.y "+dashToward.y+" transform.position.y "+transform.position.y);
         if (dashing && /* moving horizontally */((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.x - dashToward.x) >= .2f) ||
                        /* in air jumping up */(collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.y - dashToward.y) >= .2f && 
                                                                               /* allow jumping up from the ground */!(grounded && dashToward.y > transform.position.y))))
         {
-            Debug.Log("dash trigger");
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
     }

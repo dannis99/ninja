@@ -4,8 +4,7 @@ using System.Collections;
 public class SwordController : MonoBehaviour {
 
 	public GameObject currentPlayer;
-    Rigidbody2D currentPlayerRigidbody;
-	public GameObject swordClashPrefab;
+    public GameObject swordClashPrefab;
     public GameObject alternateSwordHitBox;
     bool canHitPlayer = true;
     float timeSinceSwordClash;
@@ -13,7 +12,6 @@ public class SwordController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
 	}
 	
 	// Update is called once per frame
@@ -31,15 +29,25 @@ public class SwordController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		if (collider.gameObject.tag == "lethalSword" && !alternateSwordHitBox.Equals(collider.gameObject))
+		if ((collider.gameObject.tag == "lethalSword" || collider.gameObject.tag == "blockingSword") && !alternateSwordHitBox.Equals(collider.gameObject))
         {
             Debug.Log("sword on sword collision");
-            Vector3 force = currentPlayer.transform.position - collider.gameObject.transform.position;
-            currentPlayer.GetComponent<Rigidbody2D>().AddForce(force * 100f);
+            Vector3 otherPlayerPosition = Vector3.zero;
+            SwordController swordController = collider.gameObject.GetComponent<SwordController>();
+            if (swordController != null)
+                otherPlayerPosition = swordController.currentPlayer.transform.position;
+            else
+                otherPlayerPosition = collider.gameObject.transform.position;
+
+            Vector3 force = currentPlayer.transform.position - otherPlayerPosition;
+            Debug.Log("Adding force to player: " + currentPlayer.name + " force: " + force * 100f);
+            currentPlayer.GetComponent<Rigidbody2D>().AddForce(force * 250f);
+            Debug.Log("can't hit player");
             canHitPlayer = false;
         }
         else if (canHitPlayer && collider.gameObject.tag == "player" && !currentPlayer.Equals(collider.gameObject))
 		{
+            Debug.Log("can hit player");
             collider.gameObject.GetComponent<PlayerController> ().takeDamage ();
 			GameObject swordClash = Instantiate<GameObject>(swordClashPrefab);
 			swordClash.transform.position = (collider.transform.position+transform.position)/2f;
