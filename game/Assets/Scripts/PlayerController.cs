@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	public Sprite yellowHead;
 	public Sprite yellowBody;
 
-	bool dead;
+	public bool dead;
 
 	public float maxSpeed;
 	public float attackThrustSpeed;
@@ -383,7 +383,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             if (!blockingActionInEffect())
             {
                 if (playerInput.GetButtonDown("Sword") && ableToAttack || (
-                        playerId != 0 && ableToAttack && Time.realtimeSinceStartup % 5 < 1
+                        playerId != 0 && ableToAttack && Time.realtimeSinceStartup % 3 < 1
                     ))
                 {
                     ableToAttack = false;
@@ -767,6 +767,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 			{
 				renderer.sortingOrder += 1000;
 			}
+            EventManager.TriggerEvent("playerDeath");
 		}
 	}
 
