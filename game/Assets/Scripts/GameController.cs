@@ -7,9 +7,30 @@ using System.Collections.Generic;
 
 class GameController : MonoBehaviour
 {
-    public List<PlayerController> players = new List<PlayerController>();
-
+    public float roundLength;
+    public float warningTime;
+    float gameTime;
+    PlayerController[] players;
+    WarningLight[] warningLights;
     bool reloadingScene;
+
+    void Start()
+    {
+        players = Object.FindObjectsOfType<PlayerController>();
+        warningLights = Object.FindObjectsOfType<WarningLight>();
+    }
+
+    void Update()
+    {
+        gameTime += Time.deltaTime;
+        if(gameTime >= roundLength - warningTime)
+        {
+            foreach(WarningLight warningLight in warningLights)
+            {
+                warningLight.beginWarning();
+            }
+        }
+    }
 
     void OnEnable()
     {
