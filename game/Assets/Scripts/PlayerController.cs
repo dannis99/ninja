@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using Rewired;
@@ -148,7 +149,10 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void Awake()
 	{
-		playerInput = ReInput.players.GetPlayer(playerId);
+        if (ReInput.players != null)
+            playerInput = ReInput.players.GetPlayer(playerId);
+        else
+            SceneManager.LoadScene("title");
 
 		if(playerColor == "red")
 		{
