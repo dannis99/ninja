@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	Player playerInput;
 	public int playerId = 0;
 	public string playerColor;
+    public Collider2D playerCollider;
 	public SpriteRenderer headRenderer;
 	public SpriteRenderer bodyRenderer;
 	public Sprite redHead;
@@ -871,20 +872,9 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     void OnTriggerEnter2D(Collider2D collider)
 	{
-        if (dashing && /* moving horizontally */((collider.gameObject.layer == LayerMask.NameToLayer("Walls") && Mathf.Abs(transform.position.x - dashToward.x) >= .2f) ||
-                       /* in air jumping up */(collider.gameObject.layer == LayerMask.NameToLayer("Ground") && Mathf.Abs(transform.position.y - dashToward.y) >= .2f && 
-                                                                              /* allow jumping up from the ground */!(grounded && dashToward.y > transform.position.y))))
+        if(dashing && collider.tag == "surface" && collider.bounds.Intersects(playerCollider.bounds))
         {
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
         }        
-    }
-
-	//void OnCollisionEnter2D(Collision2D collision)
-	//{
- //       if(dashing && collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
- //       {
- //           Debug.Log("player collision: " + collision.gameObject.name);
- //           playerRigidbody2D.isKinematic = false;
- //       }
-	//}
+    }	
 }

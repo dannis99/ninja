@@ -9,11 +9,14 @@ public class Portal : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D collider)
     {
-        GameObject currObject = collider.gameObject;
-        if(currObject.tag != "Untagged")
+        if(collider.tag != "surface")
         {
-            Vector3 positionDifference = pairedPortal.transform.position - transform.position;
-            currObject.transform.position += positionDifference;
-        }        
+            GameObject currObject = collider.gameObject;
+            if (currObject.tag != "Untagged")
+            {
+                Vector3 positionDifference = pairedPortal.transform.position - transform.position;
+                currObject.transform.position += positionDifference;
+            }
+        }                
     }
 }

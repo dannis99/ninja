@@ -9,6 +9,7 @@ class GameController : MonoBehaviour
 {
     public float roundLength;
     public float warningTime;
+    public float oxygenTime;
 
     public float chestTimerMin;
     public float chestTimerMax;
@@ -18,6 +19,7 @@ class GameController : MonoBehaviour
     float gameTime;
     PlayerController[] players;
     WarningLight[] warningLights;
+    Window[] windows;
     Chest[] chests;
     bool reloadingScene;
 
@@ -25,6 +27,7 @@ class GameController : MonoBehaviour
     {
         players = Object.FindObjectsOfType<PlayerController>();
         warningLights = Object.FindObjectsOfType<WarningLight>();
+        windows = Object.FindObjectsOfType<Window>();
         chests = Object.FindObjectsOfType<Chest>();
         foreach(Chest chest in chests)
         {
@@ -43,8 +46,23 @@ class GameController : MonoBehaviour
                 warningLight.beginWarning();
             }
         }
+        if (gameTime >= roundLength)
+        {
+            foreach (Window window in windows)
+            {
+                window.breakWindow();
+            }
+        }
+        if(gameTime >= roundLength + oxygenTime)
+        {
+            foreach (PlayerController player in players)
+            {
+                if(!player.dead)
+                    player.takeDamage();
+            }
+        }
 
-        if(!allChestsShown && gameTime >= chestTimer)
+        if (!allChestsShown && gameTime >= chestTimer)
         {
             int chestIndex = Random.Range(0, chests.Length - 1);
             int chestsChecked = 0;
