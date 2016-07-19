@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 class GameController : MonoBehaviour
 {
+    public GameObject ninjaPrefab;
     public float roundLength;
     public float warningTime;
     public float oxygenTime;
@@ -18,78 +19,131 @@ class GameController : MonoBehaviour
 
     float gameTime;
     PlayerController[] players;
+    List<Color> playerColors;
     WarningLight[] warningLights;
     Window[] windows;
     Chest[] chests;
     bool reloadingScene;
+    bool inGame = false;
 
-    void Start()
+
+    private static GameController _instance;
+    public static GameController instance
     {
-        players = Object.FindObjectsOfType<PlayerController>();
-        warningLights = Object.FindObjectsOfType<WarningLight>();
-        windows = Object.FindObjectsOfType<Window>();
-        chests = Object.FindObjectsOfType<Chest>();
-        foreach(Chest chest in chests)
+        get
         {
-            chest.gameObject.SetActive(false);
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<GameController>();
+                DontDestroyOnLoad(_instance.gameObject);
+            }
+            return _instance;
         }
-        chestTimer = Random.Range(chestTimerMin, chestTimerMax);        
+    }
+
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            if (this != _instance)
+                DestroyImmediate(this.gameObject);
+        }
+    }
+
+
+
+    void OnLevelWasLoaded(int level)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "characterSelect" && scene.name != "title")
+        {
+            int ninjaCount = 1;
+            foreach(Color color in playerColors)
+            {
+                if(color != Color.clear)
+                {
+                    GameObject newNinjaGO = Instantiate(ninjaPrefab);
+                    PlayerController newNinja = newNinjaGO.GetComponent<PlayerController>();
+                    newNinja.playerId = ninjaCount;
+                    newNinja.playerColor = color;
+                }
+                ninjaCount++;
+            }
+            players = Object.FindObjectsOfType<PlayerController>();
+            warningLights = Object.FindObjectsOfType<WarningLight>();
+            windows = Object.FindObjectsOfType<Window>();
+            chests = Object.FindObjectsOfType<Chest>();
+            foreach (Chest chest in chests)
+            {
+                chest.gameObject.SetActive(false);
+            }
+            chestTimer = Random.Range(chestTimerMin, chestTimerMax);
+            inGame = true;
+        }
     }
 
     void Update()
     {
-        gameTime += Time.deltaTime;
-        if(gameTime >= roundLength - warningTime)
+        if (inGame)
         {
-            foreach(WarningLight warningLight in warningLights)
+            gameTime += Time.deltaTime;
+            if (gameTime >= roundLength - warningTime)
             {
-                warningLight.beginWarning();
+                foreach (WarningLight warningLight in warningLights)
+                {
+                    warningLight.beginWarning();
+                }
             }
-        }
-        if (gameTime >= roundLength)
-        {
-            foreach (Window window in windows)
+            if (gameTime >= roundLength)
             {
-                window.breakWindow();
+                foreach (Window window in windows)
+                {
+                    window.breakWindow();
+                }
             }
-        }
-        if(gameTime >= roundLength + oxygenTime)
-        {
-            foreach (PlayerController player in players)
+            if (gameTime >= roundLength + oxygenTime)
             {
-                if(!player.dead)
-                    player.takeDamage();
+                foreach (PlayerController player in players)
+                {
+                    if (!player.dead)
+                        player.takeDamage();
+                }
             }
-        }
 
-        if (!allChestsShown && gameTime >= chestTimer)
-        {
-            int chestIndex = Random.Range(0, chests.Length - 1);
-            int chestsChecked = 0;
-            for(int i = chestIndex; i < chests.Length; i++)
+            if (!allChestsShown && gameTime >= chestTimer)
             {
-                Debug.Log("i: "+i);
-                if (!chests[i].gameObject.activeSelf)
+                int chestIndex = Random.Range(0, chests.Length - 1);
+                int chestsChecked = 0;
+                for (int i = chestIndex; i < chests.Length; i++)
                 {
-                    chests[i].gameObject.SetActive(true);
-                    break;
+                    Debug.Log("i: " + i);
+                    if (!chests[i].gameObject.activeSelf)
+                    {
+                        chests[i].gameObject.SetActive(true);
+                        break;
+                    }
+                    else if (i == chestIndex && chestsChecked > 0)
+                    {
+                        allChestsShown = true;
+                        break;
+                    }
+                    else if (i == chests.Length - 1)
+                    {
+                        i = -1;
+                    }
+
+                    chestsChecked++;
+                    if (chestsChecked >= chests.Length)
+                        break;
                 }
-                else if (i == chestIndex && chestsChecked > 0)
-                {
-                    allChestsShown = true;
-                    break;
-                }
-                else if(i == chests.Length - 1)
-                {
-                    i = -1;
-                }
-                
-                chestsChecked++;
-                if (chestsChecked >= chests.Length)
-                    break;
+                chestTimer += Random.Range(chestTimerMin, chestTimerMax);
+                Debug.Log("chestTimer: " + chestTimer + " gameTime: " + gameTime);
             }
-            chestTimer += Random.Range(chestTimerMin, chestTimerMax);
-            Debug.Log("chestTimer: " + chestTimer + " gameTime: " + gameTime);
         }
     }
 
@@ -101,6 +155,11 @@ class GameController : MonoBehaviour
     void OnDisable()
     {
         EventManager.StopListening("playerDeath", playerDeath);
+    }
+
+    public void setPlayerColors(List<Color> playerColors)
+    {
+        this.playerColors = playerColors;
     }
 
     void playerDeath()

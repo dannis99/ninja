@@ -32,6 +32,6 @@ public class TitleController : MonoBehaviour {
 	
 	public void LoadNewGame()
 	{
-        SceneManager.LoadScene("spaceship_1");
+        SceneManager.LoadScene("characterSelect");
 	}
 }

@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	Player playerInput;
 	public int playerId = 0;
-	public string playerColor;
+	public Color playerColor;
     public Collider2D playerCollider;
 	public SpriteRenderer headRenderer;
 	public SpriteRenderer bodyRenderer;
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
         else
             SceneManager.LoadScene("title");
 
-		if(playerColor == "red")
+		if(playerColor == Color.red)
 		{
 			bodyRenderer.sprite = redBody;
 			headRenderer.sprite = redHead;
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             dashLeftEffect.startColor = Color.red;
             dashUpEffect.startColor = Color.red;
         }
-		else if(playerColor == "blue")
+		else if(playerColor == Color.blue)
 		{
 			bodyRenderer.sprite = blueBody;
 			headRenderer.sprite = blueHead;
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             dashLeftEffect.startColor = Color.cyan;
             dashUpEffect.startColor = Color.cyan;
         }
-		else if(playerColor == "green")
+		else if(playerColor == Color.green)
 		{
 			bodyRenderer.sprite = greenBody;
 			headRenderer.sprite = greenHead;
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             dashLeftEffect.startColor = Color.green;
             dashUpEffect.startColor = Color.green;
         }
-		else if(playerColor == "yellow")
+		else if(playerColor == Color.yellow)
 		{
 			bodyRenderer.sprite = yellowBody;
 			headRenderer.sprite = yellowHead;
