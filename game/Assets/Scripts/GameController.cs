@@ -18,6 +18,7 @@ class GameController : MonoBehaviour
     float chestTimer;
 
     float gameTime;
+    StartingPositions startingPositions;
     PlayerController[] players;
     List<Color> playerColors;
     WarningLight[] warningLights;
@@ -55,13 +56,13 @@ class GameController : MonoBehaviour
         }
     }
 
-
-
     void OnLevelWasLoaded(int level)
     {
         Scene scene = SceneManager.GetActiveScene();
+        List<Vector2> selectedPositions = new List<Vector2>() { Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
         if (scene.name != "characterSelect" && scene.name != "title")
         {
+            startingPositions = Object.FindObjectOfType<StartingPositions>();
             int ninjaCount = 0;
             foreach(Color color in playerColors)
             {
@@ -72,6 +73,13 @@ class GameController : MonoBehaviour
                     newNinja.playerId = ninjaCount;
                     newNinja.playerColor = color;
                     newNinja.initColor();
+
+                    Vector2 ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                    while(selectedPositions.Contains(ninjaPosition))
+                    {
+                        ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                    }
+                    newNinja.transform.position = ninjaPosition;
                 }
                 ninjaCount++;
             }
@@ -122,7 +130,6 @@ class GameController : MonoBehaviour
                 int chestsChecked = 0;
                 for (int i = chestIndex; i < chests.Length; i++)
                 {
-                    Debug.Log("i: " + i);
                     if (!chests[i].gameObject.activeSelf)
                     {
                         chests[i].gameObject.SetActive(true);
@@ -143,7 +150,6 @@ class GameController : MonoBehaviour
                         break;
                 }
                 chestTimer += Random.Range(chestTimerMin, chestTimerMax);
-                Debug.Log("chestTimer: " + chestTimer + " gameTime: " + gameTime);
             }
         }
     }
@@ -171,7 +177,6 @@ class GameController : MonoBehaviour
             if (!player.dead)
                 liveCount++;
         }
-        Debug.Log("live count: " + liveCount);
         if(liveCount < 2 && !reloadingScene)
         {
             reloadingScene = true;
@@ -182,6 +187,7 @@ class GameController : MonoBehaviour
     void reloadScene()
     {
         reloadingScene = false;
+        gameTime = 0;
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
