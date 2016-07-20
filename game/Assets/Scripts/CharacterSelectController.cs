@@ -143,7 +143,7 @@ public class CharacterSelectController : MonoBehaviour {
             StartCoroutine(playerLeftPushed(3));
         }
     }
-
+    
     void playerBackPushed(int playerIndex)
     {
         if (!playerNoCharacterSprite[playerIndex].activeSelf && playerPlayText[playerIndex].activeSelf)
@@ -156,7 +156,7 @@ public class CharacterSelectController : MonoBehaviour {
         else if(!playerNoCharacterSprite[playerIndex].activeSelf && !playerPlayText[playerIndex].activeSelf)
         {
             lockCount--;
-            if(lockCount < 2)
+            if(lockCount < 1)
             {
                 startText.SetActive(false);
             }
@@ -177,9 +177,13 @@ public class CharacterSelectController : MonoBehaviour {
             Color ninjaColor = getNextAvailableColor();
             setPlayerColor(playerIndex, ninjaColor);            
         }
-        else
+        else if(playerLockedColors[playerIndex] == Color.clear)
         {
             playerLockIn(playerIndex);
+        }
+        else if(lockCount > 0)
+        {
+            LoadNewGame();
         }
     }
 
@@ -298,7 +302,7 @@ public class CharacterSelectController : MonoBehaviour {
         playerLockedColors[playerIndex] = playerColors[playerIndex];
         playerPlayText[playerIndex].SetActive(false);
         lockCount++;
-        if (lockCount > 1)
+        if (lockCount > 0)
         {
             startText.SetActive(true);
         }
@@ -306,7 +310,7 @@ public class CharacterSelectController : MonoBehaviour {
 
     public void LoadNewGame()
 	{
-        if(lockCount > 1)
+        if(lockCount > 0)
         {
             gameController.setPlayerColors(playerLockedColors);
             SceneManager.LoadScene("spaceship_1");

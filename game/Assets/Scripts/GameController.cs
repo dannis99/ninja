@@ -62,7 +62,7 @@ class GameController : MonoBehaviour
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name != "characterSelect" && scene.name != "title")
         {
-            int ninjaCount = 1;
+            int ninjaCount = 0;
             foreach(Color color in playerColors)
             {
                 if(color != Color.clear)
@@ -71,6 +71,7 @@ class GameController : MonoBehaviour
                     PlayerController newNinja = newNinjaGO.GetComponent<PlayerController>();
                     newNinja.playerId = ninjaCount;
                     newNinja.playerColor = color;
+                    newNinja.initColor();
                 }
                 ninjaCount++;
             }
@@ -170,7 +171,7 @@ class GameController : MonoBehaviour
             if (!player.dead)
                 liveCount++;
         }
-
+        Debug.Log("live count: " + liveCount);
         if(liveCount < 2 && !reloadingScene)
         {
             reloadingScene = true;

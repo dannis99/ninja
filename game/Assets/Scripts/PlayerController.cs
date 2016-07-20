@@ -154,47 +154,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
             playerInput = ReInput.players.GetPlayer(playerId);
         else
             SceneManager.LoadScene("title");
-
-		if(playerColor == Color.red)
-		{
-			bodyRenderer.sprite = redBody;
-			headRenderer.sprite = redHead;
-			shieldController.firstColor = new Color (0f, .78f, .6f, .7f);
-			shieldController.secondColor = new Color (0f, .78f, .6f, 0f);
-            dashRightEffect.startColor = Color.red;
-            dashLeftEffect.startColor = Color.red;
-            dashUpEffect.startColor = Color.red;
-        }
-		else if(playerColor == Color.blue)
-		{
-			bodyRenderer.sprite = blueBody;
-			headRenderer.sprite = blueHead;
-			shieldController.firstColor = new Color (.78f, .6f, 0f, 1f);
-			shieldController.secondColor = new Color (.78f, .6f, 0f, .3f);
-            dashRightEffect.startColor = Color.cyan;
-            dashLeftEffect.startColor = Color.cyan;
-            dashUpEffect.startColor = Color.cyan;
-        }
-		else if(playerColor == Color.green)
-		{
-			bodyRenderer.sprite = greenBody;
-			headRenderer.sprite = greenHead;
-			shieldController.firstColor = new Color (.78f, 0f, .6f, .7f);
-			shieldController.secondColor = new Color (.78f, 0f, .6f, 0f);
-            dashRightEffect.startColor = Color.green;
-            dashLeftEffect.startColor = Color.green;
-            dashUpEffect.startColor = Color.green;
-        }
-		else if(playerColor == Color.yellow)
-		{
-			bodyRenderer.sprite = yellowBody;
-			headRenderer.sprite = yellowHead;
-			shieldController.firstColor = new Color (0f, .7f, .2f, .7f);
-			shieldController.secondColor = new Color (0f, .7f, .2f, 0f);
-            dashRightEffect.startColor = Color.yellow;
-            dashLeftEffect.startColor = Color.yellow;
-            dashUpEffect.startColor = Color.yellow;
-        }
 	}
 
 	void Start () {
@@ -209,6 +168,50 @@ public class PlayerController : MonoBehaviour, ISlowable {
         updateGrenadeSprites();
         blockDuration = attackDuration * 3f;
 	}
+
+    public void initColor()
+    {
+        if (playerColor == Color.red)
+        {
+            bodyRenderer.sprite = redBody;
+            headRenderer.sprite = redHead;
+            shieldController.firstColor = new Color(0f, .78f, .6f, .7f);
+            shieldController.secondColor = new Color(0f, .78f, .6f, 0f);
+            dashRightEffect.startColor = Color.red;
+            dashLeftEffect.startColor = Color.red;
+            dashUpEffect.startColor = Color.red;
+        }
+        else if (playerColor == Color.blue)
+        {
+            bodyRenderer.sprite = blueBody;
+            headRenderer.sprite = blueHead;
+            shieldController.firstColor = new Color(.78f, .6f, 0f, 1f);
+            shieldController.secondColor = new Color(.78f, .6f, 0f, .3f);
+            dashRightEffect.startColor = Color.cyan;
+            dashLeftEffect.startColor = Color.cyan;
+            dashUpEffect.startColor = Color.cyan;
+        }
+        else if (playerColor == Color.green)
+        {
+            bodyRenderer.sprite = greenBody;
+            headRenderer.sprite = greenHead;
+            shieldController.firstColor = new Color(.78f, 0f, .6f, .7f);
+            shieldController.secondColor = new Color(.78f, 0f, .6f, 0f);
+            dashRightEffect.startColor = Color.green;
+            dashLeftEffect.startColor = Color.green;
+            dashUpEffect.startColor = Color.green;
+        }
+        else if (playerColor == Color.yellow)
+        {
+            bodyRenderer.sprite = yellowBody;
+            headRenderer.sprite = yellowHead;
+            shieldController.firstColor = new Color(0f, .7f, .2f, .7f);
+            shieldController.secondColor = new Color(0f, .7f, .2f, 0f);
+            dashRightEffect.startColor = Color.yellow;
+            dashLeftEffect.startColor = Color.yellow;
+            dashUpEffect.startColor = Color.yellow;
+        }
+    }
 	
 	void FixedUpdate () {
 		if (!dead) 

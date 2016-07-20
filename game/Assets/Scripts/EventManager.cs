@@ -17,7 +17,7 @@ public class EventManager : MonoBehaviour
             if (!eventManager)
             {
                 eventManager = FindObjectOfType(typeof(EventManager)) as EventManager;
-
+                DontDestroyOnLoad(eventManager.gameObject);
                 if (!eventManager)
                 {
                     Debug.LogError("There needs to be one active EventManger script on a GameObject in your scene.");
