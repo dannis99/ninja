@@ -9,14 +9,16 @@ public class TimeGrenadeController : GrenadeController {
 	
 	protected override void Explode()
 	{
-		base.Explode();
-        grenadeParticleSystem.Play();
-        timeCollider.enabled = true;
-        timeRenderer.enabled = true;
-		grenadeRigidbody.isKinematic = true;
-        grenadeCollider.enabled = false;
-        Invoke("collapseCollider", grenadeDuration-.1f);
-        Invoke("destroyGrenade", grenadeDuration);
+        if(!exploded)
+        {
+            base.Explode();
+            grenadeParticleSystem.Play();
+            timeCollider.enabled = true;
+            timeRenderer.enabled = true;
+            grenadeCollider.enabled = false;
+            Invoke("collapseCollider", grenadeDuration - .1f);
+            Invoke("destroyGrenade", grenadeDuration);
+        }		
 	}
 
     void collapseCollider()
@@ -45,6 +47,7 @@ public class TimeGrenadeController : GrenadeController {
     void OnCollisionEnter2D(Collision2D collision)
 	{
         this.transform.SetParent(collision.gameObject.transform);
-		Explode();
+        grenadeRigidbody.isKinematic = true;
+        Explode();
 	}
 }

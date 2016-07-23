@@ -10,7 +10,7 @@ public class GrenadeController : MonoBehaviour, ISlowable {
 	public SpriteRenderer grenadeRenderer;
 	public ParticleSystem grenadeParticleSystem;
 	public Light grenadeLight;
-	public int secondsToExplosion;
+	public float secondsToExplosion;
 
     private float t;
     private Color onColor;

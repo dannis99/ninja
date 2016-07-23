@@ -10,12 +10,18 @@ public class ElectricGrenadeController : GrenadeController {
 	float endGrenadeRadius = 1f;
 	float deltaTime = 0;
     float delay = 0;
+    ParticleSystem.ShapeModule shape;
+
+    protected void Start()
+    {
+        base.Start();
+        shape = grenadeParticleSystem.shape;
+    }
 
 	protected void Update()
 	{
 		base.Update();
-		var shape = grenadeParticleSystem.shape;
-        
+		
 		if(exploded && shape.radius < endGrenadeRadius)
 		{
             if(delay < radiusDelay)
@@ -35,14 +41,16 @@ public class ElectricGrenadeController : GrenadeController {
 
 	protected void Explode()
 	{
-		base.Explode();
-		var shape = grenadeParticleSystem.shape;
-		shape.radius = startGrenadeRadius;
-		electricCollider.radius = startGrenadeRadius;
-		electricCollider.enabled = true;
-		grenadeRigidbody.isKinematic = true;
-        grenadeCollider.enabled = false;
-        Invoke("destroyGrenade", grenadeDuration);
+        if(!exploded)
+        {
+            base.Explode();
+            var shape = grenadeParticleSystem.shape;
+            shape.radius = startGrenadeRadius;
+            electricCollider.radius = startGrenadeRadius;
+            electricCollider.enabled = true;
+            grenadeCollider.enabled = false;
+            Invoke("destroyGrenade", grenadeDuration);
+        }		
 	}
 
 	void OnTriggerEnter2D(Collider2D collider)
@@ -57,6 +65,7 @@ public class ElectricGrenadeController : GrenadeController {
 	void OnCollisionEnter2D(Collision2D collision)
 	{
         this.transform.SetParent(collision.gameObject.transform);
-		Explode();
+        grenadeRigidbody.isKinematic = true;
+        Explode();
 	}
 }

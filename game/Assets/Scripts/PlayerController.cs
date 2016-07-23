@@ -140,6 +140,8 @@ public class PlayerController : MonoBehaviour, ISlowable {
 	int grenadeCount;
 	int maxShurikens = 3;
 	int shurikenCount;
+    float timeSinceGrenadePrep;
+    float grenadeTimeToExplode;
 
 	//particleEffects
 	public ParticleSystem slideSmoke;
@@ -353,8 +355,25 @@ public class PlayerController : MonoBehaviour, ISlowable {
                 directionalTarget.SetActive(false);
             }
 
+            if (playerInput.GetButtonDown("Grenade"))
+            {
+                timeSinceGrenadePrep = 0f;
+                grenadeTimeToExplode = grenadePrefab.GetComponent<GrenadeController>().secondsToExplosion;
+            }
+
             if (playerInput.GetButton("Shuriken") || playerInput.GetButton("Grenade"))
             {
+                if (playerInput.GetButton("Grenade"))
+                {
+                    timeSinceGrenadePrep += Time.deltaTime;
+                    //if (timeSinceGrenadePrep >= grenadeTimeToExplode)
+                    //{
+                    //    throwGrenade(targetDirection);
+                    //    targetDirection = Vector2.zero;
+                    //    directionalTarget.SetActive(false);
+                    //}
+                }
+
                 anim.SetBool(ANIM_PREPARING_THROW, true);
                 if (targetDirection == Vector2.zero)
                     targetDirection = new Vector2(facingRight ? 1 : -1, .5f);
@@ -372,7 +391,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
             }
 
             if (playerInput.GetButtonUp("Shuriken"))
-            {// Input.GetButtonDown("Shuriken"))
+            {
                 if (shurikenCount > 0)
                 {
                     throwShuriken(targetDirection);
@@ -380,11 +399,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
                 targetDirection = Vector2.zero;
             }
             else if (playerInput.GetButtonUp("Grenade"))
-            {// if(Input.GetButtonDown("Grenade"))
-                if (grenadeCount > 0)
-                {
+            {
+                //if (grenadeCount > 0 && timeSinceGrenadePrep < grenadeTimeToExplode)
+                //{
                     throwGrenade(targetDirection);
-                }
+                //}
                 targetDirection = Vector2.zero;
             }
 
@@ -702,6 +721,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		updateGrenadeSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
+        float secondsToExplosion = grenadeTimeToExplode - timeSinceGrenadePrep;
+        if (secondsToExplosion < grenadeTimeToExplode/4f)
+            secondsToExplosion = grenadeTimeToExplode/4f;
+        grenade.GetComponent<GrenadeController>().secondsToExplosion = secondsToExplosion;
+
 		float xForce = 0;
 		if(Mathf.Abs(hAxis) > .3f)
 			xForce = (facingRight)?grenadeThrowingForce:-grenadeThrowingForce;
@@ -717,6 +741,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 		grenade.transform.position = getWeaponPosition(direction);
 		grenade.GetComponent<Rigidbody2D>().AddForce(force);
+        timeSinceGrenadePrep = 0f;
 	}
 
 	void throwShuriken(Vector3 direction)
