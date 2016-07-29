@@ -152,9 +152,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
 	void Awake()
 	{
-        if (ReInput.players != null)
-            playerInput = ReInput.players.GetPlayer(playerId);
-        else
+        if (ReInput.players == null)
             SceneManager.LoadScene("title");
 	}
 
@@ -171,8 +169,11 @@ public class PlayerController : MonoBehaviour, ISlowable {
         blockDuration = attackDuration * 3f;
 	}
 
-    public void initColor()
+    public void initialize()
     {
+        if (ReInput.players != null)
+            playerInput = ReInput.players.GetPlayer(playerId);
+
         if (playerColor == Color.red)
         {
             bodyRenderer.sprite = redBody;

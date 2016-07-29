@@ -9,7 +9,7 @@ public class SwordController : MonoBehaviour {
     public GameObject alternateSwordHitBox;
     bool canHitPlayer = true;
     float timeSinceSwordClash;
-    float timeToWaitAfterClash = .25f;
+    float timeToWaitAfterClash = .5f;
 
 	// Use this for initialization
 	void Start () {

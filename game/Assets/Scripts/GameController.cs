@@ -72,7 +72,7 @@ class GameController : MonoBehaviour
                     PlayerController newNinja = newNinjaGO.GetComponent<PlayerController>();
                     newNinja.playerId = ninjaCount;
                     newNinja.playerColor = color;
-                    newNinja.initColor();
+                    newNinja.initialize();
 
                     Vector2 ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
                     while(selectedPositions.Contains(ninjaPosition))
@@ -83,6 +83,24 @@ class GameController : MonoBehaviour
                 }
                 ninjaCount++;
             }
+
+            //TEMP CODE FOR ADDING AN EXTRA NINJA
+            GameObject tempNinjaGO = Instantiate(ninjaPrefab);
+            PlayerController tempNewNinja = tempNinjaGO.GetComponent<PlayerController>();
+            tempNewNinja.playerId = 1;
+            tempNewNinja.playerColor = Color.yellow;
+            tempNewNinja.initialize();
+
+            Vector2 tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+            while (selectedPositions.Contains(tempNninjaPosition))
+            {
+                tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+            }
+            tempNewNinja.transform.position = tempNninjaPosition;
+            //END TEMP CODE
+
+
+
             players = Object.FindObjectsOfType<PlayerController>();
             warningLights = Object.FindObjectsOfType<WarningLight>();
             windows = Object.FindObjectsOfType<Window>();

@@ -5,29 +5,60 @@ public class BouncingShurikenController : ShurikenParentController
 {
     public int bounces;
     bool active = true;
+    float timeInactiveAfterBlockHit = .1f;
+    bool canHitPlayerAndBounce = true;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        checkCollisionAndTrigger(collision.gameObject, collision.contacts[0].normal);
+    }
+
+    public override void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "lethalSword" || collider.gameObject.tag == "blockingSword")
+        {
+            checkCollisionAndTrigger(collider.gameObject, Vector2.zero);
+        }
+    }
+
+    void checkCollisionAndTrigger(GameObject collidedObject, Vector2 reflectNormal)
+    {
         if (active)
         {
-            if (collision.gameObject.tag == "player")
+            Debug.Log("bouncing hit: " + collidedObject.tag);
+            if (collidedObject.tag == "player" && canHitPlayerAndBounce)
             {
                 active = false;
-                collision.gameObject.GetComponent<PlayerController>().takeDamage();
+                collidedObject.GetComponent<PlayerController>().takeDamage();
                 Destroy(gameObject);
+                Debug.Log("killing player with bouncing shurken");
             }
-            else if(bounces > 0)
+            else if (bounces > 0 && canHitPlayerAndBounce)
             {
+                if (collidedObject.tag == "lethalSword" || collidedObject.tag == "blockingSword")
+                {
+                    canHitPlayerAndBounce = false;
+                    Debug.Log("setting canHitPlayerFalse");
+                    Invoke("canNowHitPlayerAndBounce", timeInactiveAfterBlockHit);
+                }
+
                 bounces--;
-                var hit = collision.contacts[0];
-                velocity = Vector2.Reflect(velocity, hit.normal);
+                if (reflectNormal != Vector2.zero)
+                {
+                    velocity = Vector2.Reflect(velocity, reflectNormal);
+                }
+                else
+                {
+                    velocity = new Vector2(-1f * velocity.x, -1f * velocity.y);
+                }                
+                Debug.Log("setting new velocity for bouncing shuriken: " + velocity);
             }
-            else
+            else if (bounces <= 0)
             {
                 active = false;
                 velocity = Vector2.zero;
                 shurikenRigidbody2D.isKinematic = true;
-                transform.SetParent(collision.gameObject.transform, true);
+                transform.SetParent(collidedObject.transform, true);
 
                 foreach (Collider2D collider in colliders)
                 {
@@ -36,4 +67,9 @@ public class BouncingShurikenController : ShurikenParentController
             }
         }
     }
+
+    private void canNowHitPlayerAndBounce()
+    {
+        canHitPlayerAndBounce = true;
+    }    
 }
