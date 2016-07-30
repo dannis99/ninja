@@ -113,6 +113,7 @@ MonoBehaviour:
       useXInput: 1
       useNativeMouse: 1
       useEnhancedDeviceSupport: 1
+      windowsStandalone_useSteamRawInputControllerWorkaround: 1
       android_supportUnknownGamepads: 0
       useSteamControllerSupport: 1
       maxJoysticksPerPlayer: 1

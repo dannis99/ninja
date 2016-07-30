@@ -17,6 +17,7 @@ MonoBehaviour:
   controllerGuid: b25f3e47-d587-4d7c-8ccb-d834e35213fa
   templateGuids:
   - 83b427e4-086f-47f3-bb06-be266abd1ca5
+  hideInLists: 0
   elementIdentifiers:
   - _id: 0
     _name: D-Pad Up
@@ -647,6 +648,179 @@ MonoBehaviour:
         requiredButtons: 
         ignoreIfButtonsActive: 0
         ignoreIfButtonsActiveButtons: 
+  windowsUWP:
+    matchingCriteria:
+      axisCount: 2
+      buttonCount: 8
+      disabled: 0
+      hatCount: 0
+      manufacturer_useRegex: 0
+      productName_useRegex: 0
+      manufacturer: []
+      productName:
+      - 'USB,2-axis 8-button gamepad  '
+      productGUID:
+      - 20600583-0000-0000-0000-504944564944
+    elements:
+      compoundElements: []
+      axes: []
+      buttons:
+      - elementIdentifier: 0
+        sourceType: 1
+        sourceButton: 0
+        sourceAxis: 1
+        sourceAxisPole: 1
+        axisDeadZone: .00999999978
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 1
+        sourceType: 1
+        sourceButton: 0
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: .00999999978
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 2
+        sourceType: 1
+        sourceButton: 0
+        sourceAxis: 1
+        sourceAxisPole: 0
+        axisDeadZone: .00999999978
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 3
+        sourceType: 1
+        sourceButton: 0
+        sourceAxis: 0
+        sourceAxisPole: 1
+        axisDeadZone: .00999999978
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 4
+        sourceType: 0
+        sourceButton: 1
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 5
+        sourceType: 0
+        sourceButton: 0
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 6
+        sourceType: 0
+        sourceButton: 3
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 7
+        sourceType: 0
+        sourceButton: 2
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 8
+        sourceType: 0
+        sourceButton: 4
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 9
+        sourceType: 0
+        sourceButton: 5
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 10
+        sourceType: 0
+        sourceButton: 6
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
+      - elementIdentifier: 11
+        sourceType: 0
+        sourceButton: 7
+        sourceAxis: 0
+        sourceAxisPole: 0
+        axisDeadZone: 0
+        sourceHat: 0
+        sourceHatType: 0
+        sourceHatDirection: 0
+        requireMultipleButtons: 0
+        requiredButtons: 
+        ignoreIfButtonsActive: 0
+        ignoreIfButtonsActiveButtons: 
   fallback_Windows:
     matchingCriteria:
       axisCount: 0
@@ -666,6 +840,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -685,6 +861,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -704,6 +882,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -723,6 +903,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -742,6 +924,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 2
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -761,6 +945,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 1
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -780,6 +966,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 4
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -799,6 +987,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 3
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -818,6 +1008,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 5
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -837,6 +1029,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 6
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -856,6 +1050,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 7
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -875,6 +1071,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 8
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -907,6 +1105,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -926,6 +1126,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -945,6 +1147,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -964,6 +1168,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -983,6 +1189,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 2
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1002,6 +1210,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 1
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1021,6 +1231,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 4
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1040,6 +1252,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 3
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1059,6 +1273,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 5
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1078,6 +1294,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 6
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1097,6 +1315,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 7
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1116,6 +1336,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 8
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1148,6 +1370,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1167,6 +1391,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1186,6 +1412,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1205,6 +1433,8 @@ MonoBehaviour:
         axisDeadZone: .00999999978
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1224,6 +1454,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 2
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1243,6 +1475,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 1
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1262,6 +1496,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 4
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1281,6 +1517,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 3
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1300,6 +1538,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 5
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1319,6 +1559,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 6
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1338,6 +1580,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 7
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1357,6 +1601,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 8
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1401,6 +1647,8 @@ MonoBehaviour:
         axisDeadZone: .100000001
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1420,6 +1668,8 @@ MonoBehaviour:
         axisDeadZone: .100000001
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1439,6 +1689,8 @@ MonoBehaviour:
         axisDeadZone: .100000001
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1458,6 +1710,8 @@ MonoBehaviour:
         axisDeadZone: .100000001
         sourceButton: 0
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 1
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1477,6 +1731,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 2
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1496,6 +1752,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 1
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1515,6 +1773,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 4
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1534,6 +1794,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 3
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1553,6 +1815,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 7
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1572,6 +1836,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 8
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1591,6 +1857,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 5
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1610,6 +1878,8 @@ MonoBehaviour:
         axisDeadZone: 0
         sourceButton: 6
         sourceKeyCode: 0
+        customCalculation: {fileID: 0}
+        customCalculationSourceData: []
         sourceAxisPole: 0
         unityHat_sourceAxis1: 0
         unityHat_sourceAxis2: 0
@@ -1767,6 +2037,18 @@ MonoBehaviour:
       compoundElements: []
       axes: []
       buttons: []
+  fallback_RazerForgeTV:
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      alwaysMatch: 0
+      productName_useRegex: 0
+      productName: []
+    elements:
+      compoundElements: []
+      axes: []
+      buttons: []
   ouya:
     matchingCriteria:
       axisCount: 0
@@ -1799,6 +2081,57 @@ MonoBehaviour:
       productName: []
       vidPid: []
       hatCount: 0
+    elements:
+      compoundElements: []
+      axes: []
+      buttons: []
+  sdl2_Linux:
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      hatCount: 0
+      manufacturer_useRegex: 0
+      productName_useRegex: 0
+      systemName_useRegex: 0
+      manufacturer: []
+      productName: []
+      systemName: []
+      productGUID: []
+    elements:
+      compoundElements: []
+      axes: []
+      buttons: []
+  sdl2_Windows:
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      hatCount: 0
+      manufacturer_useRegex: 0
+      productName_useRegex: 0
+      systemName_useRegex: 0
+      manufacturer: []
+      productName: []
+      systemName: []
+      productGUID: []
+    elements:
+      compoundElements: []
+      axes: []
+      buttons: []
+  sdl2_OSX:
+    matchingCriteria:
+      axisCount: 0
+      buttonCount: 0
+      disabled: 0
+      hatCount: 0
+      manufacturer_useRegex: 0
+      productName_useRegex: 0
+      systemName_useRegex: 0
+      manufacturer: []
+      productName: []
+      systemName: []
+      productGUID: []
     elements:
       compoundElements: []
       axes: []

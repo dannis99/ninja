@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7495378a64804d719e7f0280d197322e
+guid: 6aeba615ab8394c43b0f67bc9be1c6da
 labels:
 - Input
 - Joysticks
@@ -17,5 +17,10 @@ labels:
 - Xbox360
 - XInput
 - DirectInput
-TextScriptImporter:
+- RawInput
+timeCreated: 1462842355
+licenseType: Store
+NativeFormatImporter:
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

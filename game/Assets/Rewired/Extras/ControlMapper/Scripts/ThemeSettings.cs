@@ -1,4 +1,7 @@
 ﻿// Copyright (c) 2015 Augie R. Maddox, Guavaman Enterprises. All rights reserved.
+#pragma warning disable 0219
+#pragma warning disable 0618
+#pragma warning disable 0649
 
 namespace Rewired.UI.ControlMapper {
 
@@ -152,6 +155,15 @@ namespace Rewired.UI.ControlMapper {
 
             if(settings.font != null) item.font = settings.font;
             item.color = settings.color;
+            item.lineSpacing = settings.lineSpacing;
+            if(settings.sizeMultiplier != 1.0f) {
+                item.fontSize = (int)(item.fontSize * settings.sizeMultiplier);
+                item.resizeTextMaxSize = (int)(item.resizeTextMaxSize * settings.sizeMultiplier);
+                item.resizeTextMinSize = (int)(item.resizeTextMinSize * settings.sizeMultiplier);
+            }
+            if(settings.style != FontStyleOverride.Default) {
+                item.fontStyle = (FontStyle)((int)settings.style - 1);
+            }
         }
 
         private void Apply(string themeClass, UIImageHelper item) {
@@ -442,9 +454,26 @@ namespace Rewired.UI.ControlMapper {
             private Color _color = Color.white;
             [SerializeField]
             private Font _font;
+            [SerializeField]
+            private FontStyleOverride _style = FontStyleOverride.Default;
+            [SerializeField]
+            private float _lineSpacing = 1.0f;
+            [SerializeField]
+            private float _sizeMultiplier = 1.0f;
 
             public Color color { get { return _color; } }
             public Font font { get { return _font; } }
+            public FontStyleOverride style { get { return _style; } }
+            public float lineSpacing { get { return _lineSpacing; } }
+            public float sizeMultiplier { get { return _sizeMultiplier; } }
+        }
+
+        private enum FontStyleOverride {
+            Default = 0,
+            Normal = 1,
+            Bold = 2,
+            Italic = 3,
+            BoldAndItalic = 4,
         }
     }
 }
