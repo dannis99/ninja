@@ -11,7 +11,7 @@ public class TitleController : MonoBehaviour {
 	public AudioClip titleMusic;
 	
 	private MusicController musicController;
-    Player playerInput;
+    Rewired.Player playerInput;
 
     void Start()
 	{

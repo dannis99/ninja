@@ -26,10 +26,10 @@ public class CharacterSelectController : MonoBehaviour {
     public Sprite yellowHead;
     public Sprite yellowBody;
 
-    public Player player1Input;
-    public Player player2Input;
-    public Player player3Input;
-    public Player player4Input;
+    public Rewired.Player player1Input;
+    public Rewired.Player player2Input;
+    public Rewired.Player player3Input;
+    public Rewired.Player player4Input;
 
     public List<GameObject> playerNinjaSprites;
 

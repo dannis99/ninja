@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 
     public ShieldController shieldController;
 
-	Player playerInput;
+	Rewired.Player playerInput;
 	public int playerId = 0;
 	public Color playerColor;
     public Collider2D playerCollider;
@@ -793,6 +793,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 			dead = true;
             slideSmoke.Stop();
             playerRigidbody2D.gravityScale = 1f;
+            directionalTarget.SetActive(false);
             foreach(string animParam in animParams)
             {
                 anim.SetBool(animParam, false);

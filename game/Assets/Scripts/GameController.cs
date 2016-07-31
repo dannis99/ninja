@@ -27,6 +27,8 @@ class GameController : MonoBehaviour
     bool reloadingScene;
     bool inGame = false;
 
+    private EZReplayManager replayManager;
+
 
     private static GameController _instance;
     public static GameController instance
@@ -35,7 +37,7 @@ class GameController : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<GameController>();
+                _instance = Object.FindObjectOfType<GameController>();
                 DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
@@ -48,6 +50,7 @@ class GameController : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(this);
+            replayManager = Object.FindObjectOfType<EZReplayManager>();
         }
         else
         {
