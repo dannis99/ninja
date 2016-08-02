@@ -790,7 +790,14 @@ public class PlayerController : MonoBehaviour, ISlowable {
 		}
 		else
 		{
-			dead = true;
+            // Set vibration for a certain duration
+            foreach (Joystick j in playerInput.controllers.Joysticks)
+            {
+                if (!j.supportsVibration) continue;
+                if (j.vibrationMotorCount > 0) j.SetVibration(0, 1.0f, 1.0f); // 1 second duration
+            }
+
+            dead = true;
             slideSmoke.Stop();
             playerRigidbody2D.gravityScale = 1f;
             directionalTarget.SetActive(false);
