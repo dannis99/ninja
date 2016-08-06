@@ -5,6 +5,7 @@ public class SlimeController : MonoBehaviour {
 
     public float duration;
     public GameObject groundSlimePrefab;
+    public PlayerController player;
 
     private float elapsedTime;
 
@@ -32,12 +33,13 @@ public class SlimeController : MonoBehaviour {
     {
         if (collision.gameObject.tag == "player")
         {
-            collision.gameObject.GetComponent<PlayerController>().takeDamage();
+            collision.gameObject.GetComponent<PlayerController>().takeDamage(player);
         }
         else if (elapsedTime > .2f && collision.gameObject.layer == LayerMask.NameToLayer("Ground") || collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
         {
             GameObject groundSlime = Instantiate<GameObject>(groundSlimePrefab);
             groundSlime.transform.position = collision.contacts[0].point;
+            groundSlime.GetComponent<SlimeGroundController>().player = player;
             if(collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
             {
                 if (transform.position.x < collision.gameObject.transform.position.x)

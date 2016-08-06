@@ -12,7 +12,7 @@ public class ShurikenController : ShurikenParentController {
 			active = false;
 			if(collision.gameObject.tag == "player")
 			{
-				collision.gameObject.GetComponent<PlayerController>().takeDamage();
+				collision.gameObject.GetComponent<PlayerController>().takeDamage(player);
 				Destroy(gameObject);
 			}
 			else

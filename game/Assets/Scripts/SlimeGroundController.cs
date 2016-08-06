@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SlimeGroundController : MonoBehaviour {
 
+    public PlayerController player;
     public float duration;
     
     void Start()
@@ -14,7 +15,7 @@ public class SlimeGroundController : MonoBehaviour {
 	{
 		if (collider.gameObject.tag == "player")
 		{
-            collider.gameObject.GetComponent<PlayerController> ().takeDamage ();			
+            collider.gameObject.GetComponent<PlayerController> ().takeDamage (player);			
 		}
 	}
 

@@ -6,6 +6,7 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
 
 	public Rigidbody2D shurikenRigidbody2D;
 	public Collider2D[] colliders;
+    public PlayerController player;
 	protected Vector2 velocity = Vector2.zero;
 
     void Update()

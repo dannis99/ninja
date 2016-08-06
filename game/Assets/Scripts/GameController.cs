@@ -11,6 +11,7 @@ class GameController : MonoBehaviour
 
     public GameObject ninjaPrefab;
     public float roundLength;
+    public int killCount;
     public float warningTime;
     public float oxygenTime;
 
@@ -68,45 +69,68 @@ class GameController : MonoBehaviour
         if (scene.name != "characterSelect" && scene.name != "title")
         {
             startingPositions = Object.FindObjectOfType<StartingPositions>();
-            int ninjaCount = 0;
-            foreach(Color color in playerColors)
-            {
-                if(color != Color.clear)
-                {
-                    GameObject newNinjaGO = Instantiate(ninjaPrefab);
-                    PlayerController newNinja = newNinjaGO.GetComponent<PlayerController>();
-                    newNinja.playerId = ninjaCount;
-                    newNinja.playerColor = color;
-                    newNinja.initialize();
 
+            if(players == null)
+            {
+                int ninjaCount = 0;
+                foreach (Color color in playerColors)
+                {
+                    if (color != Color.clear)
+                    {
+                        GameObject newNinjaGO = Instantiate(ninjaPrefab);
+                        PlayerController newNinja = newNinjaGO.GetComponent<PlayerController>();
+                        newNinja.playerId = ninjaCount;
+                        newNinja.playerColor = color;
+                        newNinja.initialize();
+
+                        Vector2 ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                        while (selectedPositions.Contains(ninjaPosition))
+                        {
+                            ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                        }
+                        newNinja.transform.position = ninjaPosition;
+                    }
+                    ninjaCount++;
+                }
+
+
+
+                //TEMP CODE FOR ADDING AN EXTRA NINJA
+                GameObject tempNinjaGO = Instantiate(ninjaPrefab);
+                PlayerController tempNewNinja = tempNinjaGO.GetComponent<PlayerController>();
+                tempNewNinja.playerId = 1;
+                tempNewNinja.playerColor = Color.yellow;
+                tempNewNinja.initialize();
+
+                Vector2 tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                while (selectedPositions.Contains(tempNninjaPosition))
+                {
+                    tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                }
+                tempNewNinja.transform.position = tempNninjaPosition;
+                //END TEMP CODE
+
+
+
+                players = Object.FindObjectsOfType<PlayerController>();
+            }
+            else
+            {
+                int ninjaCount = 0;
+                foreach (PlayerController player in players)
+                {                    
                     Vector2 ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
-                    while(selectedPositions.Contains(ninjaPosition))
+                    while (selectedPositions.Contains(ninjaPosition))
                     {
                         ninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
                     }
-                    newNinja.transform.position = ninjaPosition;
+                    player.transform.position = ninjaPosition;
+
+                    player.initialize();
+                    ninjaCount++;
                 }
-                ninjaCount++;
             }
 
-            //TEMP CODE FOR ADDING AN EXTRA NINJA
-            GameObject tempNinjaGO = Instantiate(ninjaPrefab);
-            PlayerController tempNewNinja = tempNinjaGO.GetComponent<PlayerController>();
-            tempNewNinja.playerId = 1;
-            tempNewNinja.playerColor = Color.yellow;
-            tempNewNinja.initialize();
-
-            Vector2 tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
-            while (selectedPositions.Contains(tempNninjaPosition))
-            {
-                tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
-            }
-            tempNewNinja.transform.position = tempNninjaPosition;
-            //END TEMP CODE
-
-
-
-            players = Object.FindObjectsOfType<PlayerController>();
             warningLights = Object.FindObjectsOfType<WarningLight>();
             windows = Object.FindObjectsOfType<Window>();
             chests = Object.FindObjectsOfType<Chest>();
@@ -143,7 +167,7 @@ class GameController : MonoBehaviour
                 foreach (PlayerController player in players)
                 {
                     if (!player.dead)
-                        player.takeDamage();
+                        player.takeDamage(null);
                 }
             }
 
@@ -209,10 +233,28 @@ class GameController : MonoBehaviour
 
     void reloadScene()
     {
-        reloadingScene = false;
-        gameTime = 0;
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        List<PlayerController> winners = new List<PlayerController>();
+        foreach(PlayerController player in players)
+        {
+            if(player.getStat(Statistics.KILLS) >= killCount)
+            {
+                winners.Add(player);
+            }
+        }
+
+        if(winners.Count == 1)//winner
+        {
+        }
+        else if(winners.Count > 1)//tie breaker
+        {
+        }
+        else//keep going
+        {
+            reloadingScene = false;
+            gameTime = 0;
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }        
     }
 
     public void gameOver()

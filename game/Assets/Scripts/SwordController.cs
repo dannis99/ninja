@@ -50,7 +50,7 @@ public class SwordController : MonoBehaviour {
         }
         else if (canHitPlayer && collider.gameObject.tag == "player" && !currentPlayer.Equals(collider.gameObject))
 		{
-            collider.gameObject.GetComponent<PlayerController> ().takeDamage ();
+            collider.gameObject.GetComponent<PlayerController> ().takeDamage (currentPlayer.GetComponent<PlayerController>());
 			//GameObject swordClash = Instantiate<GameObject>(swordClashPrefab);
 			//swordClash.transform.position = (collider.transform.position+transform.position)/2f;
 		}

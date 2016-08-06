@@ -10,6 +10,7 @@ public class PlayerController : Statistics, ISlowable
     public static string EVENT_PLAYER_DEATH = "PLAYER_DEATH";
 
     //public static string ANIM_GROUND = "Ground";
+    public static string ANIM_IDLE = "Idle";
     public static string ANIM_ATTACK = "Attack";
     public static string ANIM_AIR_ATTACK = "AirAttack";
     public static string ANIM_DOWN_ATTACK = "DownAttack";
@@ -154,25 +155,34 @@ public class PlayerController : Statistics, ISlowable
 
 	void Awake()
 	{
-        if (ReInput.players == null)
-            SceneManager.LoadScene("title");
-	}
+        DontDestroyOnLoad(this.gameObject);
+    }
 
 	void Start () {
 		RigidbodyConstraints2D rc2D = GetComponent<Rigidbody2D>().constraints;
 		DestroyImmediate(GetComponent<Rigidbody2D>());
 		playerRigidbody2D = gameObject.AddComponent<Rigidbody2D>();
 		playerRigidbody2D.constraints = rc2D;
-		anim = GetComponent<Animator>();
-		grenadeCount = maxGrenades;
-		shurikenCount = maxShurikens;
-        updateShurikenSprites();
-        updateGrenadeSprites();
+		anim = GetComponent<Animator>();		
         blockDuration = attackDuration * 3f;
 	}
 
     public void initialize()
     {
+        dead = false;
+        shieldController.shielded = false;
+        gameObject.layer = LayerMask.NameToLayer("Character");
+        if (anim != null)
+        {
+            anim.ResetTrigger("Death");
+            anim.SetTrigger(ANIM_IDLE);
+        }            
+
+        grenadeCount = maxGrenades;
+        shurikenCount = maxShurikens;
+        updateShurikenSprites();
+        updateGrenadeSprites();
+
         if (ReInput.players != null)
             playerInput = ReInput.players.GetPlayer(playerId);
 
@@ -445,6 +455,7 @@ public class PlayerController : Statistics, ISlowable
                     playerRigidbody2D.isKinematic = true;
                     setSpriteOpacity(.6f);
                     gameObject.layer = LayerMask.NameToLayer("Dodging Character");
+                    incrementStat(Statistics.DODGES);
 
                     ableToDash = false;
                     timeSinceDash = 0f;
@@ -644,7 +655,9 @@ public class PlayerController : Statistics, ISlowable
 			playerRigidbody2D.gravityScale = 0.15f;
 			////Debug.Log("setting gravity in wall slide");
 			playerRigidbody2D.velocity = new Vector2 (0f, -1f);
-			wallSliding = true;
+            if(wallSliding != true)
+                incrementStat(Statistics.WALL_SLIDES);
+            wallSliding = true;
 
 			anim.SetBool (ANIM_WALL_SLIDING, true);
 			if(!slideSmoke.isPlaying)
@@ -662,8 +675,8 @@ public class PlayerController : Statistics, ISlowable
 	{
 		if((grounded || (!doubleJump && doubleJumpAllowed)))
 		{
-			//anim.SetBool(ANIM_GROUND, false);
-			playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
+            incrementStat(Statistics.JUMPS);
+            playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
 
 			if(!doubleJump && !grounded)
 			{
@@ -672,7 +685,8 @@ public class PlayerController : Statistics, ISlowable
 		}
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
 		{
-			playerRigidbody2D.velocity = Vector2.zero;
+            incrementStat(Statistics.WALL_JUMPS);
+            playerRigidbody2D.velocity = Vector2.zero;
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || 
                                           (!facingRight && touchingLeftWall) || 
                                           (timeSinceUnableToWallJump < ghostJumpInterval)) ? -jumpPushForce : jumpPushForce, jumpForce);
@@ -720,6 +734,7 @@ public class PlayerController : Statistics, ISlowable
 	void throwGrenade(Vector3 direction)
 	{
 		grenadeCount--;
+        incrementStat(Statistics.GRENADES_THROWN);
 		updateGrenadeSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject grenade = Instantiate<GameObject>(grenadePrefab);
@@ -727,6 +742,7 @@ public class PlayerController : Statistics, ISlowable
         if (secondsToExplosion < grenadeTimeToExplode/4f)
             secondsToExplosion = grenadeTimeToExplode/4f;
         grenade.GetComponent<GrenadeController>().secondsToExplosion = secondsToExplosion;
+        grenade.GetComponent<GrenadeController>().player = this;
 
 		float xForce = 0;
 		if(Mathf.Abs(hAxis) > .3f)
@@ -749,9 +765,11 @@ public class PlayerController : Statistics, ISlowable
 	void throwShuriken(Vector3 direction)
 	{
 		shurikenCount--;
-		updateShurikenSprites();
+        incrementStat(Statistics.SHURIKENS_THROWN);
+        updateShurikenSprites();
 		anim.SetTrigger ("Throwing");
 		GameObject shuriken = Instantiate<GameObject>(shurikenPrefab);
+        shuriken.GetComponent<ShurikenParentController>().player = this;
 
         float hAxisToUse = (Mathf.Abs(hAxis) > .2f) ? hAxis : 0f;
         float vAxisToUse = (Mathf.Abs(vAxis) > .2f) ? vAxis : 0f;
@@ -783,14 +801,25 @@ public class PlayerController : Statistics, ISlowable
 		return new Vector2(xPosition, yPosition);
 	}
 
-	public void takeDamage()
+	public void takeDamage(PlayerController damagingPlayer)
 	{
 		if(shieldController.shielded)
 		{
 			shieldController.shielded = false;
+            if(damagingPlayer != null)
+                damagingPlayer.incrementStat(Statistics.SHIELDS_BROKEN);
 		}
 		else
 		{
+            incrementStat(Statistics.DEATHS);
+            if (damagingPlayer != null)
+            {
+                if (damagingPlayer = this)
+                    incrementStat(Statistics.SUICIDES);
+                else
+                    damagingPlayer.incrementStat(Statistics.KILLS);
+            }                
+
             // Set vibration for a certain duration
             foreach (Joystick j in playerInput.controllers.Joysticks)
             {
@@ -888,6 +917,12 @@ public class PlayerController : Statistics, ISlowable
             shurikenCount = maxShurikens;
             updateShurikenSprites();
         }
+    }
+
+    public void activateShield()
+    {
+        incrementStat(Statistics.SHIELDS_TAKEN);
+        shieldController.shielded = true;
     }
 
     float slowMultiplier = 2f;

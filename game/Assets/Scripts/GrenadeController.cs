@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public class GrenadeController : MonoBehaviour, ISlowable {
+    public PlayerController player;
 
 	public CircleCollider2D grenadeCollider;
 	public Rigidbody2D grenadeRigidbody;

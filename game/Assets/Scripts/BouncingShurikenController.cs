@@ -30,7 +30,7 @@ public class BouncingShurikenController : ShurikenParentController
             if (collidedObject.tag == "player" && canHitPlayerAndBounce)
             {
                 active = false;
-                collidedObject.GetComponent<PlayerController>().takeDamage();
+                collidedObject.GetComponent<PlayerController>().takeDamage(player);
                 Destroy(gameObject);
                 Debug.Log("killing player with bouncing shurken");
             }

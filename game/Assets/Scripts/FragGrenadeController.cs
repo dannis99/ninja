@@ -18,8 +18,8 @@ public class FragGrenadeController : GrenadeController {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, explosionRadius, 1 << LayerMask.NameToLayer("Character"));
         List<PlayerController> playersAlreadyHit = new List<PlayerController>();
         foreach (Collider2D hit in colliders) {
-            PlayerController player = hit.GetComponent<PlayerController>();
-            if(player != null && !playersAlreadyHit.Contains(player))
+            PlayerController playerHit = hit.GetComponent<PlayerController>();
+            if(playerHit != null && !playersAlreadyHit.Contains(playerHit))
             {
 				Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
 	            if(rb != null)
@@ -29,8 +29,8 @@ public class FragGrenadeController : GrenadeController {
 					rb.AddForce(newVector*explosionForce,ForceMode2D.Impulse);
 	            }
 
-            	playersAlreadyHit.Add(player);
-            	player.takeDamage();
+            	playersAlreadyHit.Add(playerHit);
+            	playerHit.takeDamage(this.player);
             }
         }
 

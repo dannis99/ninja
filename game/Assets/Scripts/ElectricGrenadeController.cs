@@ -57,7 +57,7 @@ public class ElectricGrenadeController : GrenadeController {
 	{
 		if(collider.gameObject.tag == "player")
 		{
-			collider.gameObject.GetComponent<PlayerController>().takeDamage();
+			collider.gameObject.GetComponent<PlayerController>().takeDamage(player);
 			Invoke("destroyGrenade", 1);
 		}
 	}

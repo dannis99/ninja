@@ -10,7 +10,8 @@ public abstract class Statistics : MonoBehaviour
 	public static string SHIELDS_TAKEN = "Shields Taken";
 	public static string CHESTS_OPENED = "Chests Opened";
 	public static string JUMPS = "Jumps";
-	public static string DODGES = "Dodges";
+    public static string WALL_JUMPS = "Wall Jumps";
+    public static string DODGES = "Dodges";
     public static string WALL_SLIDES = "Wall Slides";
     public static string GRENADES_THROWN = "Grenades Thrown";
     public static string SHURIKENS_THROWN = "Shurikens Thrown";
@@ -43,5 +44,13 @@ public abstract class Statistics : MonoBehaviour
 	{
 		return stats;
 	}
+
+    public double getStat(string key)
+    {
+        if (stats.ContainsKey(key))
+            return stats[key];
+        else
+            return 0;
+    }
 }
 

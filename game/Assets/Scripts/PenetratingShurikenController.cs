@@ -11,7 +11,7 @@ public class PenetratingShurikenController : ShurikenParentController {
 		{
 			if(collider.gameObject.tag == "player")
 			{
-				collider.gameObject.GetComponent<PlayerController>().takeDamage();
+				collider.gameObject.GetComponent<PlayerController>().takeDamage(player);
 			}
 			else if(collider.gameObject.tag == "surface")
 			{
