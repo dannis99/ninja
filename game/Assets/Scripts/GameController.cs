@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 class GameController : MonoBehaviour
 {
+    public static string EVENT_GAME_OVER = "GAME_OVER";
+
     public GameObject ninjaPrefab;
     public float roundLength;
     public float warningTime;
@@ -177,12 +179,12 @@ class GameController : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.StartListening("playerDeath", playerDeath);
+        EventManager.StartListening(PlayerController.EVENT_PLAYER_DEATH, playerDeath);
     }
 
     void OnDisable()
     {
-        EventManager.StopListening("playerDeath", playerDeath);
+        EventManager.StopListening(PlayerController.EVENT_PLAYER_DEATH, playerDeath);
     }
 
     public void setPlayerColors(List<Color> playerColors)

@@ -7,6 +7,7 @@ public class BouncingShurikenController : ShurikenParentController
     bool active = true;
     float timeInactiveAfterBlockHit = .1f;
     bool canHitPlayerAndBounce = true;
+    GameObject recentlyHit;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -33,14 +34,16 @@ public class BouncingShurikenController : ShurikenParentController
                 Destroy(gameObject);
                 Debug.Log("killing player with bouncing shurken");
             }
-            else if (bounces > 0 && canHitPlayerAndBounce)
+            else if (bounces > 0 && canHitPlayerAndBounce && recentlyHit != collidedObject)
             {
                 if (collidedObject.tag == "lethalSword" || collidedObject.tag == "blockingSword")
                 {
                     canHitPlayerAndBounce = false;
-                    Debug.Log("setting canHitPlayerFalse");
                     Invoke("canNowHitPlayerAndBounce", timeInactiveAfterBlockHit);
                 }
+
+                recentlyHit = collidedObject;
+                Invoke("clearRecentlyHit", timeInactiveAfterBlockHit);
 
                 bounces--;
                 if (reflectNormal != Vector2.zero)
@@ -50,8 +53,7 @@ public class BouncingShurikenController : ShurikenParentController
                 else
                 {
                     velocity = new Vector2(-1f * velocity.x, -1f * velocity.y);
-                }                
-                Debug.Log("setting new velocity for bouncing shuriken: " + velocity);
+                }
             }
             else if (bounces <= 0)
             {
@@ -71,5 +73,10 @@ public class BouncingShurikenController : ShurikenParentController
     private void canNowHitPlayerAndBounce()
     {
         canHitPlayerAndBounce = true;
-    }    
+    }
+
+    private void clearRecentlyhit()
+    {
+        recentlyHit = null;
+    }
 }

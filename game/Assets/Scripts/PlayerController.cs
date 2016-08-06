@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using Rewired;
 using System;
 
-public class PlayerController : MonoBehaviour, ISlowable {
+public class PlayerController : Statistics, ISlowable
+{
+    public static string EVENT_PLAYER_DEATH = "PLAYER_DEATH";
+
     //public static string ANIM_GROUND = "Ground";
     public static string ANIM_ATTACK = "Attack";
     public static string ANIM_AIR_ATTACK = "AirAttack";
@@ -36,7 +39,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
         ANIM_WALL_SLIDING,
         ANIM_REELING
     };
-
 
     public ShieldController shieldController;
 
@@ -487,7 +489,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
                     }
                     else
                     { //adding force when in the air and moving in the same direction
-                        playerRigidbody2D.AddForce(new Vector2(hAxis * airMoveForce, playerRigidbody2D.velocity.y));
+                        playerRigidbody2D.AddForce(new Vector2(hAxis * airMoveForce, 0));// playerRigidbody2D.velocity.y));
                     }
                     anim.SetFloat("Speed", Mathf.Abs(hAxis));
                 }               
@@ -614,7 +616,6 @@ public class PlayerController : MonoBehaviour, ISlowable {
             dashToward = Vector2.zero;
             setSpriteOpacity(1f);
 			gameObject.layer = LayerMask.NameToLayer("Character");
-			playerRigidbody2D.velocity = Vector2.zero;//preDashVelocity;
 		}
 
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
@@ -677,7 +678,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
                                           (timeSinceUnableToWallJump < ghostJumpInterval)) ? -jumpPushForce : jumpPushForce, jumpForce);
 			if(grabbingLedge)
 			{
-				force = new Vector2(force.x*1.5f, force.y*1.1f);
+				force = new Vector2(force.x*1.5f, force.y);
 			}
 			playerRigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;
@@ -811,7 +812,7 @@ public class PlayerController : MonoBehaviour, ISlowable {
 			{
 				renderer.sortingOrder += 1000;
 			}
-            EventManager.TriggerEvent("playerDeath");
+            EventManager.TriggerEvent(EVENT_PLAYER_DEATH);
 		}
 	}
 
