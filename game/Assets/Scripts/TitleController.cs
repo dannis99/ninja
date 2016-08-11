@@ -25,9 +25,13 @@ public class TitleController : MonoBehaviour {
 
 	void Update()
 	{
-		if(playerInput.GetButtonDown("Jump")){
-			LoadNewGame();
-		}
+        foreach(Rewired.Player player in ReInput.players.AllPlayers)
+        {
+            if (player.GetButtonDown("Accept"))
+            {
+                LoadNewGame();
+            }
+        }		
 	}
 	
 	public void LoadNewGame()

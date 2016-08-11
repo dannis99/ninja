@@ -95,20 +95,20 @@ class GameController : MonoBehaviour
 
 
 
-                //TEMP CODE FOR ADDING AN EXTRA NINJA
-                GameObject tempNinjaGO = Instantiate(ninjaPrefab);
-                PlayerController tempNewNinja = tempNinjaGO.GetComponent<PlayerController>();
-                tempNewNinja.playerId = 1;
-                tempNewNinja.playerColor = Color.yellow;
-                tempNewNinja.initialize();
+                ////TEMP CODE FOR ADDING AN EXTRA NINJA
+                //GameObject tempNinjaGO = Instantiate(ninjaPrefab);
+                //PlayerController tempNewNinja = tempNinjaGO.GetComponent<PlayerController>();
+                //tempNewNinja.playerId = 1;
+                //tempNewNinja.playerColor = Color.yellow;
+                //tempNewNinja.initialize();
 
-                Vector2 tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
-                while (selectedPositions.Contains(tempNninjaPosition))
-                {
-                    tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
-                }
-                tempNewNinja.transform.position = tempNninjaPosition;
-                //END TEMP CODE
+                //Vector2 tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                //while (selectedPositions.Contains(tempNninjaPosition))
+                //{
+                //    tempNninjaPosition = startingPositions.possibleNinjaPositions[Random.Range(0, startingPositions.possibleNinjaPositions.Length)];
+                //}
+                //tempNewNinja.transform.position = tempNninjaPosition;
+                ////END TEMP CODE
 
 
 

@@ -268,7 +268,7 @@ public class PlayerController : Statistics, ISlowable
             }
 
 			canGrabLedge = touchingRightWall && !Physics2D.OverlapArea (ledgeCheck.position, new Vector2 (ledgeCheck.position.x + wallTouchWidth, ledgeCheck.position.y + .01f), whatIsWall);
-		}
+        }
 	}
 
 	void Update()
@@ -449,7 +449,7 @@ public class PlayerController : Statistics, ISlowable
                         anim.SetBool(ANIM_AIR_ATTACK, true);
                     }                    
                 }
-                else if (playerInput.GetButtonDown("Dash") && ableToDash)
+                else if (playerInput.GetButtonDown("Dash") && ableToDash && !touchingRightWall)
                 {
                     dashing = true;
                     playerRigidbody2D.isKinematic = true;
