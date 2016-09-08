@@ -313,7 +313,7 @@ public class CharacterSelectController : MonoBehaviour {
         if(lockCount > 0)
         {
             gameController.setPlayerColors(playerLockedColors);
-            SceneManager.LoadScene("spaceship_1");
+            SceneManager.LoadScene("spaceship_" + 2);//UnityEngine.Random.Range(1, 3));
         }        
 	}
 }

@@ -619,20 +619,25 @@ public class PlayerController : Statistics, ISlowable
 		}
 
         if (dashing && timeSinceDash >= dashDuration) {
-			anim.SetBool(ANIM_DASHING, false);
-			anim.SetBool(ANIM_ROLLING, false);
-            anim.SetBool(ANIM_DASH_UPWARD, false);
-            dashing = false;
-            playerRigidbody2D.isKinematic = false;
-            dashToward = Vector2.zero;
-            setSpriteOpacity(1f);
-			gameObject.layer = LayerMask.NameToLayer("Character");
+            StopDash();
 		}
 
 		if (!ableToDash && timeSinceDash >= (dashDuration + timeBetweenDashes)) {
 			ableToDash = true;
 		}
 	}
+
+    void StopDash()
+    {
+        anim.SetBool(ANIM_DASHING, false);
+        anim.SetBool(ANIM_ROLLING, false);
+        anim.SetBool(ANIM_DASH_UPWARD, false);
+        dashing = false;
+        playerRigidbody2D.isKinematic = false;
+        dashToward = Vector2.zero;
+        setSpriteOpacity(1f);
+        gameObject.layer = LayerMask.NameToLayer("Character");
+    }
 
 	void CheckLedgeGrab (float hAxis)
 	{
@@ -948,6 +953,12 @@ public class PlayerController : Statistics, ISlowable
         if(dashing && collider.tag == "surface" && collider.bounds.Intersects(playerCollider.bounds))
         {
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
-        }        
+            StopDash();
+        }
+        if(collider.tag == "lethal")
+        {
+            PlayerController playerController = collider.gameObject.GetComponent<PlayerController>();
+            takeDamage(playerController);
+        }
     }	
 }
