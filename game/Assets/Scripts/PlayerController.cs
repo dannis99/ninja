@@ -133,8 +133,8 @@ public class PlayerController : Statistics, ISlowable
 	public float jumpPushForce;
 	
 	//double jump
-	bool doubleJumpAllowed = false;
-	bool doubleJump = false;
+	public bool allowDoubleJump = false;
+	bool doubleJumpUsed = false;
 
 	//weapons
 	public SpriteRenderer[] grenadeSprites;
@@ -500,7 +500,7 @@ public class PlayerController : Statistics, ISlowable
                     }
                     else
                     { //adding force when in the air and moving in the same direction
-                        playerRigidbody2D.AddForce(new Vector2(hAxis * airMoveForce, 0));// playerRigidbody2D.velocity.y));
+                        playerRigidbody2D.velocity = new Vector2(hAxis * airMoveForce, playerRigidbody2D.velocity.y);
                     }
                     anim.SetFloat("Speed", Mathf.Abs(hAxis));
                 }               
@@ -591,7 +591,7 @@ public class PlayerController : Statistics, ISlowable
 	void CheckAbilityToJump ()
 	{
 		if (grounded || touchingWall) {
-			doubleJump = false;
+			doubleJumpUsed = false;
 		}
 
 		if (!grounded && touchingWall) {
@@ -678,14 +678,17 @@ public class PlayerController : Statistics, ISlowable
 
 	void tryToJump()
 	{
-		if((grounded || (!doubleJump && doubleJumpAllowed)))
+		if((grounded || (!doubleJumpUsed && allowDoubleJump && !touchingWall)))
 		{
             incrementStat(Statistics.JUMPS);
+            if (!grounded)//setting the velocity to zero when doubleJumping so the force will be equal to ground jumping
+                playerRigidbody2D.velocity = Vector2.zero;
+
             playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
 
-			if(!doubleJump && !grounded)
+			if(!doubleJumpUsed && !grounded)
 			{
-				doubleJump = true;
+				doubleJumpUsed = true;
 			}
 		}
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
@@ -694,10 +697,12 @@ public class PlayerController : Statistics, ISlowable
             playerRigidbody2D.velocity = Vector2.zero;
 			Vector2 force = new Vector2 (((facingRight && touchingRightWall) || 
                                           (!facingRight && touchingLeftWall) || 
-                                          (timeSinceUnableToWallJump < ghostJumpInterval)) ? -jumpPushForce : jumpPushForce, jumpForce);
-			if(grabbingLedge)
+                                          (timeSinceUnableToWallJump < ghostJumpInterval)) ? 
+                                          -jumpPushForce : jumpPushForce, 
+                                          jumpForce);
+            if(grabbingLedge)
 			{
-				force = new Vector2(force.x*1.5f, force.y);
+				force = new Vector2(0, jumpForce); //new Vector2(force.x*1.5f, force.y);
 			}
 			playerRigidbody2D.AddForce (force);
 			timeSinceWallJump = 0f;
