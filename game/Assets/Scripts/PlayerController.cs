@@ -413,10 +413,10 @@ public class PlayerController : Statistics, ISlowable
             }
             else if (playerInput.GetButtonUp("Grenade"))
             {
-                //if (grenadeCount > 0 && timeSinceGrenadePrep < grenadeTimeToExplode)
-                //{
+                if (grenadeCount > 0)// && timeSinceGrenadePrep < grenadeTimeToExplode)
+                {
                     throwGrenade(targetDirection);
-                //}
+                }
                 targetDirection = Vector2.zero;
             }
 
@@ -688,7 +688,8 @@ public class PlayerController : Statistics, ISlowable
 
 			if(!doubleJumpUsed && !grounded)
 			{
-				doubleJumpUsed = true;
+                //anim.SetTrigger("DoubleJump");
+                doubleJumpUsed = true;
 			}
 		}
 		else if(ableToWallJump || (timeSinceUnableToWallJump < ghostJumpInterval)) 
