@@ -4,11 +4,14 @@ tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
 - Assets/Sprites/Ninja/ninjaParts.tpsheet
 - Assets/Sprites/Maps/mapParts.tpsheet
+- Assets/Sprites/UI/UIParts.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
 - Assets/Sprites/Ninja/ninjaParts.png
 - Assets/Sprites/Maps/mapParts.png
+- Assets/Sprites/UI/UIParts.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
 - 
 - 

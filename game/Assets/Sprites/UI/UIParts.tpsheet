@@ -1,0 +1,13 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# http://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:c321e4097f482a9c5793eddd41f99b7f:c52671f3086941e3e387db7cc7d66f5e:a830b71c02bd5992ea71aae308acc278$
+#
+:format=40000
+:texture=UIParts.png
+:size=512x512
+
+modalBackground;2;210;300;300;0.5;0.5

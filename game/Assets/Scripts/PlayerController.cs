@@ -153,12 +153,36 @@ public class PlayerController : Statistics, ISlowable
     public GameObject platform;
     public Vector3 platformPreviousPosition;
 
+    private Boolean canDoActions = true;
+
 	void Awake()
 	{
         DontDestroyOnLoad(this.gameObject);
     }
 
-	void Start () {
+    void OnEnable()
+    {
+        EventManager.StopListening(MenuController.GAME_PAUSED, onGamePause);
+        EventManager.StopListening(MenuController.GAME_RESUMED, onGameResume);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StartListening(MenuController.GAME_PAUSED, onGamePause);
+        EventManager.StartListening(MenuController.GAME_RESUMED, onGameResume);
+    }
+
+    void onGamePause()
+    {
+        canDoActions = false;
+    }
+
+    void onGameResume()
+    {
+        canDoActions = true;
+    }
+
+    void Start () {
 		RigidbodyConstraints2D rc2D = GetComponent<Rigidbody2D>().constraints;
 		DestroyImmediate(GetComponent<Rigidbody2D>());
 		playerRigidbody2D = gameObject.AddComponent<Rigidbody2D>();
@@ -277,7 +301,7 @@ public class PlayerController : Statistics, ISlowable
         {
             anim.SetTrigger("Death");
         }
-        else
+        else if(canDoActions)
         {
             hAxis = playerInput.GetAxis("Move Horizontal");
             vAxis = playerInput.GetAxis("Move Vertical");
