@@ -14,21 +14,24 @@ public class EventManager : MonoBehaviour
     {
         get
         {
+            return eventManager;
+        }
+    }
+
+    void Awake()
+    {
+        if (!eventManager)
+        {
+            eventManager = FindObjectOfType<EventManager>();
+            DontDestroyOnLoad(eventManager.gameObject);
             if (!eventManager)
             {
-                eventManager = FindObjectOfType(typeof(EventManager)) as EventManager;
-                DontDestroyOnLoad(eventManager.gameObject);
-                if (!eventManager)
-                {
-                    Debug.LogError("There needs to be one active EventManger script on a GameObject in your scene.");
-                }
-                else
-                {
-                    eventManager.Init();
-                }
+                Debug.LogError("There needs to be one active EventManger script on a GameObject in your scene.");
             }
-
-            return eventManager;
+            else
+            {
+                eventManager.Init();
+            }
         }
     }
 

@@ -339,7 +339,7 @@ public class PlayerController : Statistics, ISlowable
             // Fall faster while holding down
             if (!grounded && !wallSliding && vAxis < -0.5f)
             {
-                playerRigidbody2D.gravityScale = 2f;
+                //playerRigidbody2D.gravityScale = 2f;
                 ////Debug.Log("setting gravity in fall");
                 if (playerInput.GetButton("Sword"))
                 {
@@ -446,9 +446,9 @@ public class PlayerController : Statistics, ISlowable
 
             if (!blockingActionInEffect())
             {
-                if (playerInput.GetButtonDown("Sword") && ableToAttack || (
-                        playerId != 0 && ableToAttack && Time.realtimeSinceStartup % 3 < 1
-                    ))
+                if (playerInput.GetButtonDown("Sword") && ableToAttack)// || (
+                        //playerId != 0 && ableToAttack && Time.realtimeSinceStartup % 3 < 1
+                    //))
                 {
                     ableToAttack = false;
                     timeSinceAttack = 0f;
@@ -814,12 +814,14 @@ public class PlayerController : Statistics, ISlowable
         if(Mathf.Abs(hAxisToUse) > 0)
             xVelocity = (Mathf.Abs(hAxisToUse) < Mathf.Abs(vAxisToUse))?shurikenVelocity * hAxisToUse: (facingRight)?shurikenVelocity:-shurikenVelocity;
         if(Mathf.Abs(vAxisToUse) > 0)
-            yVelocity = (Mathf.Abs(vAxisToUse) < Mathf.Abs(hAxisToUse))?shurikenVelocity * vAxisToUse: shurikenVelocity;
+            yVelocity = (Mathf.Abs(vAxisToUse) < Mathf.Abs(hAxisToUse))?shurikenVelocity * vAxisToUse: (vAxisToUse > 0)?shurikenVelocity:-shurikenVelocity;
 		Vector2 velocity = new Vector2(xVelocity, yVelocity);
 
 		if(velocity == Vector2.zero)
 			velocity = new Vector2((facingRight)?shurikenVelocity:-shurikenVelocity, yVelocity);
-
+        Debug.Log("shiruken vaxis: " + vAxis);
+        Debug.Log("shiruken vaxistoUse: " + vAxisToUse);
+        Debug.Log("shiruken velocity: " + velocity);
 		shuriken.transform.position = getWeaponPosition(direction);
 		shuriken.GetComponent<ShurikenParentController>().setVelocity(velocity);
 	}
