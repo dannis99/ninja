@@ -1,0 +1,53 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class ShieldGrenadeController : GrenadeController {
+
+	public float grenadeDuration;
+    public CircleCollider2D timeCollider;
+    public SpriteRenderer timeRenderer;
+	
+	protected override void Explode()
+	{
+        if(!exploded)
+        {
+            base.Explode();
+            grenadeParticleSystem.Play();
+            timeCollider.enabled = true;
+            timeRenderer.enabled = true;
+            grenadeCollider.enabled = false;
+            Invoke("collapseCollider", grenadeDuration - .1f);
+            Invoke("destroyGrenade", grenadeDuration);
+        }		
+	}
+
+    void collapseCollider()
+    {
+        timeCollider.radius = 0f;
+    }
+    
+    public override void OnTriggerEnter2D(Collider2D collider)
+	{
+        ShurikenParentController shuriken = collider.gameObject.GetComponent<ShurikenParentController>();
+        if(shuriken != null)
+        {
+            shuriken.collision(null);
+        }
+	}
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        ISlowable slowable = collider.gameObject.GetComponent<ISlowable>();
+        if (slowable != null)
+        {
+            slowable.unSlowed();
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+	{
+        this.transform.SetParent(collision.gameObject.transform);
+        grenadeRigidbody.isKinematic = true;
+        Explode();
+	}
+}

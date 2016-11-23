@@ -914,11 +914,11 @@ public class PlayerController : Statistics, ISlowable
             grenadeCount = maxGrenades;
             updateGrenadeSprites();
         }
-        else if (item.GetComponent<TimeGrenadeController>() != null)
+        else if (item.GetComponent<ShieldGrenadeController>() != null)
         {
             foreach (GameObject weapon in weaponPrefabs)
             {
-                if (weapon.GetComponent<TimeGrenadeController>() != null)
+                if (weapon.GetComponent<ShieldGrenadeController>() != null)
                     grenadePrefab = weapon;
             }
             grenadeCount = maxGrenades;

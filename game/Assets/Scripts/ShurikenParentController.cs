@@ -8,7 +8,7 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
 	public Collider2D[] colliders;
     public PlayerController player;
 	protected Vector2 velocity = Vector2.zero;
-
+    
     void Update()
     {
         shurikenRigidbody2D.velocity = velocity;
@@ -26,7 +26,24 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
         {
             velocity = new Vector2(-1f * velocity.x, -1f * velocity.y);
         }
-    }   
+    }
+
+    public virtual void collision(GameObject collidedObject)
+    {
+        velocity = Vector2.zero;
+        shurikenRigidbody2D.gravityScale = 15f;
+        if (collidedObject != null && collidedObject.tag == "surface")
+        {
+            shurikenRigidbody2D.isKinematic = true;
+            if (collidedObject != null)
+                transform.SetParent(collidedObject.transform);
+
+            foreach (Collider2D collider in colliders)
+            {
+                collider.enabled = false;
+            }
+        }
+    }
 
     public void slowed()
     {

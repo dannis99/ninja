@@ -15,15 +15,7 @@ public class PenetratingShurikenController : ShurikenParentController {
 			}
 			else if(collider.gameObject.tag == "surface")
 			{
-                active = false;
-                velocity = Vector2.zero;
-				shurikenRigidbody2D.isKinematic = true;
-                transform.SetParent(collider.gameObject.transform);
-
-                foreach (Collider2D currCollider in colliders)
-				{
-					currCollider.enabled = false;
-				}
+                collision(collider.gameObject);
 			}
 		}
 	}

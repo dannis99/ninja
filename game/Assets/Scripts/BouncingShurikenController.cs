@@ -57,10 +57,24 @@ public class BouncingShurikenController : ShurikenParentController
             }
             else if (bounces <= 0)
             {
-                active = false;
-                velocity = Vector2.zero;
+                collision(collidedObject);
+            }
+        }
+    }
+
+    /**
+     * gotta override this method and check for bounces for cases like shield grenades so it doesn't just stop the bouncing shuriken 
+     **/
+    public override void collision(GameObject collidedObject)
+    {
+        if (bounces <= 0)
+        {            
+            velocity = Vector2.zero;
+            if (collidedObject != null && collidedObject.tag == "surface")
+            {
                 shurikenRigidbody2D.isKinematic = true;
-                transform.SetParent(collidedObject.transform, true);
+                if (collidedObject != null)
+                    transform.SetParent(collidedObject.transform);
 
                 foreach (Collider2D collider in colliders)
                 {

@@ -17,14 +17,7 @@ public class ShurikenController : ShurikenParentController {
 			}
 			else
 			{
-				velocity = Vector2.zero;
-				shurikenRigidbody2D.isKinematic = true;
-                transform.SetParent(collision.gameObject.transform);
-
-				foreach(Collider2D collider in colliders)
-				{
-					collider.enabled = false;
-				}
+                base.collision(collision.gameObject);
 			}
 		}
 	}
