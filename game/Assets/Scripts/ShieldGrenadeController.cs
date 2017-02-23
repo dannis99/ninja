@@ -4,8 +4,8 @@ using System.Collections;
 public class ShieldGrenadeController : GrenadeController {
 
 	public float grenadeDuration;
-    public CircleCollider2D timeCollider;
-    public SpriteRenderer timeRenderer;
+    public CircleCollider2D shieldCollider;
+    public SpriteRenderer shieldRenderer;
 	
 	protected override void Explode()
 	{
@@ -13,8 +13,8 @@ public class ShieldGrenadeController : GrenadeController {
         {
             base.Explode();
             grenadeParticleSystem.Play();
-            timeCollider.enabled = true;
-            timeRenderer.enabled = true;
+            shieldCollider.enabled = true;
+            shieldRenderer.enabled = true;
             grenadeCollider.enabled = false;
             Invoke("collapseCollider", grenadeDuration - .1f);
             Invoke("destroyGrenade", grenadeDuration);
@@ -23,29 +23,28 @@ public class ShieldGrenadeController : GrenadeController {
 
     void collapseCollider()
     {
-        timeCollider.radius = 0f;
+        shieldCollider.radius = 0f;
     }
     
     public override void OnTriggerEnter2D(Collider2D collider)
 	{
+        Debug.Log("on trigger with shuriken " + collider.gameObject);
         ShurikenParentController shuriken = collider.gameObject.GetComponent<ShurikenParentController>();
         if(shuriken != null)
         {
             shuriken.collision(null);
+            Destroy(shuriken.gameObject);
         }
 	}
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        ISlowable slowable = collider.gameObject.GetComponent<ISlowable>();
-        if (slowable != null)
-        {
-            slowable.unSlowed();
-        }
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
 	{
+        Debug.Log("SHIELDCONTROLLER: on collision "+collision.gameObject.name);
         this.transform.SetParent(collision.gameObject.transform);
         grenadeRigidbody.isKinematic = true;
         Explode();
