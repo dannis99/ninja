@@ -20,6 +20,8 @@ class GameController : MonoBehaviour
     bool allChestsShown;
     float chestTimer;
 
+    private float playerDeathTimeSpeed = .25f;
+
     float gameTime;
     StartingPositions startingPositions;
     PlayerController[] players;
@@ -218,6 +220,8 @@ class GameController : MonoBehaviour
 
     void playerDeath()
     {
+        slowTimeForDeath();
+        Invoke("resumeTimeAfterDeath", .75f);
         int liveCount = 0;
         foreach(PlayerController player in players)
         {
@@ -227,8 +231,21 @@ class GameController : MonoBehaviour
         if(liveCount < 2 && !reloadingScene)
         {
             reloadingScene = true;
-            Invoke("reloadScene", 2f);
+            Invoke("reloadScene", 3f);
         }
+    }
+
+    void slowTimeForDeath()
+    {
+        Debug.Log("setting timeScale to " + playerDeathTimeSpeed);
+        Time.timeScale = playerDeathTimeSpeed;
+    }
+
+    void resumeTimeAfterDeath()
+    {
+        //dont want to resume out of a pause
+        if(Time.timeScale == playerDeathTimeSpeed)
+            Time.timeScale = 1f;
     }
 
     void reloadScene()
