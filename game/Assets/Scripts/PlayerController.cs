@@ -986,11 +986,15 @@ public class PlayerController : Statistics, ISlowable
         {
             timeSinceDash = dashDuration + timeBetweenDashes + .1f;
             StopDash();
-        }
-        if(collider.tag == "lethal")
+        }        
+    }
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.tag == "lethal")
         {
             PlayerController playerController = collider.gameObject.GetComponent<PlayerController>();
             takeDamage(playerController);
         }
-    }	
+    }
 }
