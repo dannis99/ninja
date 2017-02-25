@@ -221,7 +221,7 @@ class GameController : MonoBehaviour
     void playerDeath()
     {
         slowTimeForDeath();
-        Invoke("resumeTimeAfterDeath", .75f);
+        Invoke("resumeTimeAfterDeath", .5f);
         int liveCount = 0;
         foreach(PlayerController player in players)
         {
