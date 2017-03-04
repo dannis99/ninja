@@ -26,6 +26,7 @@ public class ShieldPod : MonoBehaviour {
 	bool movingToEnd;
 	bool canShield;
 	float t;
+    float tMultiplier = 1.25f;
 	int damageCount = 0;
 
 	// Use this for initialization
@@ -38,12 +39,12 @@ public class ShieldPod : MonoBehaviour {
 		if(movingToEnd && bar.transform.localPosition != endPosition)
 		{
 			t += Time.deltaTime;
-			bar.transform.localPosition = Vector3.Lerp(startPosition, endPosition, t);
+			bar.transform.localPosition = Vector3.Lerp(startPosition, endPosition, t*tMultiplier);
 		}
 		else if(!movingToEnd && bar.transform.localPosition != startPosition)
 		{
 			t += Time.deltaTime;
-			bar.transform.localPosition = Vector3.Lerp(endPosition, startPosition, t);
+			bar.transform.localPosition = Vector3.Lerp(endPosition, startPosition, t*tMultiplier);
 		}
 
 		if(bar.transform.localPosition == endPosition)
@@ -133,7 +134,7 @@ public class ShieldPod : MonoBehaviour {
 		{
 			podLight.color = Color.green;
 			movingToEnd = false;
-			t = 1f - t;
+			t = 1f - t*tMultiplier;
 			canShield = false;
 		}
 	}
