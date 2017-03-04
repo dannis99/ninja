@@ -7,6 +7,7 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
 	public Rigidbody2D shurikenRigidbody2D;
 	public Collider2D[] colliders;
     public PlayerController player;
+    public ParticleSystem shurikenDestruction;
 	protected Vector2 velocity = Vector2.zero;
     
     void Update()
@@ -43,6 +44,22 @@ public class ShurikenParentController : MonoBehaviour, ISlowable {
                 collider.enabled = false;
             }
         }
+    }
+
+    public void explodeShuriken()
+    {
+        shurikenRigidbody2D.gravityScale = 1f;
+        shurikenDestruction.Play();
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
+        Invoke("destroyShuriken", .25f);        
+    }
+
+    private void destroyShuriken()
+    {
+        Destroy(gameObject);
     }
 
     public void slowed()

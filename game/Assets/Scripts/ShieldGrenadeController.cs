@@ -28,12 +28,11 @@ public class ShieldGrenadeController : GrenadeController {
     
     public override void OnTriggerEnter2D(Collider2D collider)
 	{
-        Debug.Log("on trigger with shuriken " + collider.gameObject);
         ShurikenParentController shuriken = collider.gameObject.GetComponent<ShurikenParentController>();
         if(shuriken != null)
         {
             shuriken.collision(null);
-            Destroy(shuriken.gameObject);
+            shuriken.explodeShuriken();
         }
 	}
 
@@ -44,7 +43,6 @@ public class ShieldGrenadeController : GrenadeController {
 
     void OnCollisionEnter2D(Collision2D collision)
 	{
-        Debug.Log("SHIELDCONTROLLER: on collision "+collision.gameObject.name);
         this.transform.SetParent(collision.gameObject.transform);
         grenadeRigidbody.isKinematic = true;
         Explode();
